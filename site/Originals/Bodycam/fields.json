@@ -1,0 +1,202 @@
+{
+  "widgetName": {
+    "type": "hidden",
+    "value": "Bodycam"
+  },
+  "streamerName": {
+    "type": "text",
+    "label": "Your name",
+    "value": "Your cool name",
+    "group": "Your details"
+  },
+  "bgImage": {
+    "type": "image-input",
+    "label": "Background image (1920x1080). Shows everywhere except the game window and webcam",
+    "value": "",
+    "group": "Background & game window"
+  },
+  "bgOpacity": {
+    "type": "slider",
+    "label": "Background opacity %",
+    "value": 100,
+    "min": 0,
+    "max": 100,
+    "step": 1,
+    "group": "Background & game window"
+  },
+  "gameX": {
+    "type": "number",
+    "label": "Game window X (px on 1920x1080)",
+    "value": 48,
+    "min": 0,
+    "max": 1920,
+    "group": "Background & game window"
+  },
+  "gameY": {
+    "type": "number",
+    "label": "Game window Y (px on 1920x1080)",
+    "value": 110,
+    "min": 0,
+    "max": 1080,
+    "group": "Background & game window"
+  },
+  "gameW": {
+    "type": "number",
+    "label": "Game window width (px on 1920x1080)",
+    "value": 1452,
+    "min": 0,
+    "max": 1920,
+    "group": "Background & game window"
+  },
+  "gameH": {
+    "type": "number",
+    "label": "Game window height (px on 1920x1080)",
+    "value": 817,
+    "min": 0,
+    "max": 1080,
+    "group": "Background & game window"
+  },
+  "gameRadius": {
+    "type": "number",
+    "label": "Game window corner rounding (px)",
+    "value": 0,
+    "min": 0,
+    "max": 80,
+    "group": "Background & game window"
+  },
+  "gameFrame": {
+    "type": "checkbox",
+    "label": "Frame around the game window",
+    "value": true,
+    "group": "Background & game window"
+  },
+  "c_red": {
+    "type": "colorpicker",
+    "label": "Accent",
+    "value": "#d92127",
+    "group": "Colours"
+  },
+  "c_white": {
+    "type": "colorpicker",
+    "label": "Text",
+    "value": "#f1f0ec",
+    "group": "Colours"
+  },
+  "c_alert_bg": {
+    "type": "colorpicker",
+    "label": "Alert box",
+    "value": "#0c0a0af0",
+    "group": "Colours"
+  },
+  "c_chat_head": {
+    "type": "colorpicker",
+    "label": "Chat heading",
+    "value": "#0b0b0bd9",
+    "group": "Colours"
+  },
+  "c_chat_bg": {
+    "type": "colorpicker",
+    "label": "Chat messages",
+    "value": "#0a0a0bd0",
+    "group": "Colours"
+  },
+  "c_stat_bg": {
+    "type": "colorpicker",
+    "label": "Latest boxes",
+    "value": "#0c0c0de0",
+    "group": "Colours"
+  },
+  "c_goal_bg": {
+    "type": "colorpicker",
+    "label": "Goal box",
+    "value": "#ba1d23ed",
+    "group": "Colours"
+  },
+  "c_game_frame": {
+    "type": "colorpicker",
+    "label": "Game window frame",
+    "value": "#d92127",
+    "group": "Colours"
+  },
+  "showChat": {
+    "type": "checkbox",
+    "label": "Show chat",
+    "value": true,
+    "group": "Show / hide"
+  },
+  "showAlerts": {
+    "type": "checkbox",
+    "label": "Show alerts",
+    "value": true,
+    "group": "Show / hide"
+  },
+  "showLatest": {
+    "type": "checkbox",
+    "label": "Show latest events",
+    "value": true,
+    "group": "Show / hide"
+  },
+  "animations": {
+    "type": "checkbox",
+    "label": "Animations (turn off for a calmer overlay)",
+    "value": true,
+    "group": "Show / hide"
+  },
+  "chatScale": {
+    "type": "slider",
+    "label": "Chat text size %",
+    "value": 100,
+    "min": 60,
+    "max": 200,
+    "step": 5,
+    "group": "Show / hide"
+  },
+  "chatSeconds": {
+    "type": "number",
+    "label": "Seconds each message stays",
+    "value": 8,
+    "min": 2,
+    "max": 600,
+    "group": "Chat"
+  },
+  "maxMessages": {
+    "type": "number",
+    "label": "Most messages on screen",
+    "value": 5,
+    "min": 1,
+    "max": 30,
+    "group": "Chat"
+  },
+  "hideCommands": {
+    "type": "checkbox",
+    "label": "Hide !commands",
+    "value": true,
+    "group": "Chat"
+  },
+  "hiddenUsers": {
+    "type": "text",
+    "label": "Hide these users (bots), comma separated",
+    "value": "streamelements, nightbot",
+    "group": "Chat"
+  },
+  "alertSeconds": {
+    "type": "number",
+    "label": "Seconds each alert stays",
+    "value": 6,
+    "min": 2,
+    "max": 60,
+    "group": "Alerts"
+  },
+  "followerGoal": {
+    "type": "number",
+    "label": "Follower goal",
+    "value": 100,
+    "min": 1,
+    "group": "Goal"
+  },
+  "layout": {
+    "type": "hidden",
+    "label": "Part positions (set on the overlay site)",
+    "value": "{}"
+  }
+}

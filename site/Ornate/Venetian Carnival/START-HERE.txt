@@ -1,0 +1,40 @@
+VENETIAN CARNIVAL — STREAMELEMENTS OVERLAY (ORNATE)
+
+INSTALL
+1. In StreamElements create a 1920 x 1080 overlay.
+2. Add a Static/Custom > Custom Widget. Set it to 1920 x 1080 at X=0, Y=0.
+3. Open the widget's code editor. Replace the HTML, CSS, JS and FIELDS tabs with the four
+   boxes from the overlay site ("Copy to StreamElements"). Save.
+4. Add the StreamElements overlay URL to OBS as a Browser Source, 1920 x 1080,
+   placed ABOVE your game and webcam sources.
+5. Put your webcam source behind the webcam frame (the frame covers its edges):
+   X=72  Y=92  width=480  height=300  (on a 1920 x 1080 canvas)
+6. Test with StreamElements "Emulate" (follow, sub, tip, cheer, raid) and a real chat message.
+
+TRANSPARENCY
+The gameplay area and the webcam hole are completely empty, so your game and webcam show through.
+Only the frame, chat, alert and latest boxes draw anything.
+
+SETTINGS (recommended)
+Paste the 4th box from the overlay site ("Fields") into the widget's FIELDS tab.
+Then everything is editable in StreamElements with no code: your name, colours,
+background image, game window, show/hide switches, chat filters (commands, links, bots),
+chat text size, alert types, minimum bits / tip / raid, alert sound + volume, follower goal.
+
+BACKGROUND IMAGE (optional)
+Upload a 1920 x 1080 image in Fields > "Background & game window" > Background image.
+It fills the screen EXCEPT the game window and the webcam hole, which stay see-through.
+Put your game capture inside the game window:
+   X=600  Y=180  width=792  height=446  (change it in Fields if you like)
+The background always sits underneath the frame, chat, alerts and boxes.
+Leave it empty for a fully transparent overlay over full-screen gameplay.
+
+SOCIALS
+Set your YouTube, TikTok and Twitch handles on the overlay site before copying,
+or later in Fields > Your details.
+
+NOTES
+Built for Twitch events through StreamElements. Tips must go through StreamElements.
+Community gift bombs show one alert. Mod deletions, timeouts and bans remove chat.
+Tested with simulated StreamElements events, not a live account: test before going live.
+Fonts load from Google Fonts, so the browser source needs internet.

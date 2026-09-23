@@ -1,0 +1,16 @@
+{
+  "css": "overlay.css",
+  "cam": null,
+  "game": [
+    48,
+    110,
+    1452,
+    817
+  ],
+  "parts": {
+    "chat": true,
+    "alerts": true,
+    "latest": true
+  },
+  "tags": "bodycam body camera police realistic recording rec"
+}

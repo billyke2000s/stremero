@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Twitch overlays</title><link rel="stylesheet" href="site.css?v=37fcc655a9"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%239146ff'/%3E%3Cpath d='M8 10h16v12H8z' fill='none' stroke='white' stroke-width='3'/%3E%3C/svg%3E"></head>
+<body>
+<header class="topbar"><a class="brand" id="brand" href="index.html">Twitch overlays</a><a href="index.html" class="browse">Browse</a><a href="editor.html" class="browse editor-link">✎ Editor</a><span class="demo-badge">OVERLAY PREVIEW</span><span class="top-avatar" aria-hidden="true">Y</span></header>
+<aside class="sidebar"><div class="sidebar-title">OVERLAY COLLECTION</div><nav id="side-links" aria-label="Overlays"></nav><div class="sidebar-note">Community-made overlays.<br>Try a look. Make it yours.</div></aside>
+<main id="gallery"><p class="eyebrow">YOUR NEXT STREAM STARTS HERE</p><h1>Twitch overlays</h1><p class="intro">Pick an overlay. Preview it. Change the colours, add your name, then copy it into StreamElements.</p>
+ <div class="gallery-tools">
+  <label for="search" class="sr-only">Search overlays</label>
+  <input id="search" type="search" placeholder="Search: cosy, neon, gold, horror…" autocomplete="off" spellcheck="false">
+ </div>
+ <div class="bg-bar" id="gallery-bg"><span id="gallery-bg-thumb" class="bg-thumb" aria-hidden="true"></span><p id="gallery-bg-text" class="small"></p>
+  <input type="file" id="gallery-bg-file" class="sr-only" accept="image/png,image/jpeg,image/webp">
+  <label for="gallery-bg-file" id="gallery-bg-add" class="button-like" tabindex="0">Add background image</label>
+  <button type="button" id="gallery-bg-remove" class="danger" hidden>Remove background</button></div>
+ <div id="filters" class="filters" role="group" aria-label="Filter overlays"></div>
+ <div id="grid" class="grid"></div><p id="empty" hidden>No overlays yet.</p></main>
+<main id="watch" hidden>
+ <div class="stream-column">
+  
+  <div class="player" id="player" data-backdrop="grid"><iframe id="preview" title="Overlay preview" sandbox="allow-scripts" allow="fullscreen"></iframe><span class="live-badge">DEMO</span>
+   <div class="player-controls"><span class="sample-label">Sample stream · 1080p</span>
+    <button id="backdrop" title="Switch preview background" aria-label="Switch preview background">▦</button>
+    <button id="restart" title="Restart preview" aria-label="Restart preview">↻</button><button id="fullscreen" title="Fullscreen" aria-label="Fullscreen player">⛶</button></div></div>
+  <section class="channel"><div class="avatar" id="avatar">Y</div><div class="channel-copy"><button class="editable-name" id="edit-name" title="Click to change your streamer name">Your cool name <span>✎</span></button><form id="name-form" hidden><label for="name-input" class="sr-only">Your streamer name</label><input id="name-input" maxlength="32" value="Your cool name" required autocomplete="off"><button type="submit">Save</button><button type="button" id="cancel-name">Cancel</button></form><h1 id="stream-title"></h1><p class="category"><span id="category"></span> <span class="pill">English</span> <span class="pill">Overlay demo</span></p></div><div class="channel-actions"><a id="open-editor" class="edit-btn" href="editor.html">✎ Open in editor</a><button type="button" id="use-overlay" class="download">⧉ Copy to StreamElements</button><span id="download-note">HTML, CSS, JS + Fields (your settings)</span></div></section>
+
+    <section class="customise" id="customise" aria-labelledby="custom-title">
+   <div class="custom-head"><h2 id="custom-title">Customise</h2><button type="button" id="reset-all" class="ghost">Reset settings</button></div>
+   <p class="small">Every setting here is also in the StreamElements <strong>Fields</strong> panel after you paste the 4th box, so you can change it later without code.</p>
+   <div class="custom-block" id="fields-block"><h3>Your details</h3><div id="field-list" class="field-list"></div></div>
+   <div class="custom-block"><h3>Background &amp; game window <small>The background fills the screen except the game window and webcam, which stay see-through (the grid).</small></h3>
+    <div class="bg-row"><span id="bg-thumb" class="bg-thumb" aria-hidden="true"></span>
+     <input type="file" id="bg-file" class="sr-only" accept="image/png,image/jpeg,image/webp">
+     <label for="bg-file" id="bg-add" class="button-like" tabindex="0">Add background image</label>
+     <button type="button" id="bg-remove" class="ghost" hidden>Remove</button></div>
+    <p class="small">Best size: 1920 × 1080 PNG or JPG. This image is only for the preview here. It is never uploaded or put into your code. In StreamElements, upload it in the widget settings under “Background &amp; game window”.</p>
+    <div class="preset-row"><span class="small">Game window:</span><button type="button" id="game-default" class="ghost">Default</button><button type="button" id="game-centre" class="ghost">Centre large</button><button type="button" id="game-full" class="ghost">Full screen</button>
+     <label class="field-check inline"><input type="checkbox" id="lock169" checked> Keep 16:9</label></div>
+    <div id="game-list" class="field-list"></div>
+    <p id="game-info" class="game-info"></p></div>
+   <div class="custom-block"><h3>Colours <small>Tap a circle to open the colour wheel, or type a hex code.</small></h3><div id="colour-list" class="colour-list"></div></div>
+   <div id="group-list"></div>
+  </section>
+
+  <section class="about"><h2>About <span id="about-name">Your cool name</span></h2><p>See how this overlay sits inside a stream. The middle of the screen and the webcam hole are see-through. The grid shows what is see-through. Press ▦ on the player to switch to a sample game.</p><div class="about-detail"><span>✦ Free to copy</span><span>▣ StreamElements</span><span>◐ Colour wheel + hex</span><span>▭ Background image</span><span>⧉ Your name included</span></div><p class="small">This is an independent preview gallery, not Twitch. Chat, audience activity and stream content shown here are demonstrations.</p></section>
+ </div>
+ <aside class="chat-panel"><header>STREAM CHAT <span title="Demo chat">◇</span></header><div class="chat-notice">Welcome to the demo chat!</div><div id="chat-messages" role="log" aria-label="Demo stream chat"></div><form id="chat-form"><label for="chat-input" class="sr-only">Send a demo message</label><input id="chat-input" placeholder="Send a message" maxlength="300" autocomplete="off"><div class="chat-bottom"><span>✧ Demo chat only</span><button type="submit">Chat</button></div></form></aside>
+</main>
+
+<div id="picker" class="picker" role="dialog" aria-modal="false" aria-labelledby="picker-title" hidden>
+ <div class="picker-top"><strong id="picker-title">Colour</strong><button type="button" id="picker-close" class="ghost" aria-label="Close colour wheel">✕</button></div>
+ <div class="wheel-wrap"><canvas id="wheel" width="220" height="220" aria-label="Colour wheel: drag to pick hue and strength" tabindex="0"></canvas><span id="wheel-dot" class="wheel-dot" aria-hidden="true"></span></div>
+ <label class="slider-row">Brightness <input id="val" type="range" min="0" max="100" value="100"></label>
+ <label class="slider-row">See-through <input id="alpha" type="range" min="0" max="100" value="100"></label>
+ <div class="hex-row"><span id="picker-swatch" class="swatch-big" aria-hidden="true"></span><label for="hex-input" class="sr-only">Hex colour</label><input id="hex-input" maxlength="9" spellcheck="false" autocomplete="off" placeholder="#RRGGBB"><button type="button" id="picker-reset" class="ghost">Default</button></div>
+ <p id="hex-error" class="hex-error" role="status" aria-live="polite"></p>
+</div>
+
+<dialog id="code-dialog" aria-labelledby="code-title">
+<div class="code-top"><div><h2 id="code-title">Use this overlay</h2><p id="code-name"></p></div><button id="close-code" type="button" aria-label="Close overlay code">Close ✕</button></div>
+<p class="code-help">In StreamElements, add a <strong>Custom Widget</strong> to a 1920 × 1080 overlay. Open its code editor and replace each tab (HTML, CSS, JS and FIELDS) with the matching box below. Set the widget to 1920 × 1080 at X=0, Y=0, then save.</p>
+<p id="size-note" class="size-note" hidden></p>
+<p id="copy-status" role="status" aria-live="polite"></p>
+<div id="code-panels"></div>
+<details><summary>Overlay setup instructions</summary><pre id="overlay-instructions"></pre></details>
+</dialog>
+<div id="status" role="status" class="status" hidden></div>
+<script src="catalog.js"></script><script src="app.js?v=b9e9d2340d"></script>
+</body></html>

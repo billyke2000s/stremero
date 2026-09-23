@@ -1,0 +1,42 @@
+<!-- VHS Horror — paste ALL of this into the HTML tab of ONE StreamElements Custom Widget.
+     The middle of the screen and the webcam hole are left completely empty (transparent). -->
+<div id="ov" class="ov"><div class="bg-layer" aria-hidden="true"></div><div class="game-frame" aria-hidden="true"><div class="game-box" data-game-hole></div></div>
+  <section id="cam" class="cam" aria-label="Webcam frame">
+    <span class="rec">● REC</span><span class="vtime">SP 00:13:37</span>
+    <div class="cam-hole" data-cam-hole></div>
+    <div class="nameplate"><span data-field="name">Your cool name</span></div>
+  </section>
+
+  <section id="alert" class="alert box" aria-live="polite">
+    <div class="track"></div>
+    <div class="alert-icon" id="alert-icon"></div>
+    <div class="alert-copy">
+      <div class="alert-kind" id="alert-kind"></div>
+      <div class="alert-name" id="alert-name"></div>
+      <div class="alert-detail" id="alert-detail"></div>
+    </div>
+  </section>
+
+  <section id="chat" class="chat" aria-label="Chat">
+    
+    <div class="chat-title"><span>▶ PLAY   SP  0:13:37</span></div>
+    <div id="chat-list" class="chat-list"></div>
+  </section>
+
+  <section class="latest">
+    <div class="stat box"><label>Latest follower</label><strong data-latest="follower">—</strong></div>
+    <div class="stat box"><label>Latest sub</label><strong data-latest="subscriber">—</strong></div>
+    <div class="stat box"><label>Latest tip</label><strong data-latest="tip">—</strong></div>
+    <div class="stat box"><label>Latest cheer</label><strong data-latest="cheer">—</strong></div>
+    <div class="stat box"><label>Latest raid</label><strong data-latest="raid">—</strong></div>
+    <div class="stat goal box"><label>Follower goal</label><strong id="goal-count">0 / 100</strong><div class="goal-track"><div id="goal-fill"></div></div></div>
+  </section>
+  <section class="socials box extra" aria-label="Socials">
+    
+    <div class="social"><em>YouTube</em><span data-field="youtube">@yourcoolname</span></div>
+    <div class="social"><em>TikTok</em><span data-field="tiktok">@yourcoolname</span></div>
+    <div class="social"><em>Twitch</em><span data-field="twitch">yourcoolname</span></div>
+  </section>
+  <section class="extra-text box extra" aria-label="Custom text"><span data-field="customText">Your text here</span></section>
+  <section class="extra-clock box extra" aria-label="Clock"><span class="clock-time">00:00</span></section>
+</div>

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Overlay editor</title>
+<link rel="stylesheet" href="editor.css?v=0e16eab23b">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%239146ff'/%3E%3Cpath d='M8 10h16v12H8z' fill='none' stroke='white' stroke-width='3'/%3E%3C/svg%3E"></head>
+<body>
+<header class="ed-top">
+ <a href="index.html" class="ed-back" title="Back to the overlay gallery">‹ Gallery</a>
+ <strong class="ed-brand">Overlay editor</strong>
+ <nav class="scene-tabs" id="scene-tabs" aria-label="Scenes"></nav>
+ <div class="ed-top-actions">
+  <button type="button" id="undo" title="Undo (Ctrl+Z)" aria-label="Undo">↶</button>
+  <button type="button" id="redo" title="Redo (Ctrl+Y)" aria-label="Redo">↷</button>
+  <button type="button" id="play" aria-pressed="false" title="Play the chat and alerts like they will look live">▶ Preview</button>
+  <button type="button" id="backdrop" title="Switch the background behind the canvas">▦ Grid</button>
+  <button type="button" id="new-design" class="ghost">New design</button>
+  <button type="button" id="copy" class="primary">⧉ Copy to StreamElements</button>
+ </div>
+</header>
+
+<aside class="ed-left" aria-label="Library">
+ <div class="tabs" role="tablist"><button role="tab" id="tab-parts" aria-selected="true">Parts</button><button role="tab" id="tab-uploads" aria-selected="false">Uploads</button><button role="tab" id="tab-layers" aria-selected="false">Layers</button></div>
+ <section id="pane-parts" class="pane">
+  <label for="lib-search" class="sr-only">Search overlays</label>
+  <input id="lib-search" type="search" placeholder="Search: coffee, neon, gold…" autocomplete="off" spellcheck="false">
+  <div id="lib-cats" class="chips"></div>
+  <p class="hint">Click a part to add it, or drag it onto the canvas.</p>
+  <div id="lib-list" class="lib-list"></div>
+ </section>
+ <section id="pane-uploads" class="pane" hidden>
+  <input type="file" id="img-file" class="sr-only" accept="image/png,image/jpeg,image/webp,image/gif" multiple>
+  <label for="img-file" class="button-like" tabindex="0">⤒ Upload images</label>
+  <p class="hint">PNG with a see-through background works best (logos, borders, stickers). Images stay in this browser. In StreamElements you upload each one in the widget's Fields › Images.</p>
+  <div id="img-list" class="img-list"></div>
+ </section>
+ <section id="pane-layers" class="pane" hidden>
+  <p class="hint">Top of the list is in front. Drag a row to reorder.</p>
+  <ol id="layer-list" class="layer-list"></ol>
+ </section>
+</aside>
+
+<main class="ed-main">
+ <div class="canvas-wrap" id="canvas-wrap">
+  <div class="canvas" id="canvas" data-backdrop="grid">
+   <iframe id="stage" title="Overlay canvas" sandbox="allow-scripts"></iframe>
+   <div class="sel-layer" id="sel-layer" tabindex="0" aria-label="Canvas: click a part to select it. Arrow keys move the selected part."></div>
+  </div>
+ </div>
+ <div class="ed-status" id="ed-status"><span id="pos-readout"></span><span class="grow"></span><span class="hint">Drag to move · 8 handles resize · top dot rotates · Shift+corner zooms contents · Alt turns snapping off</span></div>
+</main>
+
+<aside class="ed-right" id="ed-right" aria-label="Customise"></aside>
+
+<div id="picker" class="picker" role="dialog" aria-labelledby="picker-title" hidden>
+ <div class="picker-top"><strong id="picker-title">Colour</strong><button type="button" id="picker-close" class="ghost" aria-label="Close colour wheel">✕</button></div>
+ <div class="wheel-wrap"><canvas id="wheel" width="200" height="200" tabindex="0" aria-label="Colour wheel"></canvas><span id="wheel-dot" class="wheel-dot" aria-hidden="true"></span></div>
+ <label class="slider-row">Brightness <input id="val" type="range" min="0" max="100" value="100"></label>
+ <label class="slider-row">See-through <input id="alpha" type="range" min="0" max="100" value="0"></label>
+ <div class="hex-row"><span id="picker-swatch" class="swatch" aria-hidden="true"></span><label for="hex-input" class="sr-only">Hex colour</label><input id="hex-input" maxlength="9" spellcheck="false" autocomplete="off" placeholder="#RRGGBB"><button type="button" id="picker-reset" class="ghost">Default</button></div>
+ <p id="hex-error" class="hex-error" role="status"></p>
+</div>
+
+<dialog id="modal" aria-labelledby="modal-title"><h2 id="modal-title"></h2><p id="modal-text"></p><div class="modal-actions" id="modal-actions"></div></dialog>
+
+<dialog id="code-dialog" aria-labelledby="code-title">
+ <div class="code-top"><div><h2 id="code-title">Copy to StreamElements</h2><p id="code-sub"></p></div><button id="close-code" type="button">Close ✕</button></div>
+ <p class="code-help">In StreamElements, add a <strong>Custom Widget</strong> to a 1920 × 1080 overlay. Open its code editor and replace each tab (HTML, CSS, JS and FIELDS) with the matching box below. Set the widget to 1920 × 1080 at X=0, Y=0, then save.</p>
+ <p id="code-notes" class="code-notes"></p>
+ <p id="copy-status" role="status" aria-live="polite"></p>
+ <div id="code-panels"></div>
+ <details><summary>Setup instructions</summary><pre id="code-help"></pre></details>
+</dialog>
+<div id="toast" class="toast" role="status" hidden></div>
+<script src="catalog.js"></script><script src="editor.js?v=fe4fbafca6"></script>
+</body></html>

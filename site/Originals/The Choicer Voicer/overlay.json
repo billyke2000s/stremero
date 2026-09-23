@@ -1,0 +1,21 @@
+{
+  "css": "styles.css",
+  "cam": [
+    60,
+    70,
+    480,
+    340
+  ],
+  "game": [
+    60,
+    110,
+    1350,
+    759
+  ],
+  "parts": {
+    "chat": true,
+    "alerts": true,
+    "cam": true
+  },
+  "tags": "choicer voicer choice vote voice"
+}

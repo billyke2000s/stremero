@@ -1,0 +1,48 @@
+<!-- ===================================================================
+     THE CHOICER VOICER — StreamElements Overlay
+     Paste this into the "HTML" tab of a StreamElements Overlay widget.
+     Put the CSS in the "CSS" tab and the JS in the "JS" tab.
+     ================================================================= -->
+
+<div id="cv-overlay">
+
+  <!-- ===================== CAMERA SLOT ===================== -->
+  <!-- Position your webcam SOURCE on top of this frame in OBS.       -->
+  <!-- The frame is transparent in the middle so your cam shows through. -->
+  <div id="cam-slot">
+    <div class="cam-frame">
+      <div class="cam-corner tl"></div>
+      <div class="cam-corner tr"></div>
+      <div class="cam-corner bl"></div>
+      <div class="cam-corner br"></div>
+      <div class="cam-lights">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+    </div>
+    <div class="cam-nameplate">
+      <span class="cam-mic">🎙</span>
+      <span class="cam-name" data-field="name">Your cool name</span>
+    </div>
+  </div>
+
+  <!-- ===================== CHAT ===================== -->
+  <!-- Messages appear here and auto-disappear after a few seconds. -->
+  <div id="chat-wrap">
+    <div id="chat-list"></div>
+  </div>
+
+  <!-- ===================== ALERTS (followers / bits / subs / etc) ===== -->
+  <div id="alert-box">
+    <div class="alert-inner">
+      <div class="alert-lights">
+        <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <div class="alert-badge" id="alert-badge">★</div>
+      <div class="alert-text">
+        <div class="alert-title" id="alert-title"></div>
+        <div class="alert-sub" id="alert-sub"></div>
+      </div>
+    </div>
+  </div>
+
+</div>

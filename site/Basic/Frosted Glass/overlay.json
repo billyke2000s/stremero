@@ -1,0 +1,27 @@
+{
+  "css": "styles.css",
+  "cam": [
+    48,
+    48,
+    480,
+    300
+  ],
+  "game": [
+    48,
+    150,
+    1390,
+    782
+  ],
+  "parts": {
+    "chat": true,
+    "alerts": true,
+    "latest": true,
+    "cam": true,
+    "socials": false,
+    "text": false,
+    "clock": false
+  },
+  "tags": "glass frosted blur modern clean",
+  "layout": "classic",
+  "editor": true
+}

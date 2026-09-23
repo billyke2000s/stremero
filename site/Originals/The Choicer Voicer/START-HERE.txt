@@ -1,0 +1,22 @@
+THE CHOICER VOICER — STREAMELEMENTS OVERLAY
+
+Create a 1920 x 1080 StreamElements overlay. Add one Custom Widget at X=0, Y=0, width=1920, height=1080.
+Paste overlay.html into HTML, styles.css into CSS, and overlay.js into JS. Save.
+Add the overlay URL to an OBS Browser Source at 1920 x 1080 above gameplay.
+Position your webcam within the frame at the upper left (left 60, top 70, width 480, height 340).
+
+Includes a webcam frame, fading chat and queued follow/sub/gift/bits/tip/raid alerts.
+Chat lifetime, alert duration, minimum bits/tip, command hiding and hidden bot names are in CFG at the top of overlay.js (optional Fields JSON is in the overlay.js header).
+Tips show in your StreamElements currency. Community gift bombs show one alert, not one per recipient.
+Mod deletions, timeouts and bans remove that chat from the overlay.
+Your selected name is in overlay.html; preview.html is a demo, not the live widget.
+Connect your channel to StreamElements and test using Emulate and live chat before streaming.
+External Google Fonts require internet.
+
+SETTINGS + BACKGROUND IMAGE (new)
+Paste the 4th box from the overlay site ("Fields") into the widget's FIELDS tab.
+Then your name, colours, background image, game window and show/hide switches are editable in StreamElements.
+A background image fills the screen EXCEPT the game window (and webcam hole), which stay see-through.
+Default game window: X=60 Y=110 width=1350 height=759 on a 1920 x 1080 canvas.
+The background always sits underneath the overlay.
+

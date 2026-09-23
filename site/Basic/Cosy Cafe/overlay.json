@@ -1,0 +1,27 @@
+{
+  "css": "styles.css",
+  "cam": [
+    48,
+    742,
+    460,
+    290
+  ],
+  "game": [
+    492,
+    243,
+    1056,
+    594
+  ],
+  "parts": {
+    "chat": true,
+    "alerts": true,
+    "latest": true,
+    "cam": true,
+    "socials": false,
+    "text": false,
+    "clock": false
+  },
+  "tags": "cosy cozy cafe coffee chill warm brown lofi",
+  "layout": "rail",
+  "editor": true
+}

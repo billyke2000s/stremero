@@ -1,0 +1,485 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Bodycam preview</title><style>/* standalone preview only: transparency grid */html{background:repeating-conic-gradient(#d9d9d9 0 25%,#fff 0 50%) 0 0/28px 28px}</style><style>/* OBSKYRA / BODYCAM — replace the entire StreamElements CSS tab.
+   Works with the existing HTML and JS. No fonts or images to install. */
+:root{
+  --red: #d92127; /* @color Accent */
+  --white: #f1f0ec; /* @color Text */
+  --alert-bg: #0c0a0af0; /* @color Alert box */
+  --chat-head: #0b0b0bd9; /* @color Chat heading */
+  --chat-bg: #0a0a0bd0; /* @color Chat messages */
+  --stat-bg: #0c0c0de0; /* @color Latest boxes */
+  --goal-bg: #ba1d23ed; /* @color Goal box */
+  --game-frame: #d92127; /* @color Game window frame */
+  --muted:#a9a7a5;--panel:rgba(9,9,10,.78)
+}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent}
+body{font-family:Arial,Helvetica,sans-serif;color:var(--white)}
+#overlay{position:absolute;width:1920px;height:1080px;transform-origin:top left;pointer-events:none}
+/* Lens shading only at the perimeter; the gameplay centre stays clear. */
+#overlay::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 64%,rgba(0,0,0,.22) 100%)}
+.panel{background:var(--panel);border:0;border-radius:0;box-shadow:none}
+.identity{position:absolute;left:48px;top:42px;width:350px;padding:0;background:none;text-shadow:0 2px 3px #000,0 0 16px #0008}
+.eyebrow{font:700 11px/1.3 'Courier New',monospace;letter-spacing:2px;color:var(--white)}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--red);margin-right:7px;animation:record 1.8s steps(1) infinite}
+h1{position:relative;width:max-content;font:900 59px/.95 Impact,'Arial Narrow',sans-serif;letter-spacing:-1px;margin:12px 0 8px;transform:scaleX(1.1);transform-origin:left;color:#f3f1ee}
+/* Fine interruptions in the wordmark suggest worn printed lettering. */
+h1::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(174deg,transparent 0 13px,#10101088 13px 14px,transparent 14px 28px);mix-blend-mode:multiply;pointer-events:none}
+h1 span{display:none}
+.subline{font:10px/1.4 'Courier New',monospace;letter-spacing:1px;color:#d4d1cd}.subline b{color:var(--red);margin:0 6px}
+.telemetry{position:absolute;right:48px;top:44px;text-align:right;font:700 22px/1.2 'Courier New',monospace;letter-spacing:0;text-shadow:1px 2px 2px #000,0 0 8px #000}
+.telemetry small{display:block;font-size:14px;margin-top:5px;color:#ece9e4}.telemetry .dot{width:11px;height:11px}
+.battery{display:inline-block;width:24px;height:10px;border:1px solid #eee;margin-left:8px;background:linear-gradient(to right,#eee 76%,transparent 76%)}
+.edge{position:absolute;top:30px;width:15px;height:15px;opacity:.5;border-top:1px solid #fff}.left{left:29px;border-left:1px solid #fff}.right{right:29px;border-right:1px solid #fff}
+/* Alerts borrow the game's flat red menu treatment. */
+.alert{position:absolute;left:660px;top:45px;width:600px;padding:20px 26px 21px;background:linear-gradient(100deg,transparent 40%,#00000040),var(--alert-bg);border-left:5px solid var(--red);opacity:0;transform:translateY(-6px);transition:opacity .2s,transform .2s;overflow:hidden}
+.alert.visible{opacity:1;transform:translateY(0)}.alert .eyebrow{display:inline-block;padding:5px 8px;background:var(--red);color:#fff;font:700 10px Arial,sans-serif;letter-spacing:1.5px}
+.alert h2{font:900 35px/1.1 Impact,'Arial Narrow',sans-serif;text-transform:uppercase;letter-spacing:.5px;margin:13px 0 8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.alert p{font:14px/1.4 Arial,sans-serif;color:#ccc8c4;margin:0}.alert-track{position:absolute;bottom:0;left:0;width:100%;height:2px;background:var(--red);transform-origin:left}.alert.visible .alert-track{animation:drain var(--alert-duration,6s) linear forwards}
+/* Radio transcript: understated strips, monospaced sender, readable message. */
+#chat{position:absolute;right:48px;bottom:168px;width:350px;opacity:0;transition:opacity .3s}#chat.active{opacity:1}
+.chat-heading{display:flex;align-items:center;gap:8px;padding:8px 11px;background:var(--chat-head);border-top:2px solid var(--red);font:700 10px/1.2 'Courier New',monospace;letter-spacing:1.5px;color:#c6c2be}
+.cross{color:var(--red);font-size:15px}.frequency{margin-left:auto;font-size:9px;color:#9f9b97}
+#messages{display:flex;flex-direction:column;gap:4px;margin-top:4px;max-height:660px;overflow:hidden;justify-content:flex-end}
+.message{flex-shrink:0;padding:11px 13px;background:linear-gradient(90deg,transparent,#00000047),var(--chat-bg);border-left:1px solid #ded9d366;animation:enter .2s ease-out;overflow:hidden}
+.message.leaving{opacity:0;transform:translateY(-3px);transition:opacity .4s,transform .4s}
+.message-head{display:flex;align-items:center;gap:8px;margin-bottom:5px;font:700 12px/1.3 'Courier New',monospace;letter-spacing:.5px;text-transform:uppercase}.username{color:#e6e2dd;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.role{font:700 8px Arial,sans-serif;color:#fff;background:#9e2023;padding:3px 4px;letter-spacing:.5px}
+.message-body{font:17px/1.4 Arial,Helvetica,sans-serif;color:#e7e4df;text-shadow:0 1px 2px #000;overflow-wrap:anywhere;white-space:pre-wrap}.message-body img{height:27px;vertical-align:middle}.message.action .message-body{font-style:italic}
+/* Compact menu-like supporter strip, with a red objective block. */
+footer{position:absolute;left:48px;right:48px;bottom:35px}
+.footer-label{display:flex;justify-content:space-between;font:9px 'Courier New',monospace;letter-spacing:1.5px;color:#cac5be;text-shadow:0 1px 3px #000;margin-bottom:9px}.footer-label span:last-child{color:#cac5be}
+.stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr)) 236px;gap:3px}
+.stat{position:relative;min-width:0;padding:16px 15px 15px;background:var(--stat-bg);border-top:1px solid #a09a9255}
+.stat::after{content:"";position:absolute;bottom:0;left:0;width:25px;height:2px;background:#d0cbc4}
+.stat label{display:block;font:700 10px/1.2 Arial,sans-serif;letter-spacing:1.2px;color:#b5b0aa;padding-right:12px}
+.stat strong{display:block;margin-top:9px;font:700 19px/1.2 'Arial Narrow',Arial,sans-serif;color:#f4f0ea;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stat small{display:none}.index{position:absolute;right:10px;top:15px;color:#79736e;font:9px 'Courier New',monospace}
+.goal{background:linear-gradient(110deg,transparent,#00000055),var(--goal-bg);border-top-color:#ff6d6677}.goal::after{display:none}.goal label{color:#f3d4d1}.goal strong{font:700 22px/1 'Courier New',monospace;margin-top:7px}
+.goal-track{height:2px;background:#ffffff33;margin-top:10px}.goal-track div{height:100%;width:0;background:#f2e8df;transition:width .5s}
+@keyframes record{50%{opacity:.25}}@keyframes enter{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}@keyframes drain{to{transform:scaleX(0)}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+.nm{font-style:normal}
+
+/* ---- background image + game window (set in the Fields panel) ---- */
+#overlay>.bg-layer{position:absolute;left:0;top:0;width:1920px;height:1080px;display:none;pointer-events:none;
+  background:center/cover no-repeat;-webkit-mask-size:1920px 1080px;mask-size:1920px 1080px;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+#overlay.has-bg>.bg-layer{display:block}
+#overlay>.game-frame{position:absolute;left:0;top:0;width:1920px;height:1080px;display:none;pointer-events:none;
+  -webkit-mask-size:1920px 1080px;mask-size:1920px 1080px;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+#overlay>.game-frame>.game-box{position:absolute;box-shadow:0 0 0 3px var(--game-frame,#ffffff),0 0 0 4px #0009,0 12px 30px #000a}
+#overlay.has-bg.frame-on>.game-frame{display:block}
+/* ---- show / hide switches ---- */
+#overlay.hide-chat #chat{display:none!important}
+#overlay.hide-alerts #alert{display:none!important}
+#overlay.hide-latest>footer{display:none!important}
+/* ---- animations off (keeps alerts visible, just instant) ---- */
+#overlay.no-anim *,#overlay.no-anim *::before,#overlay.no-anim *::after{animation-duration:1ms!important;animation-iteration-count:1!important;transition-duration:1ms!important}
+/* ---- chat text size ---- */
+#chat{zoom:var(--chat-zoom,1)}
+</style></head><body><!-- Paste into the HTML tab of ONE StreamElements Custom Widget. -->
+<main id="overlay">
+  <header class="identity panel"><div class="eyebrow"><i class="dot"></i> BODYCAM // LIVE FEED</div><h1><i class="nm" data-field="name">Your cool name</i><span>®</span></h1><div class="subline">OPERATOR 001 <b>•</b> SIGNAL ESTABLISHED</div></header>
+  <aside class="telemetry"><div><i class="dot"></i> REC <span id="uptime">00:00:00</span></div><small id="timestamp"></small><small>BC-01 / <i class="nm" data-field="name">Your cool name</i> <span class="battery"></span></small></aside>
+  <div class="edge left"></div><div class="edge right"></div>
+  <section id="alert" class="panel alert" aria-live="polite"><div class="eyebrow" id="alert-label">INCOMING TRANSMISSION</div><h2 id="alert-name"></h2><p id="alert-detail"></p><div class="alert-track"></div></section>
+  <section id="chat" aria-label="Stream chat"><div class="chat-heading"><span class="cross">+</span> COMMS CHANNEL <span class="frequency">CH. 01</span></div><div id="messages"></div></section>
+  <footer><div class="footer-label"><span><i class="nm" data-field="name">Your cool name</i> / FIELD ACTIVITY</span><span>ENCRYPTED ●</span></div><div class="stats">
+    <article class="panel stat"><span class="index">01</span><label>LATEST FOLLOWER</label><strong id="follower">AWAITING SIGNAL</strong><small>NEW OPERATOR</small></article>
+    <article class="panel stat"><span class="index">02</span><label>LATEST SUBSCRIBER</label><strong id="subscriber">AWAITING SIGNAL</strong><small>SUPPORT UNIT</small></article>
+    <article class="panel stat"><span class="index">03</span><label>LATEST TIP</label><strong id="tip">AWAITING SIGNAL</strong><small>FIELD SUPPORT</small></article>
+    <article class="panel stat"><span class="index">04</span><label>LATEST CHEER</label><strong id="cheer">AWAITING SIGNAL</strong><small>BOOST SIGNAL</small></article>
+    <article class="panel stat"><span class="index">05</span><label>LATEST RAID</label><strong id="raid">AWAITING SIGNAL</strong><small>REINFORCEMENTS</small></article>
+    <article class="panel stat goal"><label>FOLLOWER OBJECTIVE</label><strong id="goal-count">— / 100</strong><div class="goal-track"><div id="goal-fill"></div></div></article>
+  </div></footer>
+</main>
+<script>/* Paste into JS. No API key, external libraries or separate chat widget needed. */
+(() => {
+  'use strict';
+  const CONFIG = {
+    chatSeconds: 8, maxMessages: 5, alertSeconds: 6, followerGoal: 100,
+    hideCommands: true, hiddenUsers: ['streamelements', 'nightbot'],
+    currency: 'GBP' // Replaced by your StreamElements channel currency on load.
+  };
+  const $ = id => document.getElementById(id);
+  const types = { follower: 'NEW FOLLOWER', subscriber: 'SUBSCRIBER', tip: 'FIELD SUPPORT', cheer: 'SIGNAL BOOST', raid: 'REINFORCEMENTS' };
+  let currency = CONFIG.currency, alertTimer, gapTimer, busy = false;
+  const queue = [], timers = new Map();
+  const started = Date.now();
+  const number = value => Number.isFinite(Number(value)) ? Math.max(0, Number(value)) : 0;
+  const money = amount => { try { return new Intl.NumberFormat('en-GB', {style:'currency', currency}).format(number(amount)); } catch { return number(amount).toFixed(2); } };
+  function fit() { $('overlay').style.transform = `scale(${Math.min(innerWidth / 1920, innerHeight / 1080)})`; }
+  function clock() {
+    $('uptime').textContent = new Date(Date.now() - started).toISOString().slice(11,19);
+    $('timestamp').textContent = new Date().toISOString().replace('T',' ').slice(0,19) + ' UTC';
+  }
+  function latest(type, event) {
+    if (!event || !Object.prototype.hasOwnProperty.call(event, 'name')) return;
+    let text = event.name || 'AWAITING SIGNAL';
+    if (event.name && type === 'tip') text += ' / ' + money(event.amount);
+    if (event.name && type === 'cheer') text += ' / ' + number(event.amount) + ' BITS';
+    if (event.name && type === 'raid') text += ' / ' + number(event.amount);
+    $(type).textContent = text;
+  }
+  function session(data = {}) {
+    Object.keys(types).forEach(type => latest(type, data[type + '-latest']));
+    if (data['follower-total']?.count != null) {
+      const count = number(data['follower-total'].count);
+      $('goal-count').textContent = `${count.toLocaleString()} / ${CONFIG.followerGoal.toLocaleString()}`;
+      $('goal-fill').style.width = Math.min(100, count / CONFIG.followerGoal * 100) + '%';
+    }
+  }
+  function removeMessage(node) {
+    clearTimeout(timers.get(node)); timers.delete(node); node.remove();
+    $('chat').classList.toggle('active', $('messages').children.length > 0);
+  }
+  function message(data = {}) {
+    const name = String(data.displayName || data.nick || 'Viewer');
+    const text = String(data.text || '').slice(0, 1000);
+    if (!text || CONFIG.hiddenUsers.includes(String(data.nick || name).toLowerCase()) || (CONFIG.hideCommands && text.startsWith('!'))) return;
+    const node = document.createElement('article'); node.className = 'message' + (data.isAction ? ' action' : '');
+    node.dataset.msgId = String(data.msgId || data.tags?.id || '');
+    node.dataset.userId = String(data.userId || data.tags?.['user-id'] || '');
+    const head = document.createElement('div'); head.className = 'message-head';
+    const user = document.createElement('span'); user.className = 'username'; user.textContent = name; head.append(user);
+    const badges = Array.isArray(data.badges) ? data.badges : [];
+    const role = badges.some(b => b.type === 'broadcaster') ? 'OPERATOR' : badges.some(b => b.type === 'moderator') ? 'MOD' : badges.some(b => b.type === 'subscriber') ? 'SUB' : '';
+    if (role) { const badge = document.createElement('span'); badge.className='role'; badge.textContent=role; head.append(badge); }
+    const body = document.createElement('div'); body.className = 'message-body';
+    // Text nodes prevent chat/usernames from being interpreted as HTML.
+    let cursor = 0;
+    const emotes = Array.isArray(data.emotes) ? [...data.emotes].sort((a,b) => a.start-b.start) : [];
+    for (const emote of emotes) {
+      const start = Number(emote.start), end = Number(emote.end);
+      const url = emote.urls?.['2'] || emote.urls?.['1'];
+      if (!Number.isInteger(start) || !Number.isInteger(end) || start < cursor || end < start || end >= text.length || !/^https:\/\//i.test(url || '')) continue;
+      body.append(document.createTextNode(text.slice(cursor,start)));
+      const img = document.createElement('img'); img.src = url; img.alt = text.slice(start,end+1); img.referrerPolicy='no-referrer';
+      img.onerror = () => img.replaceWith(document.createTextNode(img.alt)); body.append(img); cursor=end+1;
+    }
+    body.append(document.createTextNode(text.slice(cursor))); node.append(head,body); $('messages').append(node);
+    while ($('messages').children.length > CONFIG.maxMessages) removeMessage($('messages').firstElementChild);
+    $('chat').classList.add('active');
+    timers.set(node, setTimeout(() => { node.classList.add('leaving'); timers.set(node,setTimeout(() => removeMessage(node),400)); }, CONFIG.chatSeconds*1000));
+  }
+  function nextAlert() {
+    if (busy || !queue.length) return;
+    busy=true;
+    const {type,event} = queue.shift();
+    $('alert-label').textContent = 'INCOMING // ' + types[type];
+    $('alert-name').textContent = event.bulkGifted ? (event.sender || event.name || 'Anonymous') : (event.name || 'Anonymous');
+    let detail = {follower:'Operator joined the squad.',subscriber:'Support unit connected.',tip:`${money(event.amount)} received. Thank you for the support.`,cheer:`${number(event.amount)} bits received. Signal amplified.`,raid:`${number(event.amount)} viewers incoming. Welcome to the squad.`}[type];
+    if (type === 'subscriber') {
+      if (event.bulkGifted) detail = `${number(event.amount)} subscriptions gifted to the squad.`;
+      else if (event.gifted) detail = `Subscription gifted by ${event.sender || 'Anonymous'}.`;
+      else if (number(event.amount) > 1) detail = `${number(event.amount)} months of support. Welcome back.`;
+    }
+    $('alert-detail').textContent=detail;
+    $('alert').style.setProperty('--alert-duration',CONFIG.alertSeconds+'s'); $('alert').classList.add('visible');
+    alertTimer=setTimeout(finishAlert,CONFIG.alertSeconds*1000);
+  }
+  function finishAlert() {
+    clearTimeout(alertTimer); clearTimeout(gapTimer); $('alert').classList.remove('visible');
+    gapTimer=setTimeout(() => { busy=false; nextAlert(); },400);
+  }
+  window.addEventListener('onWidgetLoad', obj => {
+    const f = obj.detail?.fieldData || {};   // settings from the StreamElements Fields panel
+    ['chatSeconds', 'maxMessages', 'alertSeconds', 'followerGoal'].forEach(k => { if (Number(f[k]) > 0) CONFIG[k] = Number(f[k]); });
+    if (typeof f.hideCommands === 'boolean') CONFIG.hideCommands = f.hideCommands;
+    if (typeof f.hiddenUsers === 'string') CONFIG.hiddenUsers = f.hiddenUsers.split(/[\s,]+/).map(u => u.trim().toLowerCase()).filter(Boolean);
+    currency = obj.detail?.currency?.code || CONFIG.currency;
+    session(obj.detail?.session?.data || {});
+  });
+  window.addEventListener('onSessionUpdate', obj => session(obj.detail?.session || {}));
+  window.addEventListener('onEventReceived', obj => {
+    const {listener, event = {}} = obj.detail || {};
+    if (listener === 'message') return message(event.data || {});
+    if (listener === 'delete-message' || listener === 'delete-messages') {
+      const data = event.data || event;
+      const key = listener === 'delete-message' ? 'msgId' : 'userId';
+      if (data[key] != null) [...$('messages').children].filter(n => n.dataset[key] === String(data[key])).forEach(removeMessage);
+      return;
+    }
+    if (listener === 'event:skip') { finishAlert(); return; }
+    const type = String(listener).replace(/-latest$/, '');
+    if (!Object.prototype.hasOwnProperty.call(types,type) || listener !== type+'-latest') return;
+    if ((type === 'cheer' || type === 'tip') && number(event.amount) <= 0) return; // malformed or empty amount
+    latest(type,event);
+    // Avoid replaying every individual gift after a community gift alert.
+    if (type === 'subscriber' && (event.isCommunityGift || event.playedAsCommunityGift) && !event.bulkGifted) return;
+    if (queue.length >= 50) queue.shift();
+    queue.push({type,event}); nextAlert();
+  });
+  window.addEventListener('resize',fit); fit(); clock(); setInterval(clock,1000);
+})();
+
+/* ---- Appearance settings (StreamElements "Fields" panel) ----------------------------------
+   Colours, your name and socials, background image with see-through game window + webcam,
+   part positions (from the overlay site's Edit mode), show/hide switches, custom text,
+   clock, animations and chat text size. All editable in the Fields panel without code. */
+(() => {
+  'use strict';
+  const LOOK = {"root": "#overlay", "colors": ["--red", "--white", "--alert-bg", "--chat-head", "--chat-bg", "--stat-bg", "--goal-bg", "--game-frame"], "parts": {"chat": {"sel": "#chat", "on": true}, "alerts": {"sel": "#alert", "on": true}, "latest": {"sel": "#overlay>footer", "on": true}}, "cam": null, "game": [48, 110, 1452, 817]};
+  const root = document.querySelector(LOOK.root);
+  if (!root) return;
+  const colourOK = v => typeof v === 'string' && /^(#[0-9a-f]{3,8}|rgba?\([\d\s.,%]+\)|hsla?\([\d\s.,%deg]+\)|transparent)$/i.test(v.trim());
+  const num = (v, fb) => (Number.isFinite(Number(v)) ? Number(v) : fb);
+  const on = (v, fb) => (v === undefined || v === null || v === '' ? fb : v === true || v === 'true' || v === 1 || v === '1');
+
+  // background layer + game window frame go first, so they are painted UNDER everything else
+  let bg = root.querySelector('.bg-layer');
+  if (!bg) { bg = document.createElement('div'); bg.className = 'bg-layer'; bg.setAttribute('aria-hidden', 'true'); root.insertBefore(bg, root.firstChild); }
+  let frame = root.querySelector('.game-frame');
+  if (!frame) { frame = document.createElement('div'); frame.className = 'game-frame'; frame.setAttribute('aria-hidden', 'true'); bg.after(frame); }
+  let box = frame.querySelector('.game-box');
+  if (!box) { box = document.createElement('div'); box.className = 'game-box'; box.setAttribute('data-game-hole', ''); frame.appendChild(box); }
+  Object.keys(LOOK.parts).forEach(k => { const el = root.querySelector(LOOK.parts[k].sel); if (el) el.setAttribute('data-part', k); });
+
+  function holeMask(holes) {
+    const cut = holes.map(h => `<rect x="${h[0]}" y="${h[1]}" width="${h[2]}" height="${h[3]}" rx="${h[4] || 0}" fill="black"/>`).join('');
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080"><mask id="m"><rect width="1920" height="1080" fill="white"/>${cut}</mask><rect width="1920" height="1080" fill="black" mask="url(#m)"/></svg>`;
+    return 'url("data:image/svg+xml,' + encodeURIComponent(svg) + '")';
+  }
+  function parseLayout(v) {
+    if (v && typeof v === 'object') return v;
+    try { const o = JSON.parse(v || '{}'); return o && typeof o === 'object' ? o : {}; } catch (e) { return {}; }
+  }
+  let clockTimer = null, use24 = true;
+  function tick() {
+    const d = new Date(); let h = d.getHours(); const m = String(d.getMinutes()).padStart(2, '0');
+    let t = use24 ? String(h).padStart(2, '0') + ':' + m : ((h % 12) || 12) + ':' + m + (h < 12 ? ' AM' : ' PM');
+    root.querySelectorAll('.clock-time').forEach(el => { el.textContent = t; });
+  }
+
+  function apply(f) {
+    f = f || {};
+    // colours (a colour can belong to the whole overlay or to one part: "selector|--name")
+    LOOK.colors.forEach(spec => {
+      const bar = spec.indexOf('|'), sel = bar > 0 ? spec.slice(0, bar) : null, name = bar > 0 ? spec.slice(bar + 1) : spec;
+      const key = 'c_' + (sel ? sel.replace(/[^a-z0-9]+/gi, '') + '__' : '') + name.slice(2).replace(/-/g, '_');
+      const targets = sel ? [...(root.matches(sel) ? [root] : []), ...root.querySelectorAll(sel)] : [root];
+      const v = f[key];
+      targets.forEach(target => { if (colourOK(v)) target.style.setProperty(name, v.trim()); else target.style.removeProperty(name); });
+    });
+    // your name, socials and custom text (text only, never HTML)
+    const text = { name: f.streamerName, youtube: f.youtube, tiktok: f.tiktok, twitch: f.twitch, customText: f.customText };
+    Object.keys(text).forEach(k => {
+      const v = typeof text[k] === 'string' ? text[k].trim().slice(0, 80) : '';
+      if (v) root.querySelectorAll('[data-field="' + k + '"]').forEach(el => { el.textContent = v; });
+    });
+    // show / hide parts
+    Object.keys(LOOK.parts).forEach(k => root.classList.toggle('hide-' + k, !on(f['show' + k[0].toUpperCase() + k.slice(1)], LOOK.parts[k].on)));
+    // part positions from Edit mode: {"part": [x, y, width, height]} in 1920x1080 pixels (width/height 0 = unchanged)
+    const layout = parseLayout(f.layout);
+    let cam = LOOK.cam === 'auto' ? null : LOOK.cam ? LOOK.cam.slice() : null;
+    const PROPS = ['left', 'top', 'right', 'bottom', 'marginLeft', 'marginTop', 'width', 'height', 'maxHeight'];
+    Object.keys(LOOK.parts).forEach(k => {
+      const el = root.querySelector(LOOK.parts[k].sel); if (!el) return;
+      PROPS.forEach(s => { el.style[s] = ''; });
+      const p = layout[k];
+      if (!Array.isArray(p) || p.length < 2 || !Number.isFinite(+p[0]) || !Number.isFinite(+p[1])) return;
+      const before = [el.offsetLeft, el.offsetTop, el.offsetWidth, el.offsetHeight];
+      const x = Math.max(-400, Math.min(1920, Math.round(+p[0]))), y = Math.max(-400, Math.min(1080, Math.round(+p[1])));
+      const w = Math.max(0, Math.min(1920, Math.round(+p[2] || 0))), h = Math.max(0, Math.min(1080, Math.round(+p[3] || 0)));
+      Object.assign(el.style, { left: x + 'px', top: y + 'px', right: 'auto', bottom: 'auto', marginLeft: '0px', marginTop: '0px' });
+      if (w >= 40 || before[2] > 0) el.style.width = (w >= 40 ? w : before[2]) + 'px';           // keep the size it had, so stretched strips do not collapse
+      if (h >= 40) { el.style.height = h + 'px'; el.style.maxHeight = h + 'px'; }
+      if (k === 'cam' && cam) {                                    // the webcam hole moves and resizes with its frame
+        cam[0] += x - before[0]; cam[1] += y - before[1];
+        if (w >= 40) cam[2] += w - before[2];
+        if (h >= 40) cam[3] += h - before[3];
+      }
+    });
+    if (LOOK.cam === 'auto') {   // editor designs: the webcam hole is wherever its frame was placed
+      const hole = root.querySelector('[data-cam-hole]');
+      if (hole && hole.offsetWidth) {
+        const R = root.getBoundingClientRect(), r = hole.getBoundingClientRect(), s = (R.width / 1920) || 1;
+        cam = [Math.round((r.left - R.left) / s), Math.round((r.top - R.top) / s), Math.round(r.width / s), Math.round(r.height / s), 8];
+      }
+    }
+    root.dataset.cam = cam ? cam.slice(0, 4).join(',') : '';
+    // your own images (uploaded in StreamElements: Fields > Images)
+    root.querySelectorAll('img[data-img]').forEach(im => {
+      const v = f['img_' + im.getAttribute('data-img')];
+      const ok = typeof v === 'string' && /^(https:\/\/|data:image\/)/i.test(v.trim());
+      if (ok) im.src = v.trim(); else if (!im.getAttribute('data-keep')) im.removeAttribute('src');
+      im.style.visibility = ok || im.getAttribute('src') ? '' : 'hidden';
+    });
+    // game window (where your game capture goes)
+    const g = LOOK.game || [0, 0, 0, 0], hasGame = !!LOOK.game;   // scenes like "Starting soon" have no game window
+    box.style.display = hasGame ? '' : 'none';
+    const gx = Math.max(0, Math.min(1900, num(f.gameX, g[0]))), gy = Math.max(0, Math.min(1060, num(f.gameY, g[1])));
+    const gw = Math.max(20, Math.min(1920 - gx, num(f.gameW, g[2]))), gh = Math.max(20, Math.min(1080 - gy, num(f.gameH, g[3])));
+    Object.assign(box.style, { left: gx + 'px', top: gy + 'px', width: gw + 'px', height: gh + 'px', borderRadius: num(f.gameRadius, 0) + 'px' });
+    const camShown = !LOOK.parts.cam || on(f.showCam, LOOK.parts.cam.on);
+    const camCut = cam && camShown && on(f.cutCam, true);
+    const fmask = camCut ? holeMask([cam]) : 'none';   // the frame line is never drawn across the webcam
+    frame.style.webkitMaskImage = fmask; frame.style.maskImage = fmask;
+    // background image: shown everywhere EXCEPT the game window and the webcam hole
+    const img = typeof f.bgImage === 'string' ? f.bgImage.trim() : '';
+    const useBg = !!img && /^(https:\/\/|data:image\/)/i.test(img);
+    root.classList.toggle('has-bg', useBg);
+    if (useBg) {
+      bg.style.backgroundImage = 'url("' + img.replace(/["\\\n\r]/g, '') + '")';
+      const holes = hasGame ? [[gx, gy, gw, gh, num(f.gameRadius, 0)]] : [];
+      if (camCut) holes.push(cam);
+      const mask = holeMask(holes);
+      bg.style.webkitMaskImage = mask; bg.style.maskImage = mask;
+      bg.style.opacity = String(Math.max(0, Math.min(100, num(f.bgOpacity, 100))) / 100);
+    } else { bg.style.backgroundImage = 'none'; }
+    root.classList.toggle('frame-on', hasGame && on(f.gameFrame, true));
+    root.classList.toggle('no-anim', !on(f.animations, true));
+    root.style.setProperty('--chat-zoom', String(Math.max(0.6, Math.min(2, num(f.chatScale, 100) / 100))));
+    // clock
+    use24 = on(f.clock24, true);
+    clearInterval(clockTimer);
+    if (root.querySelector('.clock-time')) { tick(); clockTimer = setInterval(tick, 1000); }
+  }
+  addEventListener('onWidgetLoad', obj => apply(obj && obj.detail && obj.detail.fieldData));
+})();
+</script><script>/* PREVIEW ONLY — simulated StreamElements activity. Never paste this into StreamElements. */
+(function () {
+  'use strict';
+  function emit(listener, event) { dispatchEvent(new CustomEvent('onEventReceived', { detail: { listener: listener, event: event } })); }
+  var st = document.createElement('style');
+  st.textContent = '[data-cam-hole]{outline:2px dashed rgba(255,255,255,.35);outline-offset:-2px}' +
+    '[data-cam-hole]::after{content:"YOUR WEBCAM";position:absolute;inset:0;display:grid;place-items:center;font:600 22px Arial,sans-serif;letter-spacing:6px;color:rgba(255,255,255,.45);text-shadow:0 1px 3px #000}' +
+    '[data-cam-hole]{position:absolute}' +
+    '.has-bg>.game-frame{display:block!important}.has-bg:not(.frame-on) .game-box{box-shadow:none!important}' +
+    '.has-bg [data-game-hole]{outline:2px dashed rgba(255,255,255,.55);outline-offset:-2px}' +
+    '.has-bg [data-game-hole]::after{content:"YOUR GAME GOES HERE";position:absolute;inset:0;display:grid;place-items:center;font:700 28px Arial,sans-serif;letter-spacing:8px;color:rgba(0,0,0,.45);text-shadow:0 1px 0 rgba(255,255,255,.6)}';
+  document.head.appendChild(st);
+  var SESSION = { data: {
+    'follower-total': { count: 72 }, 'follower-latest': { name: 'PixelPal' }, 'subscriber-latest': { name: 'NightOwl', amount: 3 },
+    'tip-latest': { name: 'FrontRow', amount: 5 }, 'cheer-latest': { name: 'CosyCrew', amount: 250 }, 'raid-latest': { name: 'SquadGoals', amount: 24 } } };
+  function load(fieldData) { dispatchEvent(new CustomEvent('onWidgetLoad', { detail: { currency: { code: 'GBP' }, fieldData: fieldData || {}, session: SESSION } })); }
+  load(window.__FIELDS);
+  var chats = [
+    ['PixelPal', 'this overlay is so clean', '#9EF01A', ['subscriber']],
+    ['NightOwl', 'Love the colours!', '#FF6B9A', ['moderator']],
+    ['FrontRow', 'gg that was unreal', '#4CC9F0', []],
+    ['Your cool name', 'Welcome in everyone!', '#FFD166', ['broadcaster']],
+    ['CosyCrew', 'the alerts look amazing', '#C77DFF', ['vip']],
+    ['SquadGoals', 'raid incoming later 👀', '#F4A261', ['subscriber']]
+  ];
+  var alerts = [
+    ['follower-latest', { name: 'NewFriend' }],
+    ['subscriber-latest', { name: 'NightOwl', amount: 1, tier: '1000' }],
+    ['cheer-latest', { name: 'CosyCrew', amount: 500 }],
+    ['subscriber-latest', { name: 'GiftGiver', sender: 'GiftGiver', amount: 5, bulkGifted: true, tier: '1000' }],
+    ['tip-latest', { name: 'FrontRow', amount: 10 }],
+    ['raid-latest', { name: 'SquadGoals', amount: 42 }],
+    ['subscriber-latest', { name: 'Loyal', amount: 14, tier: '2000' }]
+  ];
+  var ci = 0, ai = 0, n = 0;
+  function chat() { var c = chats[ci++ % chats.length]; n++; emit('message', { data: { displayName: c[0], nick: c[0].toLowerCase(), text: c[1], displayColor: c[2], msgId: 'demo' + n, userId: 'u' + (ci % chats.length), badges: c[3].map(function (t) { return { type: t, url: '' }; }), emotes: [] } }); }
+  function alertNext() { var a = alerts[ai++ % alerts.length]; emit(a[0], a[1]); }
+  setTimeout(chat, 300); setTimeout(chat, 1100); setTimeout(chat, 2000); setTimeout(alertNext, 900);
+  setInterval(chat, 2600); setInterval(alertNext, 8000);
+
+  /* ---- Edit mode (overlay site only): drag parts and the game window, resize the webcam / chat / boxes ---- */
+  var ed = { on: false, root: null, layer: null, boxes: {}, drag: null, lock: true, names: {}, timer: null, sel: null };
+  var RESIZE = { cam: 1, chat: 1, latest: 1, alerts: 1, text: 1, socials: 1, game: 1 };
+  var es = document.createElement('style');
+  es.textContent = '.ov-editing .alert{opacity:1!important;animation:none!important}.ov-editing .chat{opacity:1!important}' +
+    '.ov-editing>.game-frame{display:block!important}.ov-editing [data-game-hole]{outline:2px dashed rgba(255,255,255,.7);outline-offset:-2px}' +
+    '.ed-layer{position:absolute;left:0;top:0;width:1920px;height:1080px;z-index:2147483000;pointer-events:none;font:600 20px Arial,sans-serif}' +
+    '.ed-box{position:absolute;pointer-events:auto;cursor:move;outline:3px dashed #3cf;outline-offset:-2px;background:rgba(51,204,255,.08);touch-action:none}' +
+    '.ed-box{z-index:2}.ed-box.game{z-index:1;outline-color:#fc3;background:rgba(255,204,51,.05)}.ed-box.sel{z-index:3}.ed-box.sel{outline-style:solid;background:rgba(51,204,255,.16)}' +
+    '.ed-box b{position:absolute;left:-3px;top:-34px;padding:4px 10px;background:#3cf;color:#012;white-space:nowrap;border-radius:4px 4px 0 0}' +
+    '.ed-box.game b{background:#fc3;top:0;left:0;border-radius:0 0 4px 0}' +
+    '.ed-box i{position:absolute;right:-12px;bottom:-12px;width:24px;height:24px;background:#3cf;border:3px solid #012;border-radius:50%;cursor:nwse-resize}.ed-box.game i{background:#fc3}';
+  document.head.appendChild(es);
+  function edRoot() { var b = document.querySelector('.bg-layer'); return b && b.parentElement; }
+  function scaleOf(root) { var r = root.getBoundingClientRect(); return (r.width / root.offsetWidth) || 1; }
+  function partEl(k) { return k === 'game' ? ed.root.querySelector('.game-box') : ed.root.querySelector('[data-part="' + k + '"]'); }
+  function visible(el) { return el && el.offsetWidth > 0 && getComputedStyle(el).display !== 'none'; }
+  function rectOf(el) {   // position in the overlay's own 1920x1080 pixels
+    var R = ed.root.getBoundingClientRect(), r = el.getBoundingClientRect(), s = scaleOf(ed.root);
+    return [Math.round((r.left - R.left) / s), Math.round((r.top - R.top) / s), Math.round(r.width / s), Math.round(r.height / s)];
+  }
+  function sync() {
+    if (!ed.on) return;
+    var keys = Array.prototype.map.call(ed.root.querySelectorAll('[data-part]'), function (e) { return e.getAttribute('data-part'); });
+    keys.push('game');
+    keys.forEach(function (k) {
+      var el = partEl(k), box = ed.boxes[k];
+      if (!visible(el)) { if (box) box.style.display = 'none'; return; }
+      if (!box) {
+        box = ed.boxes[k] = document.createElement('div'); box.className = 'ed-box' + (k === 'game' ? ' game' : ''); box.tabIndex = 0;
+        box.setAttribute('role', 'button'); box.setAttribute('aria-label', 'Move ' + (ed.names[k] || k) + ' (arrow keys nudge, Shift for 10px)');
+        var b = document.createElement('b'); b.textContent = ed.names[k] || k; box.appendChild(b);
+        if (RESIZE[k]) { var h = document.createElement('i'); h.title = 'Drag to resize'; box.appendChild(h); }
+        box.addEventListener('pointerdown', function (e) { start(e, k, e.target.tagName === 'I'); });
+        box.addEventListener('keydown', function (e) { nudge(e, k); });
+        box.addEventListener('focus', function () { select(k); });
+        ed.layer.appendChild(box);
+      }
+      var r = rectOf(el);
+      box.style.display = ''; box.style.left = r[0] + 'px'; box.style.top = r[1] + 'px'; box.style.width = r[2] + 'px'; box.style.height = r[3] + 'px';
+    });
+  }
+  function select(k) { ed.sel = k; Object.keys(ed.boxes).forEach(function (n) { ed.boxes[n].classList.toggle('sel', n === k); }); }
+  function place(k, el, x, y, w, h) {
+    if (k === 'game') { Object.assign(el.style, { left: x + 'px', top: y + 'px', width: w + 'px', height: h + 'px' }); return; }
+    Object.assign(el.style, { left: x + 'px', top: y + 'px', right: 'auto', bottom: 'auto', marginLeft: '0px', marginTop: '0px', width: w + 'px' });
+    if (h) { el.style.height = h + 'px'; el.style.maxHeight = h + 'px'; }
+  }
+  function start(e, k, resize) {
+    e.preventDefault(); e.stopPropagation(); select(k);
+    var el = partEl(k); if (!el) return;
+    var off = k === 'game' ? [el.offsetLeft, el.offsetTop] : [el.offsetLeft, el.offsetTop];
+    ed.drag = { k: k, el: el, resize: resize, sx: e.clientX, sy: e.clientY, x: off[0], y: off[1], w: el.offsetWidth, h: el.offsetHeight,
+      setH: resize || !!el.style.height, s: scaleOf(ed.root), id: e.pointerId, box: ed.boxes[k] };
+    try { ed.boxes[k].setPointerCapture(e.pointerId); } catch (err) { /* ignore */ }
+  }
+  function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+  addEventListener('pointermove', function (e) {
+    var d = ed.drag; if (!d || e.pointerId !== d.id) return;
+    var dx = (e.clientX - d.sx) / d.s, dy = (e.clientY - d.sy) / d.s;
+    if (d.resize) {
+      var w = clamp(Math.round(d.w + dx), 80, 1920), h = clamp(Math.round(d.h + dy), 40, 1080);
+      if (d.k === 'game' && ed.lock) h = Math.round(w * 9 / 16);
+      d.nw = w; d.nh = h; place(d.k, d.el, d.x, d.y, w, d.setH ? h : 0);
+    } else {
+      var x = Math.round(d.x + dx), y = Math.round(d.y + dy);
+      if (e.shiftKey) { x = Math.round(x / 24) * 24; y = Math.round(y / 24) * 24; }     // hold Shift to snap to a 24px grid
+      x = clamp(x, -200, 1900); y = clamp(y, -200, 1060);
+      d.nx = x; d.ny = y; place(d.k, d.el, x, y, d.w, d.setH ? d.h : 0);
+    }
+    sync();
+  });
+  function finish(k, el, setH) {
+    var msg = { scope: 'overlay-demo', action: k === 'game' ? 'game-moved' : 'part-moved', part: k,
+      rect: [el.offsetLeft, el.offsetTop, el.offsetWidth, setH ? el.offsetHeight : 0] };
+    try { parent.postMessage(msg, '*'); } catch (err) { /* ignore */ }
+  }
+  function end(e) { var d = ed.drag; if (!d || e.pointerId !== d.id) return; ed.drag = null; if (d.nx != null || d.nw != null) finish(d.k, d.el, d.setH); }
+  addEventListener('pointerup', end); addEventListener('pointercancel', end);
+  function nudge(e, k) {
+    var m = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] }[e.key]; if (!m) return;
+    e.preventDefault(); var el = partEl(k); if (!el) return; var n = e.shiftKey ? 10 : 1;
+    place(k, el, el.offsetLeft + m[0] * n, el.offsetTop + m[1] * n, el.offsetWidth, el.style.height ? el.offsetHeight : 0);
+    sync(); clearTimeout(ed.nt); ed.nt = setTimeout(function () { finish(k, el, !!el.style.height); }, 250);
+  }
+  function setEdit(on, opts) {
+    ed.root = edRoot(); if (!ed.root) return;
+    ed.on = !!on; ed.lock = !opts || opts.lock !== false; ed.names = (opts && opts.names) || ed.names;
+    ed.root.classList.toggle('ov-editing', ed.on);
+    if (ed.on && !ed.layer) { ed.layer = document.createElement('div'); ed.layer.className = 'ed-layer'; ed.root.appendChild(ed.layer); }
+    if (ed.layer) ed.layer.style.display = ed.on ? '' : 'none';
+    clearInterval(ed.timer);
+    if (ed.on) { var a = document.getElementById('alert-name'); if (a && !a.textContent) { a.textContent = 'NewFriend'; } sync(); ed.timer = setInterval(function () { if (!ed.drag) sync(); }, 150); }
+  }
+  addEventListener('message', function (e) {
+    var d = e.data;
+    if (!d || d.scope !== 'overlay-demo') return;
+    if (d.action === 'vars' && d.vars) Object.keys(d.vars).forEach(function (k) { if (/^--[\w-]+$/.test(k)) document.documentElement.style.setProperty(k, d.vars[k]); });
+    if (d.action === 'text' && d.fields) Object.keys(d.fields).forEach(function (k) { document.querySelectorAll('[data-field="' + k.replace(/[^\w-]/g, '') + '"]').forEach(function (el) { el.textContent = d.fields[k]; }); });
+    if (d.action === 'fields' && d.fieldData && typeof d.fieldData === 'object') load(d.fieldData);
+    if (d.action === 'edit') setEdit(d.on, d);
+    if (d.action === 'alert') alertNext();
+    if (d.action === 'chat') chat();
+    if (d.action === 'chat-line' && typeof d.text === 'string') { n++; emit('message', { data: { displayName: String(d.name || 'You').slice(0, 32), nick: 'you', text: d.text.slice(0, 300), displayColor: '#FFD166', msgId: 'demo' + n, userId: 'you', badges: [{ type: 'broadcaster', url: '' }], emotes: [] } }); }
+  });
+})();
+</script></body></html>

@@ -1,0 +1,27 @@
+{
+  "css": "styles.css",
+  "cam": [
+    1392,
+    732,
+    480,
+    300
+  ],
+  "game": [
+    492,
+    140,
+    1352,
+    760
+  ],
+  "parts": {
+    "chat": true,
+    "alerts": true,
+    "latest": true,
+    "cam": true,
+    "socials": false,
+    "text": false,
+    "clock": false
+  },
+  "tags": "esports competitive sport pro bold",
+  "layout": "topbar",
+  "editor": true
+}

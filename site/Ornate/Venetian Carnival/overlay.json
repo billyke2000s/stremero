@@ -1,0 +1,27 @@
+{
+  "css": "styles.css",
+  "cam": [
+    72,
+    92,
+    480,
+    300
+  ],
+  "game": [
+    600,
+    180,
+    792,
+    446
+  ],
+  "parts": {
+    "chat": true,
+    "alerts": true,
+    "latest": true,
+    "cam": true,
+    "socials": true,
+    "text": false,
+    "clock": false
+  },
+  "tags": "venetian carnival masquerade red gold",
+  "layout": "ornate",
+  "editor": true
+}

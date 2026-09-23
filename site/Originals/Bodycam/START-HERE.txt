@@ -1,0 +1,63 @@
+OBSKYRA // BODYCAM-INSPIRED STREAMELEMENTS OVERLAY
+
+INSTALL
+1. In StreamElements, create/open a 1920 x 1080 overlay.
+2. Add a Static/Custom > Custom Widget and open its code editor.
+3. Replace the HTML tab with all of overlay.html.
+4. Replace the CSS tab with all of overlay.css.
+5. Replace the JS tab with all of overlay.js. No Fields or Data JSON needed.
+6. Set the widget size to 1920 x 1080 and position X=0, Y=0. Save.
+7. Copy the StreamElements overlay URL into an OBS Browser Source,
+   width 1920, height 1080. Place it ABOVE your gameplay source.
+8. Use StreamElements' Emulate controls to test follow, sub, tip, cheer
+   and raid alerts. Send a real chat message from your connected channel
+   to test chat; it fades after 8 seconds, then the empty heading hides.
+
+INCLUDED
+Latest follower, subscriber, tip, cheer and raid boxes; follower objective;
+queued visual alerts; bodycam timestamp and recording-style elapsed timer;
+chat with emotes, subscriber/mod badges and moderator deletion handling.
+Transparent gameplay area. No sound effects or camera frame.
+Elapsed timer measures time since the widget loaded, not actual stream uptime.
+
+CUSTOMISE
+At the top of overlay.js, CONFIG controls:
+  chatSeconds: 8       seconds before each message fades
+  maxMessages: 5      maximum simultaneous messages
+  alertSeconds: 6     duration per visual alert
+  followerGoal: 100   total follower target (change to your target)
+  hideCommands: true  hide messages starting with !
+  hiddenUsers         bot usernames to hide, written in lowercase
+Currency is read from StreamElements on load; GBP is the fallback.
+In CSS, --red changes the accent. #chat controls chat position/width.
+
+PREVIEW
+Open preview.html in a browser. It includes clearly simulated sample data,
+a dark background and repeating chat to demonstrate appearance and timing.
+Do not paste preview.html into StreamElements or use it as your live source.
+Only the three overlay files are live widget code.
+
+LIVE DATA NOTES
+Built for Twitch-style followers/subscribers/bits/raids on StreamElements.
+Your streaming account must be connected to StreamElements. Tips must be
+received through StreamElements. Other platforms may have different events.
+Empty latest-event boxes show AWAITING SIGNAL until data arrives.
+Follower totals use StreamElements session data, including onSessionUpdate;
+if wrong, check StreamElements Widget Data. The goal does not invent counts.
+Community gift alerts are grouped to avoid an alert for each recipient.
+Disable any duplicate alert widgets if you only want these visual alerts.
+Code was checked with simulated documented payloads, not your live account.
+Original tactical styling inspired by bodycam footage; no game assets used.
+
+REFERENCES
+https://docs.streamelements.com/overlays/events
+https://docs.streamelements.com/overlays/session-data
+https://docs.streamelements.com/overlays/first-custom-widget
+
+SETTINGS + BACKGROUND IMAGE (new)
+Paste the 4th box from the overlay site ("Fields") into the widget's FIELDS tab.
+Then your name, colours, background image, game window and show/hide switches are editable in StreamElements.
+A background image fills the screen EXCEPT the game window (and webcam hole), which stay see-through.
+Default game window: X=48 Y=110 width=1452 height=817 on a 1920 x 1080 canvas.
+The background always sits underneath the overlay.
+
