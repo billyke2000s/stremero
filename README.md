@@ -33,3 +33,15 @@ site/
 ## The editor
 
 `site/editor.html` can mix parts from the overlays made by the overlay generator. Those overlays have `"editor": true` in their `overlay.json`. Overlays you add by hand still appear in the gallery, but not in the editor's parts list.
+
+## Scenes (Starting soon, Be right back, Ending, Just Chatting)
+
+Every overlay has extra scenes in `<overlay>/scenes/<scene>/`. The site shows them as tabs above the preview.
+
+- Overlays the editor knows: run `python3 scripts/build-scenes.py` (needs Python Playwright + Chromium). It uses the editor's own engine, so the site and the editor always match. Run it after changing an overlay or the editor's scene templates.
+- The two Originals (hand-made): `python3 scripts/build-original-scenes.py`.
+- Then run `node scripts/build-catalog.mjs` (Cloudflare also runs this on every push).
+
+## Game-style overlays
+
+The `Games` category is built from `scripts/game_themes.py` by `python3 scripts/build-game-overlays.py`. They are unofficial and style-only: no logos, characters or game art.

@@ -45,8 +45,14 @@ for t in THEMES:
     base_name = BASE_FOR_LAYOUT[t['layout']].split('/')[1]
     base = SRC[base_name]
     out = SITE + CATEGORY + '/' + t['name'] + '/'
+    old_icon = open(out + 'icon.png', 'rb').read() if os.path.exists(out + 'icon.png') else None   # keep its thumbnail
+    old_scenes = out + 'scenes'
+    keep_scenes = os.path.isdir(old_scenes)
+    if keep_scenes: shutil.move(old_scenes, out.rstrip('/') + '.scenes-tmp')
     if os.path.exists(out): shutil.rmtree(out)
     shutil.copytree(base_dir, out)
+    if os.path.isdir(out + 'scenes'): shutil.rmtree(out + 'scenes')      # the base's scenes are not this overlay's
+    if keep_scenes: shutil.move(out.rstrip('/') + '.scenes-tmp', old_scenes)
     rd = lambda f: open(base_dir + f, encoding='utf-8').read()
     css0, html0, js0 = rd('styles.css'), rd('overlay.html'), rd('overlay.js')
 
@@ -99,7 +105,8 @@ for t in THEMES:
     files = {'styles.css': css, 'overlay.html': html, 'overlay.js': js, 'preview.html': pv, 'START-HERE.txt': help_,
              'fields.json': json.dumps(newF, indent=2, ensure_ascii=False), 'overlay.json': json.dumps(oj, indent=2)}
     for f, txt in files.items(): open(out + f, 'w', encoding='utf-8').write(txt)
-    if os.path.exists(out + 'icon.png'): os.remove(out + 'icon.png')    # base's picture is wrong; rendered later
+    if old_icon: open(out + 'icon.png', 'wb').write(old_icon)
+    elif os.path.exists(out + 'icon.png'): os.remove(out + 'icon.png')    # base's picture is wrong; render a new one
 
     # ---- editor entry
     s = copy.deepcopy(base)
