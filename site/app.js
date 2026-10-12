@@ -516,6 +516,9 @@ function loadValues(name) {
 let loadToken = 0;
 async function openOverlay(item) {
   const token = ++loadToken;
+  // save any pending change to the overlay we're leaving NOW, before `selected` switches,
+  // otherwise the delayed save writes the old overlay's colours under the new overlay's name
+  if (setValue.t && selected) { clearTimeout(setValue.t); setValue.t = 0; save(); }
   selected = item; files = null; closePicker();
   if ($('code-dialog').open) $('code-dialog').close();
   document.querySelectorAll('.side-link').forEach(a => { const on = a.title === item.name; a.classList.toggle('selected', on); if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
