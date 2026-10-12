@@ -126,17 +126,6 @@ function cardBackground(item) {
 function buildGallery() {
   const groups = {};
   overlays.forEach(o => { (groups[o.category] = groups[o.category] || []).push(o); });
-  $('side-links').replaceChildren();
-  $('side-links').append(el('a', { className: 'side-link build-link', href: 'editor.html', title: 'Overlay editor' }, el('span', { className: 'side-icon build-icon', textContent: '✚' }), el('span', { textContent: 'Editor: build your own' })));
-  CATEGORIES.slice(1).forEach(cat => {
-    if (!groups[cat]) return;
-    $('side-links').append(el('div', { className: 'side-group', textContent: cat.toUpperCase() }));
-    groups[cat].forEach(item => {
-      const a = el('a', { className: 'side-link', href: linkTo(item), title: item.name }, thumb(item, 'side-icon'), el('span', { textContent: item.name }));
-      if (selected && selected.name === item.name) { a.classList.add('selected'); a.setAttribute('aria-current', 'page'); }
-      $('side-links').append(a);
-    });
-  });
   const saved = store.get('overlay-filter');
   let active = CATEGORIES.includes(saved) ? saved : 'All', query = '';
   const renderGrid = () => {

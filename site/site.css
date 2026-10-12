@@ -191,3 +191,7 @@ button.download{border:0;cursor:pointer;font-family:inherit}button.download:focu
 .simple .colour-row{width:auto;padding:4px 12px 4px 4px;gap:7px;border-radius:20px;font-size:12px;min-height:0}
 .simple .colour-row code{display:none}
 .simple .colour-row .swatch{width:24px;height:24px}
+/* no sidebar: pages use the full width */
+#gallery,#watch{margin-left:0!important}
+#gallery{max-width:1500px;margin-right:auto;margin-left:auto!important}
+#watch .stream-column{margin:0 auto}
