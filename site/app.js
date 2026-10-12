@@ -640,7 +640,8 @@ $('use-overlay').addEventListener('click', () => {
     });
     $('code-panels').append(el('section', { className: 'code-panel' }, el('div', { className: 'code-heading' }, el('h3', { textContent: label + ' · paste into the ' + tab }), copy), area));
   });
-  $('overlay-instructions').textContent = files.help || 'No extra instructions were supplied for this overlay.';
+  const help = files.help || 'No extra instructions were supplied for this overlay.';
+  $('res-slot').replaceChildren(OverlayRes.picker(r => { $('overlay-instructions').textContent = OverlayRes.text(help, r); }));
   $('copy-status').textContent = '';
   $('code-dialog').showModal();
 });

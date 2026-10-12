@@ -1117,7 +1117,7 @@ $('copy').addEventListener('click', () => {
     });
     return el('section', { className: 'code-panel' }, el('div', { className: 'code-heading' }, el('h3', { textContent: label + ' · paste into the ' + tab }), copy), area);
   }));
-  $('code-help').textContent = `SETUP
+  const helpRaw = `SETUP
 1. In StreamElements create a 1920 x 1080 overlay${design.scene !== 'main' ? ' for your "' + sceneName() + '" scene' : ''}.
 2. Add a Static/Custom > Custom Widget. Set it to 1920 x 1080 at X=0, Y=0.
 3. Open its code editor and replace the HTML, CSS, JS and FIELDS tabs with the four boxes. Save.
@@ -1126,6 +1126,7 @@ ${cam ? `5. Webcam: put your camera at X=${round(cam.x)} Y=${round(cam.y)} width
 
 The game window and webcam hole are see-through. Colours (per part), background image, chat and alert settings are all in the Fields panel.
 ${Object.values(design.scenes).some(sc => sc && sc.elements.some(e => e.src && SRC[e.src].forGame)) ? 'Some parts come from unofficial game-themed overlays: not made by or affiliated with any game developer or publisher.\n' : ''}`;
+  $('res-slot').replaceChildren(OverlayRes.picker(r => { $('code-help').textContent = OverlayRes.text(helpRaw, r); }));
   $('copy-status').textContent = '';
   $('code-dialog').showModal();
 });

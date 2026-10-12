@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Overlay editor — Stremero</title><meta name="description" content="Free stream overlays for Twitch and YouTube: 40+ designs, each with Gameplay, Starting soon, Be right back, Ending and Just Chatting scenes and a scene transition. Customise colours and copy into StreamElements."><meta property="og:type" content="website"><meta property="og:site_name" content="Stremero"><meta property="og:title" content="Stremero overlay editor"><meta property="og:description" content="40+ free overlays with every scene and a scene transition. Customise, then copy into StreamElements."><meta property="og:image" content="https://stremero.pages.dev/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="theme-color" content="#9146ff">
-<link rel="stylesheet" href="editor.css?v=e7d2b6f0ea">
+<link rel="stylesheet" href="editor.css?v=02afd2dc34">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%239146ff'/%3E%3Cpath d='M8 10h16v12H8z' fill='none' stroke='white' stroke-width='3'/%3E%3C/svg%3E"></head>
 <body>
 <header class="ed-top">
@@ -65,10 +65,11 @@
  <div class="code-top"><div><h2 id="code-title">Copy to StreamElements</h2><p id="code-sub"></p></div><button id="close-code" type="button">Close ✕</button></div>
  <p class="code-help">In StreamElements, add a <strong>Custom Widget</strong> to a 1920 × 1080 overlay. Open its code editor and replace each tab (HTML, CSS, JS and FIELDS) with the matching box below. Set the widget to 1920 × 1080 at X=0, Y=0, then save.</p>
  <p id="code-notes" class="code-notes"></p>
+ <div id="res-slot"></div>
  <p id="copy-status" role="status" aria-live="polite"></p>
  <div id="code-panels"></div>
- <details><summary>Setup instructions</summary><pre id="code-help"></pre></details>
+ <details open><summary>Setup instructions</summary><pre id="code-help"></pre></details>
 </dialog>
 <div id="toast" class="toast" role="status" hidden></div>
-<script src="catalog.js"></script><script src="editor.js?v=126da13fea"></script>
+<script src="catalog.js"></script><script src="resolution.js?v=1850a9bf74"></script><script src="editor.js?v=52c296a82e"></script>
 </body></html>

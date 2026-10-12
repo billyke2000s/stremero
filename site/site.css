@@ -198,3 +198,7 @@ button.download{border:0;cursor:pointer;font-family:inherit}button.download:focu
 .socials-list{flex:1 1 300px;display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px}
 .socials-list .field{margin:0}.socials-list label{font-size:12px;color:var(--muted)}.socials-list .shared-tag{display:none}
 .socials-list input{width:100%;max-width:none;flex:0 0 auto;height:auto}
+/* OBS resolution picker in the copy window */
+.res-picker{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;background:#1f1a2b;border-left:3px solid #9146ff;border-radius:4px;padding:10px 14px;margin:10px 0}
+.res-picker label{font-weight:700}.res-picker select{background:#242428;color:#fff;border:1px solid #676773;border-radius:4px;padding:6px 8px;font:inherit}
+.res-note{flex-basis:100%;margin:0;font-size:13px;color:#d6d6de}
