@@ -57,7 +57,12 @@ async def main(only):
             folder = os.path.join(SITE, *s['path'].strip('/').split('/'))
             if not os.path.isdir(folder): print('missing folder for', s['name']); continue
             out_root = os.path.join(folder, 'scenes')
-            if os.path.isdir(out_root): shutil.rmtree(out_root)
+            thumbs = {}   # keep the gallery pictures (made by build-scene-thumbs.py) across rebuilds
+            if os.path.isdir(out_root):
+                for sid_ in os.listdir(out_root):
+                    tp = os.path.join(out_root, sid_, 'thumb.jpg')
+                    if os.path.exists(tp): thumbs[sid_] = open(tp, 'rb').read()
+                shutil.rmtree(out_root)
             for sid, label in SCENES:
                 res = await pg.evaluate("""([id, sid]) => {
                     const sc = sceneFor(picksFor(id), sid);
@@ -81,6 +86,7 @@ async def main(only):
                     UNOFFICIAL=(f"\nUnofficial, fan-made style inspired by {s['forGame']}. Not affiliated with or endorsed by its makers.\n" if s['forGame'] else ''))
                 files = {'overlay.html': html, 'styles.css': css, 'overlay.js': res['js'], 'fields.json': json.dumps(F, indent=2, ensure_ascii=False),
                          'START-HERE.txt': help_, 'scene.json': json.dumps({'id': sid, 'label': label, 'cam': cam}, indent=2)}
+                if sid in thumbs: open(os.path.join(d, 'thumb.jpg'), 'wb').write(thumbs[sid])
                 for f, t in files.items():
                     with open(os.path.join(d, f), 'w', encoding='utf-8') as fh: fh.write(t)
             n += 1

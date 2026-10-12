@@ -145,3 +145,44 @@ button.download{border:0;cursor:pointer;font-family:inherit}button.download:focu
 .scene-tab{flex:0 0 auto;border-radius:20px;background:#26262c;border:1px solid #3a3a42;padding:6px 14px;font-weight:650;font-size:13px;white-space:nowrap}
 .scene-tab:hover{background:#35353b}
 .scene-tab.on{background:#9146ff;border-color:#b98bff;color:#fff}
+/* ---- Start here guide ---- */
+.browse.on{color:var(--purple)}
+.guide{max-width:820px;margin:60px auto 0;padding:42px 24px 80px;line-height:1.6;font-size:16px}
+.guide .lead{font-size:18px;color:#d6d6de}
+.guide h2{display:flex;align-items:center;gap:12px;font-size:23px;margin:46px 0 12px;scroll-margin-top:80px}
+.guide h2 span{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#9146ff;font-size:17px;flex:0 0 auto}
+.guide ol,.guide ul{padding-left:22px}.guide li{margin:8px 0}
+.guide a{color:#bf94ff;text-decoration:underline}.guide .download{text-decoration:none;color:#fff;display:inline-block}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin:26px 0}
+.toc a{text-decoration:none!important;background:#26262c;border:1px solid #3a3a42;border-radius:20px;padding:6px 13px;font-size:13px;font-weight:650;color:#efeff1!important}
+.toc a:hover{background:#35353b}
+.cards{list-style:none;padding:0!important;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.cards li{background:#18181b;border:1px solid #303034;border-radius:8px;padding:16px;margin:0!important;display:flex;flex-direction:column;gap:6px}
+.cards small,.scenes small{color:var(--muted);font-size:13px;line-height:1.45}
+.scenes{list-style:none;padding:0!important;display:flex;flex-wrap:wrap;gap:10px}
+.scenes li{background:#18181b;border:1px solid #303034;border-radius:8px;padding:10px 14px;margin:0!important;display:flex;flex-direction:column}
+.note{background:#1f1a2b;border-left:3px solid #9146ff;padding:10px 14px;border-radius:4px;font-size:14px;color:#d6d6de}
+.guide details{background:#18181b;border:1px solid #303034;border-radius:8px;padding:10px 14px;margin:8px 0}
+.guide summary{cursor:pointer;font-weight:700}
+.guide .cta{margin-top:40px;text-align:center}
+.start-link{display:inline-block;margin:-18px 0 26px;color:#bf94ff;font-weight:700;text-decoration:underline}
+@media (max-width:700px){.guide{padding:28px 16px 60px;font-size:15px}.guide h1{font-size:26px}}
+/* gallery: scene name while a card flicks through its scenes */
+.scene-chip{position:absolute;top:9px;right:9px;font-size:11px;font-weight:700;background:#000c;color:#fff;padding:3px 8px;border-radius:3px;pointer-events:none}
+/* ---- Twitch kit on the overlay page ---- */
+.kit{background:#18181b;margin:10px 22px 0;padding:24px;border-radius:5px}
+.kit h2{font-size:19px;margin:0 0 6px}.kit h2 small{font-size:12px;color:var(--muted);font-weight:500;margin-left:6px}
+.kit-panels{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px;margin:14px 0}
+.kit-item{display:flex;flex-direction:column;gap:6px;background:#0e0e10;border:1px solid #303034;border-radius:6px;padding:8px;font-size:12px;font-weight:700;color:#bf94ff}
+.kit-item:hover{border-color:#9146ff}.kit-item img{width:100%;height:auto;display:block}
+.kit-item.wide{max-width:420px}
+.kit-help{margin-top:12px;font-size:13px;color:#c4c4cd}.kit-help summary{cursor:pointer;font-weight:700;color:#efeff1}.kit-help li{margin:6px 0}
+/* phones: keep the top bar on one line */
+.topbar a{white-space:nowrap}
+@media (max-width:520px){
+ .topbar{gap:14px;padding:0 12px}
+ .topbar .brand{font-size:18px;max-width:34vw;flex:0 1 auto}
+ .topbar .browse{font-size:14px}
+ .top-avatar,.demo-badge{display:none}
+}
+@media (max-width:360px){.topbar .editor-link{display:none}}

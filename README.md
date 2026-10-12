@@ -61,3 +61,9 @@ python3 scripts/build-original-scenes.py    # scenes for the two Originals
 python3 scripts/build-scenes.py             # scenes for everything the editor knows
 node scripts/build-catalog.mjs
 ```
+
+## Twitch kits and gallery pictures
+
+- `python3 scripts/build-kits.py` and `python3 scripts/build-original-kits.py` make each overlay's Twitch panel headers and offline screen (`<overlay>/kit/`).
+- `python3 scripts/build-scene-thumbs.py` makes the small scene pictures the gallery flicks through. Run it last, after any scene changes.
+- `python3 scripts/check-site.py` checks everything. GitHub also runs it on every push: a red ✗ next to a commit means something broke.

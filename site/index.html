@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Twitch overlays</title><link rel="stylesheet" href="site.css?v=6b6859df90"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%239146ff'/%3E%3Cpath d='M8 10h16v12H8z' fill='none' stroke='white' stroke-width='3'/%3E%3C/svg%3E"></head>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Stremero: free stream overlays</title><meta name="description" content="Free stream overlays for Twitch and YouTube: 40+ designs, each with Gameplay, Starting soon, Be right back, Ending and Just Chatting scenes and a scene transition. Customise colours and copy into StreamElements."><meta property="og:type" content="website"><meta property="og:site_name" content="Stremero"><meta property="og:title" content="Stremero: free stream overlays"><meta property="og:description" content="40+ free overlays with every scene and a scene transition. Customise, then copy into StreamElements."><meta property="og:image" content="https://stremero.pages.dev/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="theme-color" content="#9146ff"><link rel="stylesheet" href="site.css?v=4e230a21b4"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%239146ff'/%3E%3Cpath d='M8 10h16v12H8z' fill='none' stroke='white' stroke-width='3'/%3E%3C/svg%3E"></head>
 <body>
-<header class="topbar"><a class="brand" id="brand" href="index.html">Twitch overlays</a><a href="index.html" class="browse">Browse</a><a href="editor.html" class="browse editor-link">✎ Editor</a><span class="demo-badge">OVERLAY PREVIEW</span><span class="top-avatar" aria-hidden="true">Y</span></header>
+<header class="topbar"><a class="brand" id="brand" href="index.html">Stremero</a><a href="index.html" class="browse">Browse</a><a href="editor.html" class="browse editor-link">✎ Editor</a><a href="guide.html" class="browse">Start here</a><span class="demo-badge">OVERLAY PREVIEW</span><span class="top-avatar" aria-hidden="true">Y</span></header>
 <aside class="sidebar"><div class="sidebar-title">OVERLAY COLLECTION</div><nav id="side-links" aria-label="Overlays"></nav><div class="sidebar-note">Community-made overlays.<br>Try a look. Make it yours.</div></aside>
-<main id="gallery"><p class="eyebrow">YOUR NEXT STREAM STARTS HERE</p><h1>Twitch overlays</h1><p class="intro">Pick an overlay. Preview it. Change the colours, add your name, then copy it into StreamElements.</p>
+<main id="gallery"><p class="eyebrow">YOUR NEXT STREAM STARTS HERE</p><h1>Free stream overlays</h1><p class="intro">Pick an overlay. Preview it. Change the colours, add your name, then copy it into StreamElements.</p><a class="start-link" href="guide.html">New to streaming? Start here: the whole setup in plain English →</a>
  <div class="gallery-tools">
   <label for="search" class="sr-only">Search overlays</label>
   <input id="search" type="search" placeholder="Search: cosy, neon, gold, horror…" autocomplete="off" spellcheck="false">
@@ -42,6 +42,15 @@
    <div id="group-list"></div>
   </section>
 
+  <section class="kit" id="kit" hidden aria-labelledby="kit-title"><h2 id="kit-title">Twitch kit <small>free, matches this overlay</small></h2>
+   <p class="small">Panel headers (320 × 100) for your Twitch “About” page and a screen for when you’re offline. Tap one to download it.</p>
+   <div class="kit-panels" id="kit-panels"></div>
+   <div class="kit-offline" id="kit-offline"></div>
+   <details class="kit-help"><summary>How to use these on Twitch</summary><ol>
+    <li><b>Panels:</b> on your Twitch channel page, scroll below the stream and turn on <b>Edit Panels</b>. Add a panel, upload the image, write your text under it and press Submit.</li>
+    <li><b>Offline screen:</b> in Twitch, open <b>Creator Dashboard › Settings › Channel › Brand</b> and upload it under <b>Video Player Banner</b> (Twitch’s menus move sometimes, so search for “Video Player Banner” if it’s not there).</li>
+    <li>The images have generic labels (About me, Schedule…). Put your own details in the panel text under them.</li></ol></details>
+  </section>
   <section class="about"><h2>About <span id="about-name">Your cool name</span></h2><p>See how this overlay sits inside a stream. The middle of the screen and the webcam hole are see-through. The grid shows what is see-through. Press ▦ on the player to switch to a sample game.</p><div class="about-detail"><span>✦ Free to copy</span><span>▣ StreamElements</span><span>◐ Colour wheel + hex</span><span>▭ Background image</span><span>⧉ Your name included</span></div><p class="small">This is an independent preview gallery, not Twitch. Chat, audience activity and stream content shown here are demonstrations.</p></section>
  </div>
  <aside class="chat-panel"><header>STREAM CHAT <span title="Demo chat">◇</span></header><div class="chat-notice">Welcome to the demo chat!</div><div id="chat-messages" role="log" aria-label="Demo stream chat"></div><form id="chat-form"><label for="chat-input" class="sr-only">Send a demo message</label><input id="chat-input" placeholder="Send a message" maxlength="300" autocomplete="off"><div class="chat-bottom"><span>✧ Demo chat only</span><button type="submit">Chat</button></div></form></aside>
@@ -65,5 +74,5 @@
 <details><summary>Overlay setup instructions</summary><pre id="overlay-instructions"></pre></details>
 </dialog>
 <div id="status" role="status" class="status" hidden></div>
-<script src="catalog.js"></script><script src="app.js?v=b50eeb9399"></script>
+<script src="catalog.js"></script><script src="app.js?v=8b5e9fa980"></script>
 </body></html>

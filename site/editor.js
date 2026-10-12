@@ -178,7 +178,10 @@ function pieceHTML(e, forPreview) {
       return `<section class="socials box${s.nativeSocials ? '' : ' extra'}${c}" aria-label="Socials">${s.nativeSocials ? sub(s.decor.socials) : ''}<div class="social"><em>YouTube</em><span data-field="youtube">${v('youtube')}</span></div><div class="social"><em>TikTok</em><span data-field="tiktok">${v('tiktok')}</span></div><div class="social"><em>Twitch</em><span data-field="twitch">${v('twitch')}</span></div></section>`;
     }
     case 'text': return `<section class="extra-text box extra${c}"><span class="ed-text">${esc(e.text || '')}</span></section>`;
-    case 'title': return `<section class="title-card${c}" aria-label="Title"><div class="nameplate">${sub(s.plate)}<span class="ed-text">${esc(e.text || '')}</span></div></section>`;
+    case 'title': {   // overlays with narrow plates (titleMax letters fit) shrink long titles to fit
+      const n = String(e.text || '').length, fit = s.titleMax && n > s.titleMax ? `font-size:${(s.titleMax / n).toFixed(3)}em` : '';
+      return `<section class="title-card${c}" aria-label="Title"><div class="nameplate">${sub(s.plate)}<span class="ed-text"${fit ? ` style="${fit}"` : ''}>${esc(e.text || '')}</span></div></section>`;
+    }
     case 'clock': return `<section class="extra-clock box extra${c}"><span class="clock-time">00:00</span></section>`;
     case 'decor': return `<div class="decor-layer${c}" style="transform:scale(${(e.w / 1920).toFixed(5)},${(e.h / 1080).toFixed(5)})">${sub(s.screen)}</div>`;
     case 'image': return `<img class="user-img" data-img="${esc(e.img)}" alt=""${forPreview && imgCache[e.img] ? ` src="${imgCache[e.img]}" data-keep="1"` : ''}>`;
@@ -217,8 +220,7 @@ function transitionFor(list, frameSrc, unified) {
   let vars = `--sx-a:${a};--sx-b:${b};--sx-c:${c}`;
   const e0 = list.find(e => e.src === s.id);
   if (!unified) {   // colours live on each part, not the overlay: give the transition that overlay's own values
-    const val = x => { const m = /^var\((--[\w-]+)\)$/.exec(x); if (!m) return x; const v = s.vars.find(r => r[0] === m[1]); return v ? ((e0 && e0.colours[v[0]]) || v[2]) : x; };
-    vars = `--sx-a:${val(a)};--sx-b:${val(b)};--sx-c:${val(c)};--font-display:${s.fontDisplay}`;
+    vars = s.vars.map(([n, , v]) => n + ':' + ((e0 && e0.colours[n]) || v)).join(';') + `;--sx-a:${a};--sx-b:${b};--sx-c:${c};--font-display:${s.fontDisplay}`;
   }
   return { html: `<div class="sx${!unified && e0 ? ' e-' + e0.id : ''}" aria-hidden="true" style="${esc(vars)}"><div class="sx-in">${t.html}</div></div>`,
            css: '/* ---- scene transition (' + style + ') ---- */' + LIB.transitionBase + t.css };
@@ -362,7 +364,7 @@ const RUNTIME = `(function(){
     if(d.action==='dragend'){pend={};if(raf){cancelAnimationFrame(raf);raf=0;}root.classList.remove('stage-drag');
       var we=d.id==='game'?document.querySelector('.game-box'):document.querySelector('[data-el="'+d.id+'"]');if(we){we.style.willChange='';we.style.translate='';}
       if(d.geom)geom(d.geom);if(d.geom&&d.geom.kind==='cam'&&window.__reload)window.__reload();}
-    if(d.action==='vars'){var w2=document.querySelector('[data-el="'+d.id+'"]');if(w2)Object.keys(d.vars).forEach(function(k){if(/^--[\\w-]+$/.test(k))w2.style.setProperty(k,d.vars[k]);});}
+    if(d.action==='vars'){var ts=[].slice.call(document.querySelectorAll('[data-el="'+d.id+'"],.src-defs.e-'+d.id+',.sx.e-'+d.id));ts.forEach(function(w2){Object.keys(d.vars).forEach(function(k){if(/^--[\\w-]+$/.test(k))w2.style.setProperty(k,d.vars[k]);});});}
     if(d.action==='transition'){var o=document.querySelector('.sx');if(o){var n2=o.cloneNode(true);n2.classList.add('sx-play');o.parentNode.replaceChild(n2,o);}}
     if(d.action==='text'){var w3=document.querySelector('[data-el="'+d.id+'"] .ed-text');if(w3)w3.textContent=d.text;}
   });
@@ -874,13 +876,17 @@ function renderRight() {
   // colours
   const vars = varsFor(e);
   if (vars.length) {
-    box.append(el('h3', { textContent: 'Colours' }), el('p', { className: 'hint', textContent: 'Only this part changes. Tap a circle for the colour wheel, or type a hex code.' }));
+    // ornate overlays paint metal, velvet and jewels with shared patterns: those colours belong to every part from that overlay
+    const shared = new Set(e.src && SRC[e.src].defs ? (SRC[e.src].defs.match(/var\(--[\w-]+/g) || []).map(m => m.slice(4)) : []);
+    box.append(el('h3', { textContent: 'Colours' }), el('p', { className: 'hint', textContent: shared.size
+      ? 'Tap a circle for the colour wheel, or type a hex code. Colours marked ⛓ (metal, velvet, jewels…) are shared by every part from ' + SRC[e.src].name + ', so changing one changes them all.'
+      : 'Only this part changes. Tap a circle for the colour wheel, or type a hex code.' }));
     vars.forEach(([name, label, def]) => {
       const v = e.colours[name] || def;
-      const row = el('button', { type: 'button', className: 'colour-row' }, el('span', { className: 'swatch' }), el('span', { className: 'l', textContent: label }), el('code', { textContent: v }));
+      const row = el('button', { type: 'button', className: 'colour-row' }, el('span', { className: 'swatch' }), el('span', { className: 'l', textContent: label + (shared.has(name) ? ' ⛓' : '') }), el('code', { textContent: v }));
       row.querySelector('.swatch').style.setProperty('--c', v);
       row.addEventListener('click', () => openPicker({ title: label, value: v, def,
-        apply: (hex, final) => { e.colours[name] = hex; row.querySelector('.swatch').style.setProperty('--c', hex); row.querySelector('code').textContent = hex; post({ action: 'vars', id: e.id, vars: { [name]: hex } }); if (final) save(); },
+        apply: (hex, final) => { (shared.has(name) ? els().filter(x => x.src === e.src) : [e]).forEach(t => { t.colours[name] = hex; post({ action: 'vars', id: t.id, vars: { [name]: hex } }); }); row.querySelector('.swatch').style.setProperty('--c', hex); row.querySelector('code').textContent = hex; if (final) save(); },
         begin: () => snapshot(), end: b => commit(b) }, row));
       box.append(row);
     });

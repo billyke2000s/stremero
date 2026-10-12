@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Start here — Stremero</title>
+<meta name="description" content="New to streaming? A plain-English guide to putting a free Stremero overlay on your stream with OBS and StreamElements, step by step.">
+<meta property="og:type" content="article"><meta property="og:site_name" content="Stremero"><meta property="og:title" content="Start streaming with a free overlay">
+<meta property="og:description" content="A plain-English, step-by-step guide: from picking an overlay to going live with OBS and StreamElements.">
+<meta property="og:image" content="https://stremero.pages.dev/og.png"><meta name="twitter:card" content="summary_large_image"><meta name="theme-color" content="#9146ff">
+<link rel="stylesheet" href="site.css?v=4e230a21b4">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%239146ff'/%3E%3C/svg%3E"></head>
+<body class="guide-page">
+<header class="topbar"><a class="brand" href="index.html">Stremero</a><a href="index.html" class="browse">Browse</a><a href="editor.html" class="browse editor-link">✎ Editor</a><a href="guide.html" class="browse on" aria-current="page">Start here</a></header>
+<main class="guide">
+ <p class="eyebrow">NEW TO STREAMING? START HERE</p>
+ <h1>From nothing to live, with a free overlay</h1>
+ <p class="lead">An <strong>overlay</strong> is the frame around your stream: your webcam border, chat, alerts when someone follows, and so on. Everything here is free. You need about 20 minutes the first time.</p>
+
+ <nav class="toc" aria-label="On this page"><a href="#need">1. What you need</a><a href="#pick">2. Pick your overlay</a><a href="#se">3. Put it in StreamElements</a><a href="#obs">4. Add it to OBS</a><a href="#scenes">5. Your other scenes</a><a href="#transition">6. Scene transitions</a><a href="#test">7. Test before you go live</a><a href="#help">Help, something’s wrong</a></nav>
+
+ <section id="need"><h2><span>1</span> What you need</h2>
+  <ul class="cards">
+   <li><b>OBS Studio</b><small>Free streaming software for Windows, Mac and Linux. It shows your game, webcam and overlay together and sends them to Twitch or YouTube.</small><a href="https://obsproject.com" rel="noopener" target="_blank">obsproject.com ↗</a></li>
+   <li><b>A StreamElements account</b><small>Free. It runs your overlay online and makes alerts and chat work. Sign in with your Twitch or YouTube account.</small><a href="https://streamelements.com" rel="noopener" target="_blank">streamelements.com ↗</a></li>
+   <li><b>A Twitch or YouTube account</b><small>Where your stream goes. Connect it in OBS under Settings › Stream.</small></li>
+  </ul>
+  <p class="note">Using a different streaming app? Any app that can add a <strong>Browser Source</strong> (a web page as a layer) can show these overlays.</p>
+ </section>
+
+ <section id="pick"><h2><span>2</span> Pick your overlay and make it yours</h2>
+  <ol>
+   <li>Go to <a href="index.html">Browse</a> and open any overlay you like.</li>
+   <li>Click your name under the preview to change <em>“Your cool name”</em> to your streamer name.</li>
+   <li>Under <b>Customise</b>, change the colours and add your socials. Press ▦ on the preview to see it over a sample game.</li>
+   <li>Want to mix parts from different overlays? Press <b>Open in editor</b>, or use the <a href="editor.html">Editor</a>.</li>
+  </ol>
+ </section>
+
+ <section id="se"><h2><span>3</span> Put it in StreamElements</h2>
+  <ol>
+   <li>On the overlay’s page press <b>Copy to StreamElements</b>. You get four boxes: HTML, CSS, JS and FIELDS.</li>
+   <li>In StreamElements, create a new overlay at <b>1920 × 1080</b>.</li>
+   <li>Add a <b>Custom Widget</b> to it and make the widget fill the whole overlay (1920 × 1080, at 0, 0).</li>
+   <li>Open the widget’s code editor. Replace each tab with the matching box: HTML into HTML, CSS into CSS, JS into JS, FIELDS into FIELDS. Then save.</li>
+   <li>Copy the overlay’s link (its URL). You need it for OBS.</li>
+  </ol>
+  <p class="note">Every colour, your name and your socials can be changed later in the widget’s <b>Fields</b> panel in StreamElements, no code needed.</p>
+ </section>
+
+ <section id="obs"><h2><span>4</span> Add it to OBS</h2>
+  <ol>
+   <li>In OBS, in your gameplay scene, add a <b>Browser Source</b> and paste the overlay link.</li>
+   <li>Set its size to <b>Width 1920</b> and <b>Height 1080</b>. OBS starts new browser sources at 800 × 600, so this step matters.</li>
+   <li>Drag the Browser Source to the <b>top</b> of your sources list, so it sits above your game and webcam.</li>
+   <li>Put your game capture and webcam where the overlay leaves holes. The overlay’s page tells you the exact numbers, for example <em>“Webcam: X 48, Y 48, 480 × 300”</em>. In OBS, right-click a source › <b>Transform</b> › <b>Edit Transform</b> to type them in.</li>
+  </ol>
+ </section>
+
+ <section id="scenes"><h2><span>5</span> Your other scenes</h2>
+  <p>Every overlay comes with five scenes. Pick them with the tabs above the preview:</p>
+  <ul class="scenes">
+   <li><b>Gameplay</b><small>while you play</small></li><li><b>Starting soon</b><small>before you start</small></li><li><b>Be right back</b><small>breaks</small></li><li><b>Ending</b><small>thanks for watching</small></li><li><b>Just Chatting</b><small>big webcam, for talking to chat</small></li>
+  </ul>
+  <p>For each one you want: make a <b>new StreamElements overlay</b> with that scene’s code (step 3), and a <b>new OBS scene</b> with its link (step 4). Then you switch scenes in OBS while you’re live.</p>
+ </section>
+
+ <section id="transition"><h2><span>6</span> Scene transitions</h2>
+  <p>Each overlay plays a short transition in its own style when a scene appears: curtains, pixels, ink splats and so on. To make OBS play it every time you switch:</p>
+  <ol>
+   <li>Open each overlay Browser Source’s properties and tick <b>“Refresh browser when scene becomes active”</b>.</li>
+   <li>Set the OBS scene transition (bottom of the OBS window) to <b>Fade</b> at about <b>300 ms</b>.</li>
+  </ol>
+  <p class="note">Don’t want it? Untick <b>Show scene transition</b> in the widget’s Fields panel.</p>
+ </section>
+
+ <section id="test"><h2><span>7</span> Test before you go live</h2>
+  <ol>
+   <li>In StreamElements, use <b>Emulate</b> on your overlay to fake a follow, sub, tip, cheer and raid. You should see each alert.</li>
+   <li>Type a message in your own Twitch chat. It should appear in the overlay’s chat.</li>
+   <li>Switch between your OBS scenes and check each one and its transition.</li>
+  </ol>
+ </section>
+
+ <section id="help"><h2>Help, something’s wrong</h2>
+  <details><summary>I can’t see the overlay in OBS</summary><p>Check the Browser Source is at the top of the sources list and is 1920 × 1080. Make sure you pasted the StreamElements <em>overlay link</em>, not the editor page’s address.</p></details>
+  <details><summary>The overlay is the wrong size or cut off</summary><p>Your OBS canvas should be 1920 × 1080 (Settings › Video › Base Resolution), and so should the Browser Source.</p></details>
+  <details><summary>Alerts don’t show</summary><p>Try StreamElements’ Emulate first. If emulated alerts work, real ones will too. Check “Show alerts” is ticked in the widget’s Fields.</p></details>
+  <details><summary>Chat is empty</summary><p>The chat only appears when someone types, and old messages fade away after a few seconds. You can change that time in Fields.</p></details>
+  <details><summary>My webcam is in the wrong place</summary><p>Use the exact numbers from the overlay’s page (step 4). If you moved the webcam frame in the editor, the editor’s copy window gives the new numbers.</p></details>
+  <details><summary>The transition doesn’t play</summary><p>Tick “Refresh browser when scene becomes active” on that scene’s Browser Source, and check “Show scene transition” is on in Fields.</p></details>
+ </section>
+
+ <p class="cta"><a class="download" href="index.html">Pick your overlay →</a></p>
+</main>
+</body></html>

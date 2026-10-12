@@ -1,0 +1,27 @@
+# Checks the overlay site on every push and pull request (see scripts/check-site.py).
+# A red X on a commit means something is broken: open the run to see what.
+name: Check site
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install checker
+        run: |
+          pip install playwright==1.47.0 numpy pillow
+          python -m playwright install --with-deps chromium
+      - name: Build the overlay list (same as Cloudflare)
+        run: node scripts/build-catalog.mjs
+      - name: Check every overlay, scene and the editor
+        run: python scripts/check-site.py

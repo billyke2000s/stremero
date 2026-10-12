@@ -151,8 +151,9 @@ function buildGallery() {
       const image = el('div', { className: 'thumbnail' });
       if (bgURL) image.append(cardBackground(item));
       image.append(thumb(item, ''), el('span', { className: 'tag', textContent: item.category }));
-      $('grid').append(el('a', { className: 'card', href: linkTo(item) }, image, el('h2', { textContent: item.name }),
-        el('p', { textContent: (item.fields ? 'StreamElements · Background image · Name + socials' : 'StreamElements overlay') + (item.scenes && item.scenes.length ? ' · ' + (item.scenes.length + 1) + ' scenes' : '') })));
+      const card = el('a', { className: 'card', href: linkTo(item) }, image, el('h2', { textContent: item.name }),
+        el('p', { textContent: (item.fields ? 'StreamElements · Background image · Name + socials' : 'StreamElements overlay') + (item.scenes && item.scenes.length ? ' · ' + (item.scenes.length + 1) + ' scenes' : '') }));
+      $('grid').append(card); scenePreview(card, item);
     });
     $('empty').hidden = list.length > 0;
     $('empty').textContent = query ? 'Nothing matches “' + query + '”. Try a colour or a mood (cosy, neon, gold, horror).' : 'No overlays yet.';
@@ -170,6 +171,30 @@ function buildGallery() {
   buildGallery.render = renderGrid;
   renderGrid();
   updateBgBar();
+}
+/* gallery cards flick through the overlay's scenes: on hover with a mouse, by themselves on phones (while on screen) */
+const NO_HOVER = matchMedia('(hover: none)').matches, CALM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const cardWatch = 'IntersectionObserver' in window ? new IntersectionObserver(entries => entries.forEach(en => {
+  const c = en.target; if (!c.__scenes) return;
+  if (en.isIntersecting) { c.__wait = setTimeout(c.__scenes.start, 300 + Math.random() * 1500); } else { clearTimeout(c.__wait); c.__scenes.stop(); }
+}), { threshold: 0.6 }) : null;
+function scenePreview(card, item) {
+  const box = card.querySelector('.thumbnail'), img = box && box.querySelector('img');
+  const shots = (item.scenes || []).filter(s => s.thumb).map(s => ({ src: basePath(item) + 'scenes/' + encodeURIComponent(s.id) + '/' + s.thumb, label: s.label }));
+  if (!img || !shots.length) return;
+  const all = [{ src: img.src, label: 'Gameplay' }].concat(shots);
+  const chip = el('span', { className: 'scene-chip', textContent: 'Gameplay' }); chip.hidden = true; box.append(chip);
+  let i = 0, timer = null, loaded = false;
+  const show = k => { i = k % all.length; img.src = all[i].src; chip.textContent = all[i].label + ' · ' + (i + 1) + '/' + all.length; };
+  const start = () => {
+    if (timer) return;
+    if (!loaded) { all.forEach(a => { const p = new Image(); p.src = a.src; }); loaded = true; }
+    chip.hidden = false; show(1); timer = setInterval(() => show(i + 1), NO_HOVER ? 1800 : 950);
+  };
+  const stop = () => { clearInterval(timer); timer = null; chip.hidden = true; show(0); };
+  card.__scenes = { start, stop };
+  if (NO_HOVER) { if (cardWatch && !CALM) cardWatch.observe(card); }
+  else { card.addEventListener('pointerenter', start); card.addEventListener('pointerleave', stop); card.addEventListener('focus', start); card.addEventListener('blur', stop); }
 }
 function updateBgBar() {
   $('gallery-bg-thumb').style.backgroundImage = bgURL ? 'url("' + bgURL + '")' : '';
@@ -541,9 +566,9 @@ async function openOverlay(item) {
   selected = item; files = null; closePicker();
   if ($('code-dialog').open) $('code-dialog').close();
   document.querySelectorAll('.side-link').forEach(a => { const on = a.title === item.name; a.classList.toggle('selected', on); if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
-  $('gallery').hidden = true; $('watch').hidden = false; $('brand').textContent = item.name; document.title = item.name + ' — Overlay preview';
+  $('gallery').hidden = true; $('watch').hidden = false; $('brand').textContent = item.name; document.title = item.name + ' — Stremero';
   $('stream-title').textContent = item.name + (item.sceneLabel ? ' · ' + item.sceneLabel : '') + ' | Your stream, your style'; $('category').textContent = item.category + ' overlay';
-  renderSceneTabs(item);
+  renderSceneTabs(item); renderKit(item);
   let loaded;
   try { [loaded] = await Promise.all([loadFiles(item), loadSavedBackground()]); }
   catch (e) { notify('This overlay could not be loaded. If you opened the site from your computer, upload it to Cloudflare Pages or use a local web server.'); return; }
@@ -565,6 +590,17 @@ function renderSceneTabs(item) {
     if (on) a.setAttribute('aria-current', 'page');
     return a;
   }));
+}
+function renderKit(item) {
+  const base = item.base || item, kit = base.kit;
+  $('kit').hidden = !kit || (!kit.panels.length && !kit.offline);
+  if ($('kit').hidden) return;
+  const dir = basePath(base) + 'kit/', slug = base.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+  const LABEL = { about: 'About me', schedule: 'Schedule', rules: 'Rules', socials: 'Socials', support: 'Support me' };
+  $('kit-panels').replaceChildren(...kit.panels.map(k => el('a', { className: 'kit-item', href: dir + 'panel-' + k + '.png', download: slug + '-panel-' + k + '.png', title: 'Download the ' + LABEL[k] + ' panel (320 × 100)' },
+    el('img', { src: dir + 'panel-' + k + '.png', alt: LABEL[k] + ' panel', loading: 'lazy', width: 320, height: 100 }), el('span', { textContent: '⬇ ' + LABEL[k] }))));
+  $('kit-offline').replaceChildren(...(kit.offline ? [el('a', { className: 'kit-item wide', href: dir + kit.offline, download: slug + '-offline.jpg', title: 'Download the offline screen (1920 × 1080)' },
+    el('img', { src: dir + kit.offline, alt: 'Offline screen', loading: 'lazy', width: 1920, height: 1080 }), el('span', { textContent: '⬇ Offline screen (1920 × 1080)' }))] : []));
 }
 function setName(name, quiet) {
   streamerName = name; store.set('overlay-name', name);
@@ -661,7 +697,7 @@ function route(push) {
     openOverlay(sceneItem(item, params.get('scene'))); startDemoChat();
     if (fromGallery) scrollTo(0, 0);        // opening from the gallery starts at the player; switching overlays keeps your place
   } else {
-    selected = null; $('watch').hidden = true; $('gallery').hidden = false; $('brand').textContent = 'Twitch overlays'; document.title = 'Twitch overlays';
+    selected = null; $('watch').hidden = true; $('gallery').hidden = false; $('brand').textContent = 'Stremero'; document.title = 'Stremero: free stream overlays';
     if (buildGallery.render) buildGallery.render();
     document.querySelectorAll('.side-link').forEach(a => { a.classList.remove('selected'); a.removeAttribute('aria-current'); });
     if (name) notify('That overlay was not found. Choose one from the collection.');

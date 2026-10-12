@@ -111,7 +111,12 @@ for name, make, close_tag, cam_field in ORIGINALS:
     rd = lambda f: open(os.path.join(src, f), encoding='utf-8').read()
     html0, css0, js0, F0 = rd('overlay.html'), rd(css_file), rd('overlay.js'), json.loads(rd('fields.json'))
     out_root = os.path.join(src, 'scenes')
-    if os.path.isdir(out_root): shutil.rmtree(out_root)
+    thumbs = {}   # keep the gallery pictures (made by build-scene-thumbs.py) across rebuilds
+    if os.path.isdir(out_root):
+        for sid_ in os.listdir(out_root):
+            tp = os.path.join(out_root, sid_, 'thumb.jpg')
+            if os.path.exists(tp): thumbs[sid_] = open(tp, 'rb').read()
+        shutil.rmtree(out_root)
     for sid, label in LABELS.items():
         css_add, html_add, cam = make(sid)
         # html: scene layer goes inside the overlay's root, after everything else
@@ -135,6 +140,7 @@ for name, make, close_tag, cam_field in ORIGINALS:
                             CAM=(f"   Webcam: put your camera at X={cam[0]} Y={cam[1]} width={cam[2]} height={cam[3]} (1920 x 1080 canvas).\n" if cam else ''))
         files = {'overlay.html': html, 'styles.css': css, 'overlay.js': js, 'fields.json': json.dumps(F, indent=2, ensure_ascii=False),
                  'START-HERE.txt': help_, 'scene.json': json.dumps({'id': sid, 'label': label, 'cam': cam[:4] if cam else None}, indent=2)}
+        if sid in thumbs: open(os.path.join(d, 'thumb.jpg'), 'wb').write(thumbs[sid])
         for f, t in files.items():
             with open(os.path.join(d, f), 'w', encoding='utf-8') as fh: fh.write(t)
     print('scenes made for', name)

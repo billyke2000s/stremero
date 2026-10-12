@@ -32,8 +32,16 @@ function scenesOf(dir) {
     const d = path.join(root, id), fl = files(d);
     if (!fl.includes('overlay.html') || !fl.includes('styles.css') || !fl.includes('overlay.js')) { warn.push(`skipped scene ${d}: needs overlay.html, styles.css and overlay.js`); return null; }
     let meta = {}; try { meta = JSON.parse(fs.readFileSync(path.join(d, 'scene.json'), 'utf8')); } catch (e) { /* label falls back to the folder name */ }
-    return { id, label: meta.label || id, cam: meta.cam || null, fields: fl.includes('fields.json') ? 'fields.json' : '', help: fl.includes('START-HERE.txt') ? 'START-HERE.txt' : '' };
+    return { id, label: meta.label || id, cam: meta.cam || null, fields: fl.includes('fields.json') ? 'fields.json' : '', help: fl.includes('START-HERE.txt') ? 'START-HERE.txt' : '', thumb: fl.includes('thumb.jpg') ? 'thumb.jpg' : '' };
   }).filter(Boolean).sort((a, b) => (SCENE_ORDER.indexOf(a.id) + 1 || 99) - (SCENE_ORDER.indexOf(b.id) + 1 || 99));
+}
+// Twitch kit: panel headers (kit/panel-*.png) and an offline screen (kit/offline.jpg)
+function kitOf(dir) {
+  const d = path.join(dir, 'kit');
+  if (!fs.existsSync(d)) return null;
+  const fl = files(d);
+  const panels = ['about', 'schedule', 'rules', 'socials', 'support'].filter(k => fl.includes('panel-' + k + '.png'));
+  return { panels, offline: fl.includes('offline.jpg') ? 'offline.jpg' : '' };
 }
 const list = [];
 for (const category of categories) {
@@ -55,6 +63,7 @@ for (const category of categories) {
       icon: fl.includes('icon.png') ? 'icon.png' : '', cam: meta.cam || null, game: game || [0, 0, 1920, 1080],
       parts: meta.parts || {}, tags: meta.tags || '', layout: meta.layout || '', editor: !!meta.editor,
       scenes: scenesOf(dir),
+      kit: kitOf(dir),
     });
   }
 }
