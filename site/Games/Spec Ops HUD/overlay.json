@@ -1,0 +1,27 @@
+{
+  "css": "styles.css",
+  "cam": [
+    1465,
+    57,
+    426,
+    214
+  ],
+  "game": [
+    0,
+    0,
+    1920,
+    1080
+  ],
+  "parts": {
+    "chat": true,
+    "alerts": true,
+    "latest": true,
+    "cam": true,
+    "socials": false,
+    "text": true,
+    "clock": false
+  },
+  "tags": "call of duty cod warzone black ops modern warfare fps shooter military tactical hud",
+  "layout": "corner",
+  "editor": true
+}

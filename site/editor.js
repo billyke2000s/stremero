@@ -112,10 +112,12 @@ function designFromOverlay(srcId) {
   const list = [];
   if (s.screen && s.screen.trim()) list.push(makeElement('decor', srcId));
   list.push(makeElement('cam', srcId), makeElement('alert', srcId), makeElement('chat', srcId));
-  Object.keys(STATS).forEach(k => list.push(makeElement('stat', srcId, { stat: k })));
-  list.push(makeElement('goal', srcId));
+  const hide = s.hide || [];   // parts the original design doesn't have
+  Object.keys(STATS).forEach(k => { if (!hide.includes(k)) list.push(makeElement('stat', srcId, { stat: k })); });
+  if (!hide.includes('goal')) list.push(makeElement('goal', srcId));
   if (s.nativeSocials) list.push(makeElement('socials', srcId));
-  const g = LIB.game[s.layout] || [48, 150, 1390, 782];
+  if (s.showText) list.push(makeElement('text', srcId, { text: s.customText || 'Your text here' }));
+  const g = s.game || LIB.game[s.layout] || [48, 150, 1390, 782];
   return { elements: list, game: { x: g[0], y: g[1], w: g[2], h: g[3], r: 0, frame: true, frameSrc: srcId, lock: true } };
 }
 function picksFromMain() {   // which overlay each part of the gameplay scene uses
@@ -171,7 +173,7 @@ function pieceHTML(e, forPreview) {
     case 'cam': return `<section class="cam${c}" aria-label="Webcam frame">${sub(s.decor.cam)}<div class="cam-hole" data-cam-hole></div><div class="nameplate">${sub(s.plate)}<span data-field="name">${esc(streamerName)}</span></div></section>`;
     case 'alert': return `<section id="alert" class="alert box${c}" aria-live="polite">${sub(s.decor.alert)}<div class="alert-icon" id="alert-icon"></div><div class="alert-copy"><div class="alert-kind" id="alert-kind"></div><div class="alert-name" id="alert-name"></div><div class="alert-detail" id="alert-detail"></div></div></section>`;
     case 'chat': return `<section id="chat" class="chat${c}" aria-label="Chat">${sub(s.decor.chat)}<div class="chat-title">${sub(s.head)}<span>${esc(s.chatTitle)}</span></div><div id="chat-list" class="chat-list"></div></section>`;
-    case 'stat': return `<section class="latest${c}"><div class="stat box">${sub(s.decor.stat)}<label>${esc((s.statLabels && s.statLabels[e.stat]) || STATS[e.stat])}</label><strong data-latest="${e.stat}">—</strong></div></section>`;
+    case 'stat': return `<section class="latest${c}"><div class="stat box" data-stat="${e.stat}">${sub(s.decor.stat)}<label>${esc((s.statLabels && s.statLabels[e.stat]) || STATS[e.stat])}</label><strong data-latest="${e.stat}">—</strong></div></section>`;
     case 'goal': return `<section class="latest${c}"><div class="stat goal box">${sub(s.decor.stat)}<label>${esc(s.goalLabel)}</label><strong id="goal-count">0 / 100</strong><div class="goal-track"><div id="goal-fill"></div></div></div></section>`;
     case 'socials': {
       const v = k => esc(sharedVal(k, k === 'twitch' ? 'yourcoolname' : '@yourcoolname'));

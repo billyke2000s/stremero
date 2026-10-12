@@ -395,7 +395,7 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent
    clock, animations and chat text size. All editable in the Fields panel without code. */
 (() => {
   'use strict';
-  const LOOK = {"root": "#ov", "colors": ["--accent", "--text", "--cam-border", "--nameplate-bg", "--alert-bg", "--chat-bg", "--chat-name", "--stat-bg", "--goal-fill", "--aurora-1", "--aurora-2", "--aurora-3", "--game-frame"], "parts": {"chat": {"sel": ".chat", "on": true}, "alerts": {"sel": ".alert", "on": true}, "latest": {"sel": ".latest", "on": true}, "cam": {"sel": ".cam", "on": true}, "socials": {"sel": ".socials", "on": false}, "text": {"sel": ".extra-text", "on": false}, "clock": {"sel": ".extra-clock", "on": false}, "transition": {"sel": ".sx", "on": true}}, "cam": [1432, 48, 440, 280, 8], "game": [48, 48, 1360, 765]};
+  const LOOK = {"root": "#ov", "colors": ["--accent", "--text", "--cam-border", "--nameplate-bg", "--alert-bg", "--chat-bg", "--chat-name", "--stat-bg", "--goal-fill", "--dirt", "--game-frame"], "parts": {"chat": {"sel": ".chat", "on": true}, "alerts": {"sel": ".alert", "on": true}, "latest": {"sel": ".latest", "on": true}, "cam": {"sel": ".cam", "on": true}, "socials": {"sel": ".socials", "on": false}, "text": {"sel": ".extra-text", "on": false}, "clock": {"sel": ".extra-clock", "on": false}, "transition": {"sel": ".sx", "on": true}}, "cam": [1432, 48, 440, 280, 8], "game": [48, 48, 1360, 765]};
   const root = document.querySelector(LOOK.root);
   if (!root) return;
   const colourOK = v => typeof v === 'string' && /^(#[0-9a-f]{3,8}|rgba?\([\d\s.,%]+\)|hsla?\([\d\s.,%deg]+\)|transparent)$/i.test(v.trim());

@@ -106,6 +106,7 @@ MAP = {
   'Sunset Heist': ('bands', 'var(--accent)', '#000000', 'var(--text)'), 'Agent Protocol': ('shutter', 'var(--accent)', '#0f1923', 'var(--text)'),
   'Realm of Heroes': ('curtain',) + FANCY, 'Blockcraft': ('pixels', 'var(--accent)', 'var(--dirt)', 'var(--text)'),
   'Ink Turf': ('splat', 'var(--accent)', 'var(--ink-b)', 'var(--text)'),
+  'Spec Ops HUD': ('glitch', 'var(--accent)', '#0a0c0f', 'var(--text)'),
 }
 def for_overlay(name, category):
     if name in MAP: return MAP[name]

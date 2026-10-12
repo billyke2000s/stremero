@@ -344,3 +344,101 @@ REALM = dict(
 )
 
 REPLACE = {t['id']: t for t in (RIFT, TACTICAL, SUNSET, REALM)}
+
+# ============================================================================================ Spec Ops HUD (Call of Duty) - from the user's own design
+SPEC = dict(
+  id='specopshud', name='Spec Ops HUD', forGame='Call of Duty', layout='corner',
+  tags='call of duty cod warzone black ops modern warfare fps shooter military tactical hud',
+  font=GF + 'Rajdhani:wght@600;700&family=Share+Tech+Mono&display=swap',
+  fontBody="'Rajdhani',sans-serif", fontDisplay="'Share Tech Mono',monospace",
+  vars=[['--accent', 'Amber', '#ffbf00'], ['--cyan', 'Cyan', '#00eaff'], ['--green', 'Green', '#33ff33'], ['--red', 'Red', '#ff3333'],
+        ['--text', 'Text', '#efefef'], ['--cam-border', 'Webcam border', '#ffffff33'], ['--nameplate-bg', 'Webcam header', '#000000cc'],
+        ['--alert-bg', 'Alert box', '#0a0c0fd9'], ['--chat-bg', 'Chat messages', '#0a0c0f99'], ['--chat-name', 'Chat names', '#ffbf00'],
+        ['--stat-bg', 'Panels', '#0a0c0fd9'], ['--goal-fill', 'Goal bar', '#00eaff'], ['--game-frame', 'Game window frame', '#ffbf00']],
+  labels={'follower': 'MILITIA ENLISTED', 'subscriber': 'NEW CONTRACTOR', 'gift': 'SUPPLY DROP', 'cheer': 'TWITCH BITS ACQUIRED', 'tip': 'FUNDS RECEIVED', 'raid': 'SQUAD REINFORCEMENTS'},
+  statLabels={'follower': 'MILITIA ENLISTED //', 'subscriber': 'NEW CONTRACTOR //', 'tip': 'FUNDS RECEIVED //', 'cheer': 'TWITCH BITS ACQUIRED //', 'raid': 'SQUAD REINFORCEMENTS //'},
+  goalLabel='OBJECTIVE: FOLLOWERS //',
+  chatTitle='SECURE COMMS',
+  showText=True, customText='20 KILLS',
+  hide=['tip', 'goal'],   # the original design has no tip or goal panel
+  # where things sit (1920 x 1080): measured from the original HTML + CSS rendered in Chromium
+  rects={'cam': [1465, 57, 426, 214], 'alert': [660, 30, 600, 92], 'chat': [30, 150, 450, 600], 'text': [30, 30, 350, 43],
+         'subscriber': [1549, 272, 341, 40], 'follower': [96, 1007, 563, 43], 'raid': [679, 1007, 563, 43], 'cheer': [1261, 1007, 563, 43],
+         'tip': [96, 960, 563, 43], 'goal': [1261, 960, 563, 43]},
+  game=[0, 0, 1920, 1080],
+  decor={'cam': ('<div class="so-frame"></div><div class="so-head"><span class="so-dot"></span><span>FEED //</span><span class="so-clock clock-time">00:00</span></div>'
+                 '<i class="so-ret tl"></i><i class="so-ret tr"></i><i class="so-ret bl"></i><i class="so-ret br"></i>'),
+         'alert': '<i class="so-track"></i>', 'chat': '', 'stat': ''},
+  css={
+'screen': '',
+'cam': """
+.ov>.cam{left:auto;right:29px;top:57px;bottom:auto;width:426px;height:214px}
+.cam{--ring:0px;border:0;box-shadow:none;border-radius:0}
+.so-frame{position:absolute;left:-1px;right:-1px;top:-27px;bottom:-1px;border:1px solid var(--cam-border);pointer-events:none}
+.so-head{position:absolute;left:0;right:0;top:-26px;height:26px;display:flex;justify-content:space-between;align-items:center;gap:6px;padding:0 10px;box-sizing:border-box;
+  background:var(--nameplate-bg);border-bottom:1px solid #ffffff1a;font:12px/1 var(--font-body);color:#fff;text-transform:uppercase}
+.so-dot{flex:0 0 8px;width:8px;height:8px;border-radius:50%;background:var(--red);animation:specopshud-pulse 1s infinite}
+.so-clock{margin-left:auto;font:11px var(--font-display);color:var(--text)}
+.so-ret{position:absolute;width:15px;height:15px;border:2px solid var(--text);opacity:.5;box-sizing:content-box}
+.so-ret.tl{top:9px;left:10px;border-right:0;border-bottom:0}.so-ret.tr{top:9px;right:10px;border-left:0;border-bottom:0}
+.so-ret.bl{bottom:10px;left:10px;border-right:0;border-top:0}.so-ret.br{bottom:10px;right:10px;border-left:0;border-top:0}
+.nameplate{left:63px;top:-26px;height:25px;display:flex;align-items:center;z-index:2;font:12px/1 var(--font-body);text-transform:uppercase;color:#fff;background:none;padding:0;border:0;box-shadow:none}
+""",
+'alert': """
+.ov>.alert{left:660px;top:30px;width:600px;margin:0}
+.alert{padding:14px 22px 16px;gap:14px;border-left:4px solid var(--accent);border-top:1px solid #ffffff1a;backdrop-filter:blur(12px);
+  clip-path:polygon(0 0,100% 0,100% calc(100% - 15px),calc(100% - 15px) 100%,0 100%);box-shadow:0 4px 15px #00000080;text-transform:uppercase}
+.so-track{position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--accent);transform-origin:left;animation:specopshud-drain 6s linear forwards}
+.alert-icon{width:44px;height:44px;border:2px solid var(--accent);color:var(--accent);font-size:20px;clip-path:polygon(0 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%)}
+.alert-kind{font:11px var(--font-display);letter-spacing:.14em;color:#999}
+.alert-kind::before{content:"INCOMING // ";color:var(--cyan)}
+.alert-name{font:700 34px/1.1 var(--font-body);letter-spacing:.02em;color:var(--accent);text-shadow:0 0 8px currentColor}
+.alert-detail{font:600 15px var(--font-body);letter-spacing:.06em;color:#aaa}
+""",
+'chat': """
+.ov>.chat{left:30px;right:auto;top:150px;bottom:auto;width:450px;height:600px;max-height:600px}
+.chat{display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden}
+.chat-list{justify-content:flex-end}
+.chat{-webkit-mask-image:linear-gradient(to top,#000 80%,transparent 100%);mask-image:linear-gradient(to top,#000 80%,transparent 100%)}
+.chat-title{display:none}
+.chat-list{gap:8px}
+.msg{display:block;padding:6px 12px;border-left:2px solid var(--accent);border-radius:0;font:14px/normal var(--font-display);color:#eee;text-transform:none;
+  animation:specopshud-radio .3s ease-out both}
+.msg-head{display:inline;margin:0}
+.msg-badges,.msg-role{display:none}
+.msg-user{display:inline;margin-right:5px;font:bold 14px/normal var(--font-display);text-transform:uppercase;color:var(--chat-name)}
+.msg-user::after{content:":"}
+.msg-body{display:inline}
+""",
+'latest': """
+.ov>.latest{left:0;top:0;right:auto;bottom:auto;width:1920px;height:1080px;display:block;pointer-events:none}
+.ov>.latest>.stat{position:absolute;width:563px;height:43px;top:1007px}
+.ov>.latest>.stat:nth-child(1){left:96px}.ov>.latest>.stat:nth-child(5){left:679px}.ov>.latest>.stat:nth-child(4){left:1261px}
+.ov>.latest>.stat:nth-child(3),.ov>.latest>.stat:nth-child(6){display:none}
+.ov>.latest>.stat:nth-child(2){left:1549px;top:272px;width:341px;height:40px}
+.stat{box-sizing:border-box;display:flex;align-items:baseline;gap:8px;padding:8px 15px;background:var(--stat-bg);border:1px solid #ffffff1a;border-radius:0;
+  backdrop-filter:blur(12px);box-shadow:0 4px 15px #00000080;clip-path:polygon(0 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%);text-transform:uppercase}
+.stat label{flex:0 0 auto;margin:0;font:600 13px/normal var(--font-body);letter-spacing:1px;color:#aaa;text-transform:uppercase}
+.stat strong{flex:0 1 auto;min-width:0;font:700 19px/normal var(--font-body);text-shadow:0 0 8px currentColor;color:var(--green);text-transform:uppercase}
+strong[data-latest="subscriber"]{color:var(--accent)}strong[data-latest="cheer"]{color:var(--cyan)}strong[data-latest="raid"]{color:#ccc}
+.ov>.latest>.stat:nth-child(2),.stat[data-stat="subscriber"]{border-top:0}
+.ov>.latest>.stat:nth-child(2)::before,.stat[data-stat="subscriber"]::before{content:"ELITE INTEL:";align-self:center;width:50px;flex:0 0 50px;font:10px/normal var(--font-display);color:#888;letter-spacing:0}
+.ov>.latest>.stat:nth-child(5),.stat[data-stat="raid"]{border:1px solid var(--accent);justify-content:center}
+.ov>.latest>.stat:nth-child(4),.stat[data-stat="cheer"]{justify-content:flex-end}
+.goal{flex-wrap:wrap;row-gap:2px}.goal strong{color:var(--cyan)}
+.goal-track{flex:1 0 100%;height:3px;margin:0;border-radius:0;background:#ffffff22}
+#goal-fill{border-radius:0;box-shadow:0 0 6px var(--goal-fill)}
+.ov>.extra-text{left:30px;top:30px;width:350px;height:43px}
+.extra-text{box-sizing:border-box;padding:8px 15px;display:flex;align-items:center;text-align:left;white-space:nowrap;overflow:hidden;
+  background:var(--stat-bg);border:1px solid #ffffff1a;border-left:4px solid var(--cyan);border-radius:0;backdrop-filter:blur(12px);box-shadow:0 4px 15px #00000080;
+  clip-path:polygon(0 0,100% 0,100% calc(100% - 15px),calc(100% - 15px) 100%,0 100%);font:700 19px/normal var(--font-body);color:var(--cyan);text-transform:uppercase;text-shadow:0 0 8px currentColor}
+.extra-text::before{content:"CURRENT OBJ:";width:60px;flex:0 1 60px;white-space:normal;font:10px/normal var(--font-display);color:#888;text-shadow:none}
+.extra-text>span,.extra-text .ed-text{white-space:nowrap}
+.extra-text>span{display:flex;align-items:baseline;gap:8px;width:100%;min-width:0;white-space:nowrap;overflow:hidden}
+.extra-text>span::before{content:"SECURE THE AO //";flex:0 0 auto;font:600 13px/normal var(--font-body);letter-spacing:1px;color:#aaa;text-shadow:none}
+"""},
+  keyframes='@keyframes specopshud-pulse{50%{opacity:.2}}@keyframes specopshud-drain{to{transform:scaleX(0)}}'
+            '@keyframes specopshud-radio{from{opacity:0;transform:translateX(-30px) scale(.95)}to{opacity:1;transform:none}}',
+)
+REPLACE[SPEC['id']] = SPEC
+APPEND = [SPEC]

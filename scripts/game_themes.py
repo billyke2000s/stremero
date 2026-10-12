@@ -366,5 +366,5 @@ dict(
 ]
 
 # richer versions of some themes live in game_themes_rich.py and replace the plain ones here
-from game_themes_rich import REPLACE as _RICH
-THEMES = [_RICH.get(t['id'], t) for t in THEMES]
+from game_themes_rich import REPLACE as _RICH, APPEND as _NEW
+THEMES = [_RICH.get(t['id'], t) for t in THEMES] + [t for t in _NEW if t['id'] not in {x['id'] for x in THEMES}]

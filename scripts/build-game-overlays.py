@@ -79,6 +79,11 @@ for t in THEMES:
     if t.get('screen'):
         m = re.search(r'<div class="game-frame"[^>]*><div class="game-box"[^>]*></div></div>', html)
         html = html[:m.end()] + '<div class="decor-screen" aria-hidden="true">' + t['screen'] + '</div>' + html[m.end():]
+    BASE_STAT = {'follower': 'Latest follower', 'subscriber': 'Latest sub', 'tip': 'Latest tip', 'cheer': 'Latest cheer', 'raid': 'Latest raid'}
+    for k, v in (t.get('statLabels') or {}).items():
+        html = html.replace('<label>' + BASE_STAT[k] + '</label>', '<label>' + v + '</label>')
+    if t.get('goalLabel'): html = html.replace('<label>Follower goal</label>', '<label>' + t['goalLabel'] + '</label>')
+    if t.get('customText'): html = re.sub(r'(<span data-field="customText">)[^<]*(</span>)', r'\g<1>' + t['customText'] + r'\2', html)
     if t['decor'].get('stat'):
         html = html.replace('<div class="stat box">', '<div class="stat box">' + t['decor']['stat']).replace('<div class="stat goal box">', '<div class="stat goal box">' + t['decor']['stat'])
 
@@ -87,6 +92,13 @@ for t in THEMES:
     js = re.sub(r'const LABELS = \{[^\n]*\};', 'const LABELS = ' + json.dumps(labels, ensure_ascii=False) + ';', js0)
     assert js != js0, 'labels not replaced'
     js = js.replace(base_name, t['name'])
+    m = re.search(r'const LOOK = (\{.*?\});\n', js)
+    look = json.loads(m.group(1))
+    look['colors'] = [v[0] for v in t['vars']]
+    if t.get('rects', {}).get('cam'): look['cam'] = list(t['rects']['cam']) + [look['cam'][4] if look.get('cam') and len(look['cam']) > 4 else 8]
+    if t.get('game'): look['game'] = list(t['game'])
+    if t.get('showText'): look['parts']['text']['on'] = True
+    js = js[:m.start(1)] + json.dumps(look) + js[m.end(1):]
 
     # ---- fields.json: this theme's colours replace the base's
     F = json.load(open(base_dir + 'fields.json', encoding='utf-8'))
@@ -99,6 +111,11 @@ for t in THEMES:
             continue
         newF[k] = v
     newF['widgetName']['value'] = t['name']
+    if t.get('showText') and 'showText' in newF: newF['showText']['value'] = True
+    if t.get('customText') and 'customText' in newF: newF['customText']['value'] = t['customText']
+    if t.get('game'):
+        for k, v in zip(('gameX', 'gameY', 'gameW', 'gameH'), t['game']):
+            if k in newF: newF[k]['value'] = v
 
     # ---- preview.html: same template, new contents
     pv = rd('preview.html')
@@ -109,6 +126,9 @@ for t in THEMES:
     help_ = rd('START-HERE.txt').replace(base_name.upper(), t['name'].upper()).replace(base_name, t['name'])
     help_ = help_.replace('(FANCY)', '(GAMES)').replace('\n', f"\n\nUnofficial, fan-made style inspired by {t['forGame']}. Not affiliated with or endorsed by its makers.\nNo game logos, characters or artwork are used.\n", 1)
     oj = json.load(open(base_dir + 'overlay.json')); oj['tags'] = t['tags']
+    if t.get('rects', {}).get('cam'): oj['cam'] = list(t['rects']['cam'])
+    if t.get('game'): oj['game'] = list(t['game'])
+    if t.get('showText'): oj.setdefault('parts', {})['text'] = True
 
     files = {'styles.css': css, 'overlay.html': html, 'overlay.js': js, 'preview.html': pv, 'START-HERE.txt': help_,
              'fields.json': json.dumps(newF, indent=2, ensure_ascii=False), 'overlay.json': json.dumps(oj, indent=2)}
@@ -126,6 +146,12 @@ for t in THEMES:
              css={'cam': scope(t['css']['cam']), 'chat': scope(t['css']['chat']), 'alert': scope(t['css']['alert']),
                   'latest': scope(t['css']['latest']), 'screen': scope(t['css']['screen']) if t['css'].get('screen') else '', 'game': ''},
              keyframes=t['keyframes'])
+    s['rects'] = dict(base['rects']); s['rects'].update(t.get('rects') or {})
+    if t.get('game'): s['game'] = list(t['game'])
+    if t.get('hide'): s['hide'] = list(t['hide'])
+    if t.get('showText'): s['showText'] = True; s['customText'] = t.get('customText', '')
+    if t.get('statLabels'): s['statLabels'] = dict(base.get('statLabels') or {}, **{k: v for k, v in t['statLabels'].items()})
+    if t.get('goalLabel'): s['goalLabel'] = t['goalLabel']
     P['sources'] = [x for x in P['sources'] if x['id'] != t['id']] + [s]
     built.append(t['name'])
 
