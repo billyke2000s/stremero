@@ -97,85 +97,85 @@
   "c_metal": {
     "type": "colorpicker",
     "label": "Metal",
-    "value": "#a9b0bb",
+    "value": "#151515",
     "group": "Colours"
   },
   "c_metal_hi": {
     "type": "colorpicker",
     "label": "Metal highlight",
-    "value": "#ffffff",
+    "value": "#d9d9d9",
     "group": "Colours"
   },
   "c_metal_lo": {
     "type": "colorpicker",
     "label": "Metal shadow",
-    "value": "#3a3f47",
+    "value": "#3a3a3f",
     "group": "Colours"
   },
   "c_bead": {
     "type": "colorpicker",
     "label": "Pearls & beads",
-    "value": "#dfe6ee",
+    "value": "#f2f2f2",
     "group": "Colours"
   },
   "c_jewel": {
     "type": "colorpicker",
     "label": "Jewels",
-    "value": "#2a4bd7",
+    "value": "#111111",
     "group": "Colours"
   },
   "c_jewel_hi": {
     "type": "colorpicker",
     "label": "Jewel sparkle",
-    "value": "#9fb8ff",
+    "value": "#666666",
     "group": "Colours"
   },
   "c_jewel_2": {
     "type": "colorpicker",
     "label": "Second jewels",
-    "value": "#b3122e",
+    "value": "#222222",
     "group": "Colours"
   },
   "c_velvet": {
     "type": "colorpicker",
     "label": "Velvet panels",
-    "value": "#0e1020",
+    "value": "#050505",
     "group": "Colours"
   },
   "c_velvet_hi": {
     "type": "colorpicker",
     "label": "Velvet sheen",
-    "value": "#2a2f55",
+    "value": "#26262b",
     "group": "Colours"
   },
   "c_text": {
     "type": "colorpicker",
     "label": "Text",
-    "value": "#eef2ff",
+    "value": "#f2f2f2",
     "group": "Colours"
   },
   "c_accent": {
     "type": "colorpicker",
     "label": "Titles",
-    "value": "#c9d6ff",
+    "value": "#e6e6e6",
     "group": "Colours"
   },
   "c_chat_bg": {
     "type": "colorpicker",
     "label": "Chat messages",
-    "value": "#0b0d1ce8",
+    "value": "#050505eb",
     "group": "Colours"
   },
   "c_chat_name": {
     "type": "colorpicker",
     "label": "Chat names (no Twitch colour)",
-    "value": "#c9d6ff",
+    "value": "#e6e6e6",
     "group": "Colours"
   },
   "c_goal_fill": {
     "type": "colorpicker",
     "label": "Goal bar",
-    "value": "#2a4bd7",
+    "value": "#8a0f1f",
     "group": "Colours"
   },
   "showChat": {
