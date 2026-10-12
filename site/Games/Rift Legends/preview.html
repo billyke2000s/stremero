@@ -4,15 +4,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Barlow:wght@500;600;700&display=swap');
 :root{
   --accent: #c8aa6e; /* @color Gold */
+  --magic: #0ac8b9; /* @color Hextech glow */
   --text: #f0e6d2; /* @color Text */
   --cam-border: #c8aa6e; /* @color Webcam border */
   --nameplate-bg: #010a13f0; /* @color Name plate */
   --alert-bg: #010a13f2; /* @color Alert box */
   --chat-bg: #010a13d9; /* @color Chat messages */
   --chat-name: #0ac8b9; /* @color Chat names (no Twitch colour) */
-  --stat-bg: #010a13e0; /* @color Latest boxes */
+  --stat-bg: #010a13e6; /* @color Latest boxes */
   --goal-fill: #0ac8b9; /* @color Goal bar */
-  --magic: #0ac8b9; /* @color Magic glow */
   --game-frame: #c8aa6e; /* @color Game window frame */
   --font-body: 'Barlow',Arial,sans-serif;
   --font-display: 'Cinzel',Georgia,serif;
@@ -92,34 +92,53 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent
 /* ---- chat text size ---- */
 .chat{zoom:var(--chat-zoom,1)}
 /* ---- theme ---- */
+.decor-screen{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden;pointer-events:none}
 
-.cam{--ring:6px;border:2px solid var(--cam-border);outline:1px solid #c8aa6e66;outline-offset:5px;box-shadow:0 0 0 1px #010a13,0 0 24px #0ac8b933,inset 0 0 0 1px #785a28}
-.rl-gem{position:absolute;width:16px;height:16px;transform:rotate(45deg);background:linear-gradient(135deg,#f0e6d2,#c8aa6e 45%,#785a28);border:2px solid #010a13;box-shadow:0 0 10px #0ac8b9aa;z-index:2}
-.rl-gem::after{content:"";position:absolute;inset:3px;background:var(--magic);box-shadow:0 0 6px var(--magic)}
-.rl-gem.tl{left:-10px;top:-10px}.rl-gem.tr{right:-10px;top:-10px}.rl-gem.bl{left:-10px;bottom:-10px}.rl-gem.br{right:-10px;bottom:-10px}
-.rl-crest{position:absolute;left:50%;top:-14px;width:120px;height:14px;margin-left:-60px;background:linear-gradient(90deg,transparent,#c8aa6e 30%,#f0e6d2 50%,#c8aa6e 70%,transparent);clip-path:polygon(0 100%,12% 0,88% 0,100% 100%)}
-.nameplate{left:50%;bottom:-36px;transform:translateX(-50%);font:700 17px var(--font-display);letter-spacing:.14em;text-transform:uppercase;color:var(--text);background:var(--nameplate-bg);padding:7px 26px;border:1px solid var(--accent);clip-path:polygon(12px 0,calc(100% - 12px) 0,100% 50%,calc(100% - 12px) 100%,12px 100%,0 50%);box-shadow:inset 0 0 12px #0ac8b933}
+.rl-mote{position:absolute;bottom:-10px;width:6px;height:6px;border-radius:50%;background:radial-gradient(circle,#e4fffd,var(--magic) 50%,transparent 72%);
+  box-shadow:0 0 10px 2px var(--magic);opacity:0;animation:riftlegends-rise 12s linear infinite}
 
-.alert{padding:18px 30px;border:2px solid var(--accent);overflow:hidden;clip-path:polygon(18px 0,calc(100% - 18px) 0,100% 18px,100% calc(100% - 18px),calc(100% - 18px) 100%,18px 100%,0 calc(100% - 18px),0 18px);box-shadow:inset 0 0 0 4px #010a13,inset 0 0 0 5px #785a28,inset 0 0 40px #0ac8b922}
-.rl-sweep{position:absolute;top:0;bottom:0;width:120px;left:-140px;background:linear-gradient(100deg,transparent,#f0e6d24d,transparent);animation:riftlegends-sweep 2.6s ease-in-out infinite;pointer-events:none}
-.alert-icon{width:68px;height:68px;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);background:radial-gradient(circle,#0ac8b9 0 22%,#0a323c 50%,#c8aa6e 51% 56%,#010a13 57%);color:#f0e6d2;font-size:24px;text-shadow:0 0 8px #0ac8b9}
-.alert-kind{font:700 14px var(--font-display);letter-spacing:.28em;color:var(--magic)}
+.cam{--ring:5px;border:5px solid transparent;border-image:linear-gradient(135deg,#f0e6d2,var(--cam-border) 30%,#785a28 55%,var(--cam-border) 80%,#f0e6d2) 1;
+  box-shadow:0 0 0 3px #010a13,0 0 0 6px var(--cam-border),0 0 0 8px #010a13,0 0 30px #0ac8b955,inset 0 0 0 2px #010a13}
+.rl-corner{position:absolute;width:104px;height:104px;z-index:3;filter:drop-shadow(0 0 6px #0ac8b966)}
+.rl-corner.tl{left:-22px;top:-22px}.rl-corner.tr{right:-22px;top:-22px;transform:scaleX(-1)}
+.rl-corner.bl{left:-22px;bottom:-22px;transform:scaleY(-1)}.rl-corner.br{right:-22px;bottom:-22px;transform:scale(-1,-1)}
+.rl-crest{position:absolute;left:50%;top:-48px;width:240px;height:62px;margin-left:-120px;z-index:4;filter:drop-shadow(0 3px 4px #000c)}
+.rl-energy{position:absolute;left:90px;right:90px;top:-5px;height:3px;overflow:hidden;z-index:2}
+.rl-energy.b{top:auto;bottom:-5px}
+.rl-energy::after{content:"";position:absolute;top:0;bottom:0;width:90px;left:-90px;background:linear-gradient(90deg,transparent,#e4fffd,var(--magic),transparent);animation:riftlegends-run 3.2s linear infinite}
+.rl-energy.b::after{animation-delay:-1.6s}
+.nameplate{left:50%;bottom:-40px;transform:translateX(-50%);z-index:5;font:700 17px var(--font-display);letter-spacing:.16em;text-transform:uppercase;color:var(--text);
+  background:linear-gradient(180deg,#0a1a24,var(--nameplate-bg));padding:8px 30px;border:2px solid var(--accent);
+  clip-path:polygon(14px 0,calc(100% - 14px) 0,100% 50%,calc(100% - 14px) 100%,14px 100%,0 50%);box-shadow:inset 0 0 14px #0ac8b944}
+
+.alert{padding:18px 34px 18px 30px;border:2px solid var(--accent);overflow:visible;
+  clip-path:polygon(18px 0,calc(100% - 18px) 0,100% 18px,100% calc(100% - 18px),calc(100% - 18px) 100%,18px 100%,0 calc(100% - 18px),0 18px);
+  box-shadow:inset 0 0 0 4px #010a13,inset 0 0 0 5px #785a28,inset 0 0 50px #0ac8b926}
+.rl-blade{position:absolute;top:50%;width:46px;height:86px;margin-top:-43px;z-index:2;filter:drop-shadow(0 0 6px #0ac8b955)}
+.rl-blade.l{left:-6px}.rl-blade.r{right:-6px;transform:scaleX(-1)}
+.rl-sweep{position:absolute;top:0;bottom:0;width:120px;left:-140px;background:linear-gradient(100deg,transparent,#f0e6d240,transparent);animation:riftlegends-sweep 2.8s ease-in-out infinite;pointer-events:none}
+.rl-ring{position:absolute;left:30px;top:50%;width:92px;height:92px;margin:-46px 0 0 -12px;animation:riftlegends-spin 9s linear infinite;pointer-events:none}
+.alert-icon{position:relative;width:68px;height:68px;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);
+  background:radial-gradient(circle,var(--magic) 0 22%,#0a323c 50%,var(--accent) 51% 56%,#010a13 57%);color:#f0e6d2;font-size:24px;text-shadow:0 0 8px var(--magic)}
+.alert-kind{font:700 14px var(--font-display);letter-spacing:.3em;color:var(--magic)}
 .alert-name{font:900 34px var(--font-display);letter-spacing:.04em;background:linear-gradient(180deg,#f0e6d2,#c8aa6e 60%,#785a28);-webkit-background-clip:text;background-clip:text;color:transparent}
 .alert-detail{font:600 16px var(--font-body);color:#a09b8c}
 
 .chat-title{font:700 13px var(--font-display);letter-spacing:.32em;color:var(--accent);padding:0 0 8px;margin-bottom:8px;border-bottom:1px solid;border-image:linear-gradient(90deg,#c8aa6e,transparent) 1}
-.msg{padding:8px 14px;font-size:18px;border-left:2px solid var(--accent);box-shadow:inset 1px 0 0 #010a13}
+.msg{position:relative;padding:8px 14px 8px 18px;font-size:18px;border-left:2px solid var(--accent)}
+.msg::before{content:"";position:absolute;left:-6px;top:12px;width:10px;height:10px;transform:rotate(45deg);background:var(--magic);box-shadow:0 0 6px var(--magic)}
 .msg-head{font:600 15px var(--font-body)}
 .msg-role{background:var(--accent);color:#010a13}
 
-.stat{padding:11px 16px;border:1px solid #c8aa6e88;box-shadow:inset 0 0 0 3px #010a13,inset 0 0 0 4px #785a2866}
-.stat::before{content:"";position:absolute;left:50%;top:-6px;width:10px;height:10px;margin-left:-5px;transform:rotate(45deg);background:var(--accent);border:2px solid #010a13}
+.stat{padding:12px 16px 11px;border:1px solid #c8aa6e88;clip-path:polygon(10px 0,calc(100% - 10px) 0,100% 10px,100% 100%,0 100%,0 10px);
+  background-image:linear-gradient(180deg,#c8aa6e33,transparent 40%);box-shadow:inset 0 2px 0 var(--accent)}
+.rl-gemtop{position:absolute;left:50%;top:-1px;width:16px;height:9px;margin-left:-8px;background:var(--magic);clip-path:polygon(0 0,100% 0,50% 100%);box-shadow:0 0 8px var(--magic)}
 .stat label{font:700 11px var(--font-display);letter-spacing:.2em;color:var(--accent)}
 .stat strong{font:600 19px var(--font-body);margin-top:3px}
 .goal-track{height:7px;border-radius:0;background:#010a13;border:1px solid #785a28}
 #goal-fill{border-radius:0;box-shadow:0 0 10px var(--magic)}
 
-@keyframes riftlegends-sweep{0%{left:-140px}60%,100%{left:110%}}
+@keyframes riftlegends-sweep{0%{left:-140px}60%,100%{left:110%}}@keyframes riftlegends-spin{to{transform:rotate(360deg)}}@keyframes riftlegends-run{to{left:100%}}@keyframes riftlegends-rise{0%{transform:translateY(0);opacity:0}15%{opacity:.9}100%{transform:translateY(-700px);opacity:0}}
 /* >>> scene transition */
 /* ---- scene transition: plays once when the scene appears (switch it off with "Show scene transition") ---- */
 .sx{position:absolute;left:0;top:0;width:0;height:0;overflow:visible;z-index:2147480000;pointer-events:none}
@@ -138,15 +157,15 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent
 /* <<< scene transition */
 </style></head><body><!-- Rift Legends — paste ALL of this into the HTML tab of ONE StreamElements Custom Widget.
      The middle of the screen and the webcam hole are left completely empty (transparent). -->
-<div id="ov" class="ov"><div class="bg-layer" aria-hidden="true"></div><div class="game-frame" aria-hidden="true"><div class="game-box" data-game-hole></div></div>
+<div id="ov" class="ov"><div class="bg-layer" aria-hidden="true"></div><div class="game-frame" aria-hidden="true"><div class="game-box" data-game-hole></div></div><div class="decor-screen" aria-hidden="true"><i class="rl-mote" style="left:1766px;animation-delay:-6.3s;animation-duration:15.0s"></i><i class="rl-mote" style="left:1574px;animation-delay:-8.8s;animation-duration:14.6s"></i><i class="rl-mote" style="left:1708px;animation-delay:-2.0s;animation-duration:12.8s"></i><i class="rl-mote" style="left:1270px;animation-delay:-8.3s;animation-duration:11.8s"></i><i class="rl-mote" style="left:1023px;animation-delay:-8.7s;animation-duration:14.8s"></i><i class="rl-mote" style="left:624px;animation-delay:-2.7s;animation-duration:10.7s"></i><i class="rl-mote" style="left:1878px;animation-delay:-4.6s;animation-duration:13.1s"></i><i class="rl-mote" style="left:760px;animation-delay:-9.0s;animation-duration:12.5s"></i><i class="rl-mote" style="left:1523px;animation-delay:-9.2s;animation-duration:11.8s"></i><i class="rl-mote" style="left:1522px;animation-delay:-4.4s;animation-duration:10.6s"></i><i class="rl-mote" style="left:855px;animation-delay:-7.9s;animation-duration:9.8s"></i><i class="rl-mote" style="left:1628px;animation-delay:-0.9s;animation-duration:9.1s"></i><i class="rl-mote" style="left:1261px;animation-delay:-2.9s;animation-duration:15.4s"></i><i class="rl-mote" style="left:1672px;animation-delay:-5.9s;animation-duration:13.0s"></i><i class="rl-mote" style="left:1878px;animation-delay:-4.7s;animation-duration:11.2s"></i><i class="rl-mote" style="left:575px;animation-delay:-1.9s;animation-duration:13.9s"></i></div>
   <section id="cam" class="cam" aria-label="Webcam frame">
-    <i class="rl-gem tl"></i><i class="rl-gem tr"></i><i class="rl-gem bl"></i><i class="rl-gem br"></i><i class="rl-crest"></i>
+    <svg class="rl-corner tl" viewBox="0 0 90 90" aria-hidden="true"><defs><linearGradient id="rl-gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f0e6d2"/><stop offset=".4" stop-color="#c8aa6e"/><stop offset=".75" stop-color="#a07c3c"/><stop offset="1" stop-color="#5b4318"/></linearGradient><radialGradient id="rl-gem" cx=".38" cy=".32" r=".75"><stop offset="0" stop-color="#e4fffd"/><stop offset=".45" style="stop-color:var(--magic)"/><stop offset="1" stop-color="#003c50"/></radialGradient></defs><path d="M4 86 V26 L26 4 H86 V13 H30 L13 30 V86 Z" fill="url(#rl-gold)" stroke="#010a13" stroke-width="1.6"/><path d="M21 86 V34 L34 21 H86" fill="none" stroke="#c8aa6e" stroke-width="1.4" opacity=".75"/><path d="M40 13 H62 L58 18 H44 Z M13 40 V62 L18 58 V44 Z" fill="#c8aa6e" opacity=".9"/><polygon points="24,7 34,13 34,25 24,31 14,25 14,13" fill="url(#rl-gem)" stroke="#f0e6d2" stroke-width="1.6"/><polygon points="24,12 29,15 29,22 24,25 19,22 19,15" fill="none" stroke="#e4fffd" stroke-width=".8" opacity=".8"/></svg><svg class="rl-corner tr" viewBox="0 0 90 90" aria-hidden="true"><defs><linearGradient id="rl-gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f0e6d2"/><stop offset=".4" stop-color="#c8aa6e"/><stop offset=".75" stop-color="#a07c3c"/><stop offset="1" stop-color="#5b4318"/></linearGradient><radialGradient id="rl-gem" cx=".38" cy=".32" r=".75"><stop offset="0" stop-color="#e4fffd"/><stop offset=".45" style="stop-color:var(--magic)"/><stop offset="1" stop-color="#003c50"/></radialGradient></defs><path d="M4 86 V26 L26 4 H86 V13 H30 L13 30 V86 Z" fill="url(#rl-gold)" stroke="#010a13" stroke-width="1.6"/><path d="M21 86 V34 L34 21 H86" fill="none" stroke="#c8aa6e" stroke-width="1.4" opacity=".75"/><path d="M40 13 H62 L58 18 H44 Z M13 40 V62 L18 58 V44 Z" fill="#c8aa6e" opacity=".9"/><polygon points="24,7 34,13 34,25 24,31 14,25 14,13" fill="url(#rl-gem)" stroke="#f0e6d2" stroke-width="1.6"/><polygon points="24,12 29,15 29,22 24,25 19,22 19,15" fill="none" stroke="#e4fffd" stroke-width=".8" opacity=".8"/></svg><svg class="rl-corner bl" viewBox="0 0 90 90" aria-hidden="true"><defs><linearGradient id="rl-gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f0e6d2"/><stop offset=".4" stop-color="#c8aa6e"/><stop offset=".75" stop-color="#a07c3c"/><stop offset="1" stop-color="#5b4318"/></linearGradient><radialGradient id="rl-gem" cx=".38" cy=".32" r=".75"><stop offset="0" stop-color="#e4fffd"/><stop offset=".45" style="stop-color:var(--magic)"/><stop offset="1" stop-color="#003c50"/></radialGradient></defs><path d="M4 86 V26 L26 4 H86 V13 H30 L13 30 V86 Z" fill="url(#rl-gold)" stroke="#010a13" stroke-width="1.6"/><path d="M21 86 V34 L34 21 H86" fill="none" stroke="#c8aa6e" stroke-width="1.4" opacity=".75"/><path d="M40 13 H62 L58 18 H44 Z M13 40 V62 L18 58 V44 Z" fill="#c8aa6e" opacity=".9"/><polygon points="24,7 34,13 34,25 24,31 14,25 14,13" fill="url(#rl-gem)" stroke="#f0e6d2" stroke-width="1.6"/><polygon points="24,12 29,15 29,22 24,25 19,22 19,15" fill="none" stroke="#e4fffd" stroke-width=".8" opacity=".8"/></svg><svg class="rl-corner br" viewBox="0 0 90 90" aria-hidden="true"><defs><linearGradient id="rl-gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f0e6d2"/><stop offset=".4" stop-color="#c8aa6e"/><stop offset=".75" stop-color="#a07c3c"/><stop offset="1" stop-color="#5b4318"/></linearGradient><radialGradient id="rl-gem" cx=".38" cy=".32" r=".75"><stop offset="0" stop-color="#e4fffd"/><stop offset=".45" style="stop-color:var(--magic)"/><stop offset="1" stop-color="#003c50"/></radialGradient></defs><path d="M4 86 V26 L26 4 H86 V13 H30 L13 30 V86 Z" fill="url(#rl-gold)" stroke="#010a13" stroke-width="1.6"/><path d="M21 86 V34 L34 21 H86" fill="none" stroke="#c8aa6e" stroke-width="1.4" opacity=".75"/><path d="M40 13 H62 L58 18 H44 Z M13 40 V62 L18 58 V44 Z" fill="#c8aa6e" opacity=".9"/><polygon points="24,7 34,13 34,25 24,31 14,25 14,13" fill="url(#rl-gem)" stroke="#f0e6d2" stroke-width="1.6"/><polygon points="24,12 29,15 29,22 24,25 19,22 19,15" fill="none" stroke="#e4fffd" stroke-width=".8" opacity=".8"/></svg><svg class="rl-crest" viewBox="0 0 220 56" aria-hidden="true"><defs><linearGradient id="rl-gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f0e6d2"/><stop offset=".4" stop-color="#c8aa6e"/><stop offset=".75" stop-color="#a07c3c"/><stop offset="1" stop-color="#5b4318"/></linearGradient><radialGradient id="rl-gem" cx=".38" cy=".32" r=".75"><stop offset="0" stop-color="#e4fffd"/><stop offset=".45" style="stop-color:var(--magic)"/><stop offset="1" stop-color="#003c50"/></radialGradient></defs><path d="M110 6 L70 22 L18 20 L56 30 L14 40 L72 38 L110 50 L148 38 L206 40 L164 30 L202 20 L150 22 Z" fill="url(#rl-gold)" stroke="#010a13" stroke-width="1.5"/><path d="M110 14 L82 26 L110 42 L138 26 Z" fill="#010a13" stroke="#c8aa6e" stroke-width="1.5"/><polygon points="110,17 124,26 110,37 96,26" fill="url(#rl-gem)" stroke="#e4fffd" stroke-width="1"/></svg><i class="rl-energy"></i><i class="rl-energy b"></i>
     <div class="cam-hole" data-cam-hole></div>
     <div class="nameplate"><span data-field="name">Your cool name</span></div>
   </section>
 
   <section id="alert" class="alert box" aria-live="polite">
-    <i class="rl-sweep"></i>
+    <svg class="rl-blade l" viewBox="0 0 70 130" aria-hidden="true"><defs><linearGradient id="rl-gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f0e6d2"/><stop offset=".4" stop-color="#c8aa6e"/><stop offset=".75" stop-color="#a07c3c"/><stop offset="1" stop-color="#5b4318"/></linearGradient><radialGradient id="rl-gem" cx=".38" cy=".32" r=".75"><stop offset="0" stop-color="#e4fffd"/><stop offset=".45" style="stop-color:var(--magic)"/><stop offset="1" stop-color="#003c50"/></radialGradient></defs><path d="M66 8 L30 30 L4 65 L30 100 L66 122 L52 92 L40 65 L52 38 Z" fill="url(#rl-gold)" stroke="#010a13" stroke-width="1.5"/><path d="M58 30 L46 65 L58 100" fill="none" style="stroke:var(--magic)" stroke-width="2.5" opacity=".9"/></svg><svg class="rl-blade r" viewBox="0 0 70 130" aria-hidden="true"><defs><linearGradient id="rl-gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f0e6d2"/><stop offset=".4" stop-color="#c8aa6e"/><stop offset=".75" stop-color="#a07c3c"/><stop offset="1" stop-color="#5b4318"/></linearGradient><radialGradient id="rl-gem" cx=".38" cy=".32" r=".75"><stop offset="0" stop-color="#e4fffd"/><stop offset=".45" style="stop-color:var(--magic)"/><stop offset="1" stop-color="#003c50"/></radialGradient></defs><path d="M66 8 L30 30 L4 65 L30 100 L66 122 L52 92 L40 65 L52 38 Z" fill="url(#rl-gold)" stroke="#010a13" stroke-width="1.5"/><path d="M58 30 L46 65 L58 100" fill="none" style="stroke:var(--magic)" stroke-width="2.5" opacity=".9"/></svg><i class="rl-sweep"></i><svg class="rl-ring" viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="54" fill="none" style="stroke:var(--accent)" stroke-width="1.5" stroke-dasharray="3 7"/><circle cx="60" cy="60" r="46" fill="none" style="stroke:var(--magic)" stroke-width="2" stroke-dasharray="40 10 6 10" opacity=".85"/><rect x="58.5" y="2" width="3" height="9" style="fill:var(--accent)" transform="rotate(0 60 60)"/><rect x="58.5" y="2" width="3" height="9" style="fill:var(--accent)" transform="rotate(45 60 60)"/><rect x="58.5" y="2" width="3" height="9" style="fill:var(--accent)" transform="rotate(90 60 60)"/><rect x="58.5" y="2" width="3" height="9" style="fill:var(--accent)" transform="rotate(135 60 60)"/><rect x="58.5" y="2" width="3" height="9" style="fill:var(--accent)" transform="rotate(180 60 60)"/><rect x="58.5" y="2" width="3" height="9" style="fill:var(--accent)" transform="rotate(225 60 60)"/><rect x="58.5" y="2" width="3" height="9" style="fill:var(--accent)" transform="rotate(270 60 60)"/><rect x="58.5" y="2" width="3" height="9" style="fill:var(--accent)" transform="rotate(315 60 60)"/></svg>
     <div class="alert-icon" id="alert-icon"></div>
     <div class="alert-copy">
       <div class="alert-kind" id="alert-kind"></div>
@@ -162,12 +181,12 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent
   </section>
 
   <section class="latest">
-    <div class="stat box"><label>Latest follower</label><strong data-latest="follower">—</strong></div>
-    <div class="stat box"><label>Latest sub</label><strong data-latest="subscriber">—</strong></div>
-    <div class="stat box"><label>Latest tip</label><strong data-latest="tip">—</strong></div>
-    <div class="stat box"><label>Latest cheer</label><strong data-latest="cheer">—</strong></div>
-    <div class="stat box"><label>Latest raid</label><strong data-latest="raid">—</strong></div>
-    <div class="stat goal box"><label>Follower goal</label><strong id="goal-count">0 / 100</strong><div class="goal-track"><div id="goal-fill"></div></div></div>
+    <div class="stat box"><i class="rl-gemtop"></i><label>Latest follower</label><strong data-latest="follower">—</strong></div>
+    <div class="stat box"><i class="rl-gemtop"></i><label>Latest sub</label><strong data-latest="subscriber">—</strong></div>
+    <div class="stat box"><i class="rl-gemtop"></i><label>Latest tip</label><strong data-latest="tip">—</strong></div>
+    <div class="stat box"><i class="rl-gemtop"></i><label>Latest cheer</label><strong data-latest="cheer">—</strong></div>
+    <div class="stat box"><i class="rl-gemtop"></i><label>Latest raid</label><strong data-latest="raid">—</strong></div>
+    <div class="stat goal box"><i class="rl-gemtop"></i><label>Follower goal</label><strong id="goal-count">0 / 100</strong><div class="goal-track"><div id="goal-fill"></div></div></div>
   </section>
   <section class="socials box extra" aria-label="Socials">
     

@@ -48,6 +48,12 @@
     "value": "#c8aa6e",
     "group": "Colours"
   },
+  "c_magic": {
+    "type": "colorpicker",
+    "label": "Hextech glow",
+    "value": "#0ac8b9",
+    "group": "Colours"
+  },
   "c_text": {
     "type": "colorpicker",
     "label": "Text",
@@ -87,18 +93,12 @@
   "c_stat_bg": {
     "type": "colorpicker",
     "label": "Latest boxes",
-    "value": "#010a13e0",
+    "value": "#010a13e6",
     "group": "Colours"
   },
   "c_goal_fill": {
     "type": "colorpicker",
     "label": "Goal bar",
-    "value": "#0ac8b9",
-    "group": "Colours"
-  },
-  "c_magic": {
-    "type": "colorpicker",
-    "label": "Magic glow",
     "value": "#0ac8b9",
     "group": "Colours"
   },

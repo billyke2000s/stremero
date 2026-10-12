@@ -48,6 +48,18 @@
     "value": "#d4a83a",
     "group": "Colours"
   },
+  "c_stone": {
+    "type": "colorpicker",
+    "label": "Stone",
+    "value": "#5d5a55",
+    "group": "Colours"
+  },
+  "c_gem": {
+    "type": "colorpicker",
+    "label": "Gems",
+    "value": "#c0222e",
+    "group": "Colours"
+  },
   "c_text": {
     "type": "colorpicker",
     "label": "Text",
@@ -66,10 +78,10 @@
     "value": "#1a1209f2",
     "group": "Colours"
   },
-  "c_alert_bg": {
+  "c_parchment": {
     "type": "colorpicker",
-    "label": "Alert box",
-    "value": "#110b06f2",
+    "label": "Quest scroll",
+    "value": "#efdcac",
     "group": "Colours"
   },
   "c_chat_bg": {
@@ -82,6 +94,12 @@
     "type": "colorpicker",
     "label": "Chat names (no Twitch colour)",
     "value": "#a335ee",
+    "group": "Colours"
+  },
+  "c_guild": {
+    "type": "colorpicker",
+    "label": "Guild chat text",
+    "value": "#40ff40",
     "group": "Colours"
   },
   "c_stat_bg": {

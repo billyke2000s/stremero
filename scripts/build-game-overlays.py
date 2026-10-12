@@ -29,7 +29,8 @@ def scope(css):
     return '\n' + '\n'.join(out) + '\n'
 
 def theme_css(t):
-    return ''.join(t['css'][k] for k in ('cam', 'alert', 'chat', 'latest')) + '\n' + t['keyframes'] + '\n'
+    holder = '.decor-screen{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden;pointer-events:none}\n' if t.get('screen') else ''
+    return holder + ''.join(t['css'].get(k, '') for k in ('screen', 'cam', 'alert', 'chat', 'latest')) + '\n' + t['keyframes'] + '\n'
 
 def root_block(t):
     lines = [f"  {k}: {v}; /* @color {label} */" for k, label, v in t['vars']]
@@ -74,6 +75,12 @@ for t in THEMES:
     html = section_swap(html, r'<section id="alert" class="alert box"[^>]*>', '<div class="alert-icon"', t['decor']['alert'])
     html = section_swap(html, r'<section id="chat" class="chat"[^>]*>', '<div class="chat-title">', t['decor']['chat'])
     html = re.sub(r'(<div class="chat-title"><span>)[^<]*(</span>)', r'\g<1>' + t['chatTitle'] + r'\2', html)
+    # full-screen decoration (under every part) and decoration inside each latest box
+    if t.get('screen'):
+        m = re.search(r'<div class="game-frame"[^>]*><div class="game-box"[^>]*></div></div>', html)
+        html = html[:m.end()] + '<div class="decor-screen" aria-hidden="true">' + t['screen'] + '</div>' + html[m.end():]
+    if t['decor'].get('stat'):
+        html = html.replace('<div class="stat box">', '<div class="stat box">' + t['decor']['stat']).replace('<div class="stat goal box">', '<div class="stat goal box">' + t['decor']['stat'])
 
     # ---- overlay.js: wording
     labels = dict(P['labels']); labels.update(t['labels'])
@@ -114,10 +121,10 @@ for t in THEMES:
     s.update(id=t['id'], name=t['name'], category=CATEGORY, path=CATEGORY + '/' + t['name'] + '/', tags=t['tags'],
              forGame=t['forGame'], layout=t['layout'], font=t['font'], fontBody=t['fontBody'], fontDisplay=t['fontDisplay'],
              vars=[list(v) for v in t['vars']], root='', labels=dict(t['labels']), chatTitle=t['chatTitle'],
-             plate='', head='', screen='', defs='', nativeSocials=False,
-             decor={'cam': t['decor']['cam'], 'alert': t['decor']['alert'], 'chat': t['decor']['chat'], 'stat': '', 'socials': ''},
+             plate='', head='', screen=t.get('screen', ''), defs='', nativeSocials=False,
+             decor={'cam': t['decor']['cam'], 'alert': t['decor']['alert'], 'chat': t['decor']['chat'], 'stat': t['decor'].get('stat', ''), 'socials': ''},
              css={'cam': scope(t['css']['cam']), 'chat': scope(t['css']['chat']), 'alert': scope(t['css']['alert']),
-                  'latest': scope(t['css']['latest']), 'screen': '', 'game': ''},
+                  'latest': scope(t['css']['latest']), 'screen': scope(t['css']['screen']) if t['css'].get('screen') else '', 'game': ''},
              keyframes=t['keyframes'])
     P['sources'] = [x for x in P['sources'] if x['id'] != t['id']] + [s]
     built.append(t['name'])

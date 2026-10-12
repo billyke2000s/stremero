@@ -4,12 +4,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Spectral:wght@500;600;700&display=swap');
 :root{
   --accent: #d4a83a; /* @color Gold trim */
+  --stone: #5d5a55; /* @color Stone */
+  --gem: #c0222e; /* @color Gems */
   --text: #f8ecc8; /* @color Text */
   --cam-border: #d4a83a; /* @color Webcam border */
   --nameplate-bg: #1a1209f2; /* @color Name plate */
-  --alert-bg: #110b06f2; /* @color Alert box */
+  --parchment: #efdcac; /* @color Quest scroll */
   --chat-bg: #0d0904d9; /* @color Chat messages */
   --chat-name: #a335ee; /* @color Chat names (no Twitch colour) */
+  --guild: #40ff40; /* @color Guild chat text */
   --stat-bg: #140e07eb; /* @color Latest boxes */
   --goal-fill: #8e2bd9; /* @color Goal bar */
   --quest: #ffd100; /* @color Quest yellow */
@@ -93,31 +96,46 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent
 .chat{zoom:var(--chat-zoom,1)}
 /* ---- theme ---- */
 
-.cam{--ring:12px;border:12px solid transparent;border-image:linear-gradient(180deg,#5c4a33,#2c2318 40%,#4a3b29 60%,#211a12) 1;box-shadow:0 0 0 2px var(--accent),inset 0 0 0 2px var(--accent),0 10px 30px #000c}
-.rh-rivet{position:absolute;width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff3c4,#d4a83a 40%,#6b4e1a 75%);box-shadow:0 2px 3px #000;z-index:2}
-.rh-rivet.tl{left:-17px;top:-17px}.rh-rivet.tr{right:-17px;top:-17px}.rh-rivet.bl{left:-17px;bottom:-17px}.rh-rivet.br{right:-17px;bottom:-17px}
-.rh-plate{position:absolute;left:50%;top:-30px;width:70px;height:26px;margin-left:-35px;background:linear-gradient(180deg,#e9c66b,#8a6420);clip-path:polygon(15% 0,85% 0,100% 100%,0 100%);box-shadow:0 2px 3px #000}
-.nameplate{left:50%;bottom:-44px;transform:translateX(-50%);font:700 18px var(--font-display);letter-spacing:.1em;color:var(--quest);background:var(--nameplate-bg);padding:6px 22px;border:2px solid var(--accent);border-radius:4px;text-shadow:0 1px 2px #000;box-shadow:0 4px 10px #000a}
+.cam{--ring:3px;border:0;box-shadow:0 0 0 3px var(--cam-border),inset 0 0 0 1px #000}
+.rh-stone{position:absolute;inset:-26px;padding:23px;border-radius:6px;pointer-events:none;
+  background:radial-gradient(circle at 20% 30%,#ffffff14 0 2px,transparent 3px) 0 0/23px 19px,radial-gradient(circle at 70% 60%,#00000033 0 3px,transparent 4px) 0 0/31px 27px,
+  linear-gradient(135deg,#7d7a74,var(--stone) 40%,#3e3c38);
+  box-shadow:inset 0 2px 0 #ffffff26,inset 0 -3px 0 #0006,0 0 0 2px var(--cam-border),0 0 0 4px #1a1209,0 14px 30px #000c;
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
+.rh-boss{position:absolute;width:46px;height:46px;z-index:3;filter:drop-shadow(0 2px 3px #000)}
+.rh-boss.tl{left:-38px;top:-38px}.rh-boss.tr{right:-38px;top:-38px}.rh-boss.bl{left:-38px;bottom:-38px}.rh-boss.br{right:-38px;bottom:-38px}
+.rh-crest{position:absolute;left:50%;top:-86px;width:96px;height:88px;margin-left:-48px;z-index:4;filter:drop-shadow(0 4px 4px #000c)}
+.nameplate{left:50%;bottom:-44px;transform:translateX(-50%);z-index:5;font:700 18px var(--font-display);letter-spacing:.1em;color:var(--quest);background:var(--nameplate-bg);
+  padding:6px 26px;border:2px solid var(--accent);border-radius:4px;text-shadow:0 1px 2px #000;box-shadow:0 0 0 2px #1a1209,0 4px 10px #000a}
 
-.alert{padding:16px 28px;border:3px solid var(--accent);border-radius:6px;overflow:hidden;box-shadow:inset 0 0 0 2px #000,inset 0 0 30px #d4a83a22,0 10px 30px #000c}
-.rh-glow{position:absolute;left:-20%;right:-20%;top:-60%;height:120%;background:radial-gradient(closest-side,#ffd10033,transparent);animation:realmofheroes-pulse 2.4s ease-in-out infinite;pointer-events:none}
-.alert-icon{width:62px;height:62px;border-radius:6px;border:2px solid var(--accent);background:radial-gradient(circle,#3a2a10,#0d0904);color:var(--quest);font:900 34px var(--font-display);text-shadow:0 0 10px #ffd100aa}
-.alert-kind{font:900 15px var(--font-display);letter-spacing:.2em;color:var(--quest);text-shadow:0 1px 2px #000}
-.alert-name{font:900 34px var(--font-display);color:#fff;text-shadow:0 2px 3px #000}
-.alert-detail{font:italic 600 17px var(--font-body);color:#d8c7a0}
+.alert{padding:14px 64px;border-radius:2px;overflow:visible;color:#3a2410;
+  background:radial-gradient(ellipse at 30% 40%,#fff6dc66,transparent 60%),radial-gradient(ellipse at 80% 70%,#b8955533,transparent 55%),linear-gradient(180deg,var(--parchment),#d8bd82);
+  box-shadow:inset 0 0 22px #8a6a2c88,0 10px 26px #000b}
+.rh-roll{position:absolute;top:-10px;bottom:-10px;width:30px;border-radius:15px;
+  background:linear-gradient(90deg,#5a3a14,#c49a52 35%,#f2d898 50%,#a07434 70%,#4a2e0e);box-shadow:0 4px 8px #0008}
+.rh-roll.l{left:-14px}.rh-roll.r{right:-14px}
+.alert-icon{width:58px;height:58px;border-radius:50%;color:#ffd7b0;font-size:24px;
+  background:radial-gradient(circle at 35% 30%,#e04a4a,#9c1414 55%,#5a0808);box-shadow:0 0 0 4px #9c141455,0 3px 4px #0007,inset 0 -3px 5px #0006}
+.alert-kind{font:900 15px var(--font-display);letter-spacing:.18em;color:#8a1a10}
+.alert-name{font:900 32px var(--font-display);color:#2a1606}
+.alert-detail{font:italic 600 17px var(--font-body);color:#5a3a1a}
 
 .chat-title{font:900 15px var(--font-display);letter-spacing:.18em;color:var(--quest);margin-bottom:8px;text-shadow:0 1px 2px #000}
-.msg{padding:7px 12px;font:600 18px var(--font-body);border:1px solid #d4a83a55;border-radius:4px}
+.msg{padding:6px 12px;font:600 18px var(--font-body);border-radius:3px;background-image:linear-gradient(90deg,#00000055,transparent)}
+.msg-user::before{content:"[Guild] ";color:var(--guild)}
+.msg-body{color:var(--guild)}
 .msg-head{font:700 15px var(--font-body)}
 .msg-role{background:var(--accent);color:#1a1209}
 
-.stat{padding:9px 14px;border:2px solid var(--accent);border-radius:5px;box-shadow:inset 0 0 0 2px #000}
+.latest{counter-reset:slot}
+.stat{counter-increment:slot;padding:9px 14px 9px 52px;border:2px solid var(--accent);border-radius:5px;
+  background:linear-gradient(180deg,#2a1f12,var(--stat-bg));box-shadow:inset 0 0 0 2px #000,inset 0 0 14px #000,0 2px 6px #000a}
+.stat::before{content:counter(slot);position:absolute;left:7px;top:50%;width:34px;height:34px;margin-top:-17px;display:grid;place-items:center;
+  font:700 15px var(--font-display);color:#fff;border:2px solid #8a6a2c;border-radius:4px;background:radial-gradient(circle at 35% 30%,#4a3a22,#120c05);text-shadow:0 1px 2px #000}
 .stat label{font:900 11px var(--font-display);letter-spacing:.16em;color:var(--quest)}
 .stat strong{font:600 19px var(--font-body);margin-top:2px}
 .goal-track{height:10px;border-radius:2px;background:#000;border:1px solid #d4a83a88}
 #goal-fill{border-radius:0;background:linear-gradient(180deg,#c77dff,var(--goal-fill) 50%,#5a1590)}
-
-@keyframes realmofheroes-pulse{0%,100%{opacity:.5}50%{opacity:1}}
 /* >>> scene transition */
 /* ---- scene transition: plays once when the scene appears (switch it off with "Show scene transition") ---- */
 .sx{position:absolute;left:0;top:0;width:0;height:0;overflow:visible;z-index:2147480000;pointer-events:none}

@@ -85,15 +85,15 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent
 /* ---- colours (one block per part) ---- */
 .ov{
   --accent: #c8aa6e; /* @color Gold */
+  --magic: #0ac8b9; /* @color Hextech glow */
   --text: #f0e6d2; /* @color Text */
   --cam-border: #c8aa6e; /* @color Webcam border */
   --nameplate-bg: #010a13f0; /* @color Name plate */
   --alert-bg: #010a13f2; /* @color Alert box */
   --chat-bg: #010a13d9; /* @color Chat messages */
   --chat-name: #0ac8b9; /* @color Chat names (no Twitch colour) */
-  --stat-bg: #010a13e0; /* @color Latest boxes */
+  --stat-bg: #010a13e6; /* @color Latest boxes */
   --goal-fill: #0ac8b9; /* @color Goal bar */
-  --magic: #0ac8b9; /* @color Magic glow */
   --font-body: 'Barlow',Arial,sans-serif;
   --font-display: 'Cinzel',Georgia,serif;
 }
@@ -101,25 +101,38 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent
 .el.e-p2{font-family: var(--font-body);color: var(--text)}
 .el.e-p3{font-family: var(--font-body);color: var(--text)}
 .el.e-p4{font-family: var(--font-body);color: var(--text)}
+.el.e-p5{font-family: var(--font-body);color: var(--text)}
 /* ---- animations ---- */
-@keyframes riftlegends-sweep{0%{left:-140px}60%,100%{left:110%}}
+@keyframes riftlegends-sweep{0%{left:-140px}60%,100%{left:110%}}@keyframes riftlegends-spin{to{transform:rotate(360deg)}}@keyframes riftlegends-run{to{left:100%}}@keyframes riftlegends-rise{0%{transform:translateY(0);opacity:0}15%{opacity:.9}100%{transform:translateY(-700px);opacity:0}}
 /* ---- parts ---- */
+/* Rift Legends: screen */
+
+.rl-mote:where(.src-riftlegends,.src-riftlegends *){position:absolute;bottom:-10px;width:6px;height:6px;border-radius:50%;background:radial-gradient(circle,#e4fffd,var(--magic) 50%,transparent 72%);
+  box-shadow:0 0 10px 2px var(--magic);opacity:0;animation:riftlegends-rise 12s linear infinite}
+
 /* Rift Legends: cam */
 
-.cam:where(.src-riftlegends,.src-riftlegends *){--ring:6px;border:2px solid var(--cam-border);outline:1px solid #c8aa6e66;outline-offset:5px;box-shadow:0 0 0 1px #010a13,0 0 24px #0ac8b933,inset 0 0 0 1px #785a28}
-.rl-gem:where(.src-riftlegends,.src-riftlegends *){position:absolute;width:16px;height:16px;transform:rotate(45deg);background:linear-gradient(135deg,#f0e6d2,#c8aa6e 45%,#785a28);border:2px solid #010a13;box-shadow:0 0 10px #0ac8b9aa;z-index:2}
-.rl-gem:where(.src-riftlegends,.src-riftlegends *)::after{content:"";position:absolute;inset:3px;background:var(--magic);box-shadow:0 0 6px var(--magic)}
-.rl-gem.tl:where(.src-riftlegends,.src-riftlegends *){left:-10px;top:-10px}
-.rl-gem.tr:where(.src-riftlegends,.src-riftlegends *){right:-10px;top:-10px}
-.rl-gem.bl:where(.src-riftlegends,.src-riftlegends *){left:-10px;bottom:-10px}
-.rl-gem.br:where(.src-riftlegends,.src-riftlegends *){right:-10px;bottom:-10px}
-.rl-crest:where(.src-riftlegends,.src-riftlegends *){position:absolute;left:50%;top:-14px;width:120px;height:14px;margin-left:-60px;background:linear-gradient(90deg,transparent,#c8aa6e 30%,#f0e6d2 50%,#c8aa6e 70%,transparent);clip-path:polygon(0 100%,12% 0,88% 0,100% 100%)}
-.nameplate:where(.src-riftlegends,.src-riftlegends *){left:50%;bottom:-36px;transform:translateX(-50%);font:700 17px var(--font-display);letter-spacing:.14em;text-transform:uppercase;color:var(--text);background:var(--nameplate-bg);padding:7px 26px;border:1px solid var(--accent);clip-path:polygon(12px 0,calc(100% - 12px) 0,100% 50%,calc(100% - 12px) 100%,12px 100%,0 50%);box-shadow:inset 0 0 12px #0ac8b933}
+.cam:where(.src-riftlegends,.src-riftlegends *){--ring:5px;border:5px solid transparent;border-image:linear-gradient(135deg,#f0e6d2,var(--cam-border) 30%,#785a28 55%,var(--cam-border) 80%,#f0e6d2) 1;
+  box-shadow:0 0 0 3px #010a13,0 0 0 6px var(--cam-border),0 0 0 8px #010a13,0 0 30px #0ac8b955,inset 0 0 0 2px #010a13}
+.rl-corner:where(.src-riftlegends,.src-riftlegends *){position:absolute;width:104px;height:104px;z-index:3;filter:drop-shadow(0 0 6px #0ac8b966)}
+.rl-corner.tl:where(.src-riftlegends,.src-riftlegends *){left:-22px;top:-22px}
+.rl-corner.tr:where(.src-riftlegends,.src-riftlegends *){right:-22px;top:-22px;transform:scaleX(-1)}
+.rl-corner.bl:where(.src-riftlegends,.src-riftlegends *){left:-22px;bottom:-22px;transform:scaleY(-1)}
+.rl-corner.br:where(.src-riftlegends,.src-riftlegends *){right:-22px;bottom:-22px;transform:scale(-1,-1)}
+.rl-crest:where(.src-riftlegends,.src-riftlegends *){position:absolute;left:50%;top:-48px;width:240px;height:62px;margin-left:-120px;z-index:4;filter:drop-shadow(0 3px 4px #000c)}
+.rl-energy:where(.src-riftlegends,.src-riftlegends *){position:absolute;left:90px;right:90px;top:-5px;height:3px;overflow:hidden;z-index:2}
+.rl-energy.b:where(.src-riftlegends,.src-riftlegends *){top:auto;bottom:-5px}
+.rl-energy:where(.src-riftlegends,.src-riftlegends *)::after{content:"";position:absolute;top:0;bottom:0;width:90px;left:-90px;background:linear-gradient(90deg,transparent,#e4fffd,var(--magic),transparent);animation:riftlegends-run 3.2s linear infinite}
+.rl-energy.b:where(.src-riftlegends,.src-riftlegends *)::after{animation-delay:-1.6s}
+.nameplate:where(.src-riftlegends,.src-riftlegends *){left:50%;bottom:-40px;transform:translateX(-50%);z-index:5;font:700 17px var(--font-display);letter-spacing:.16em;text-transform:uppercase;color:var(--text);
+  background:linear-gradient(180deg,#0a1a24,var(--nameplate-bg));padding:8px 30px;border:2px solid var(--accent);
+  clip-path:polygon(14px 0,calc(100% - 14px) 0,100% 50%,calc(100% - 14px) 100%,14px 100%,0 50%);box-shadow:inset 0 0 14px #0ac8b944}
 
 /* Rift Legends: latest */
 
-.stat:where(.src-riftlegends,.src-riftlegends *){padding:11px 16px;border:1px solid #c8aa6e88;box-shadow:inset 0 0 0 3px #010a13,inset 0 0 0 4px #785a2866}
-.stat:where(.src-riftlegends,.src-riftlegends *)::before{content:"";position:absolute;left:50%;top:-6px;width:10px;height:10px;margin-left:-5px;transform:rotate(45deg);background:var(--accent);border:2px solid #010a13}
+.stat:where(.src-riftlegends,.src-riftlegends *){padding:12px 16px 11px;border:1px solid #c8aa6e88;clip-path:polygon(10px 0,calc(100% - 10px) 0,100% 10px,100% 100%,0 100%,0 10px);
+  background-image:linear-gradient(180deg,#c8aa6e33,transparent 40%);box-shadow:inset 0 2px 0 var(--accent)}
+.rl-gemtop:where(.src-riftlegends,.src-riftlegends *){position:absolute;left:50%;top:-1px;width:16px;height:9px;margin-left:-8px;background:var(--magic);clip-path:polygon(0 0,100% 0,50% 100%);box-shadow:0 0 8px var(--magic)}
 .stat:where(.src-riftlegends,.src-riftlegends *) label{font:700 11px var(--font-display);letter-spacing:.2em;color:var(--accent)}
 .stat:where(.src-riftlegends,.src-riftlegends *) strong{font:600 19px var(--font-body);margin-top:3px}
 .goal-track:where(.src-riftlegends,.src-riftlegends *){height:7px;border-radius:0;background:#010a13;border:1px solid #785a28}
@@ -128,16 +141,24 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent
 /* Rift Legends: chat */
 
 .chat-title:where(.src-riftlegends,.src-riftlegends *){font:700 13px var(--font-display);letter-spacing:.32em;color:var(--accent);padding:0 0 8px;margin-bottom:8px;border-bottom:1px solid;border-image:linear-gradient(90deg,#c8aa6e,transparent) 1}
-.msg:where(.src-riftlegends,.src-riftlegends *){padding:8px 14px;font-size:18px;border-left:2px solid var(--accent);box-shadow:inset 1px 0 0 #010a13}
+.msg:where(.src-riftlegends,.src-riftlegends *){position:relative;padding:8px 14px 8px 18px;font-size:18px;border-left:2px solid var(--accent)}
+.msg:where(.src-riftlegends,.src-riftlegends *)::before{content:"";position:absolute;left:-6px;top:12px;width:10px;height:10px;transform:rotate(45deg);background:var(--magic);box-shadow:0 0 6px var(--magic)}
 .msg-head:where(.src-riftlegends,.src-riftlegends *){font:600 15px var(--font-body)}
 .msg-role:where(.src-riftlegends,.src-riftlegends *){background:var(--accent);color:#010a13}
 
 /* Rift Legends: alert */
 
-.alert:where(.src-riftlegends,.src-riftlegends *){padding:18px 30px;border:2px solid var(--accent);overflow:hidden;clip-path:polygon(18px 0,calc(100% - 18px) 0,100% 18px,100% calc(100% - 18px),calc(100% - 18px) 100%,18px 100%,0 calc(100% - 18px),0 18px);box-shadow:inset 0 0 0 4px #010a13,inset 0 0 0 5px #785a28,inset 0 0 40px #0ac8b922}
-.rl-sweep:where(.src-riftlegends,.src-riftlegends *){position:absolute;top:0;bottom:0;width:120px;left:-140px;background:linear-gradient(100deg,transparent,#f0e6d24d,transparent);animation:riftlegends-sweep 2.6s ease-in-out infinite;pointer-events:none}
-.alert-icon:where(.src-riftlegends,.src-riftlegends *){width:68px;height:68px;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);background:radial-gradient(circle,#0ac8b9 0 22%,#0a323c 50%,#c8aa6e 51% 56%,#010a13 57%);color:#f0e6d2;font-size:24px;text-shadow:0 0 8px #0ac8b9}
-.alert-kind:where(.src-riftlegends,.src-riftlegends *){font:700 14px var(--font-display);letter-spacing:.28em;color:var(--magic)}
+.alert:where(.src-riftlegends,.src-riftlegends *){padding:18px 34px 18px 30px;border:2px solid var(--accent);overflow:visible;
+  clip-path:polygon(18px 0,calc(100% - 18px) 0,100% 18px,100% calc(100% - 18px),calc(100% - 18px) 100%,18px 100%,0 calc(100% - 18px),0 18px);
+  box-shadow:inset 0 0 0 4px #010a13,inset 0 0 0 5px #785a28,inset 0 0 50px #0ac8b926}
+.rl-blade:where(.src-riftlegends,.src-riftlegends *){position:absolute;top:50%;width:46px;height:86px;margin-top:-43px;z-index:2;filter:drop-shadow(0 0 6px #0ac8b955)}
+.rl-blade.l:where(.src-riftlegends,.src-riftlegends *){left:-6px}
+.rl-blade.r:where(.src-riftlegends,.src-riftlegends *){right:-6px;transform:scaleX(-1)}
+.rl-sweep:where(.src-riftlegends,.src-riftlegends *){position:absolute;top:0;bottom:0;width:120px;left:-140px;background:linear-gradient(100deg,transparent,#f0e6d240,transparent);animation:riftlegends-sweep 2.8s ease-in-out infinite;pointer-events:none}
+.rl-ring:where(.src-riftlegends,.src-riftlegends *){position:absolute;left:30px;top:50%;width:92px;height:92px;margin:-46px 0 0 -12px;animation:riftlegends-spin 9s linear infinite;pointer-events:none}
+.alert-icon:where(.src-riftlegends,.src-riftlegends *){position:relative;width:68px;height:68px;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);
+  background:radial-gradient(circle,var(--magic) 0 22%,#0a323c 50%,var(--accent) 51% 56%,#010a13 57%);color:#f0e6d2;font-size:24px;text-shadow:0 0 8px var(--magic)}
+.alert-kind:where(.src-riftlegends,.src-riftlegends *){font:700 14px var(--font-display);letter-spacing:.3em;color:var(--magic)}
 .alert-name:where(.src-riftlegends,.src-riftlegends *){font:900 34px var(--font-display);letter-spacing:.04em;background:linear-gradient(180deg,#f0e6d2,#c8aa6e 60%,#785a28);-webkit-background-clip:text;background-clip:text;color:transparent}
 .alert-detail:where(.src-riftlegends,.src-riftlegends *){font:600 16px var(--font-body);color:#a09b8c}
 

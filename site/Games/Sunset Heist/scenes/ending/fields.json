@@ -44,8 +44,14 @@
   },
   "c_accent": {
     "type": "colorpicker",
-    "label": "Accent",
+    "label": "Accent pink",
     "value": "#ff3e8a",
+    "group": "Colours"
+  },
+  "c_sunset": {
+    "type": "colorpicker",
+    "label": "Sunset orange",
+    "value": "#ff8a3d",
     "group": "Colours"
   },
   "c_text": {
@@ -56,8 +62,8 @@
   },
   "c_cam_border": {
     "type": "colorpicker",
-    "label": "Webcam border",
-    "value": "#ffffff",
+    "label": "Phone body",
+    "value": "#141418",
     "group": "Colours"
   },
   "c_nameplate_bg": {
@@ -68,14 +74,14 @@
   },
   "c_alert_bg": {
     "type": "colorpicker",
-    "label": "Alert box",
-    "value": "#000000d0",
+    "label": "Alert band",
+    "value": "#000000cc",
     "group": "Colours"
   },
   "c_chat_bg": {
     "type": "colorpicker",
     "label": "Chat messages",
-    "value": "#000000b3",
+    "value": "#2a2a30e6",
     "group": "Colours"
   },
   "c_chat_name": {
@@ -87,7 +93,7 @@
   "c_stat_bg": {
     "type": "colorpicker",
     "label": "Latest boxes",
-    "value": "#000000bf",
+    "value": "#000000a6",
     "group": "Colours"
   },
   "c_goal_fill": {
@@ -100,12 +106,6 @@
     "type": "colorpicker",
     "label": "Cash green",
     "value": "#3ddc84",
-    "group": "Colours"
-  },
-  "c_sunset": {
-    "type": "colorpicker",
-    "label": "Sunset orange",
-    "value": "#ff8a3d",
     "group": "Colours"
   },
   "showAlerts": {

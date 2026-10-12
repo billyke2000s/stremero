@@ -85,17 +85,17 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent
 .title-card>.nameplate>span{max-width:none!important;overflow:visible!important}
 /* ---- colours (one block per part) ---- */
 .ov{
-  --accent: #ff3e8a; /* @color Accent */
+  --accent: #ff3e8a; /* @color Accent pink */
+  --sunset: #ff8a3d; /* @color Sunset orange */
   --text: #ffffff; /* @color Text */
-  --cam-border: #ffffff; /* @color Webcam border */
+  --cam-border: #141418; /* @color Phone body */
   --nameplate-bg: #000000d9; /* @color Name plate */
-  --alert-bg: #000000d0; /* @color Alert box */
-  --chat-bg: #000000b3; /* @color Chat messages */
+  --alert-bg: #000000cc; /* @color Alert band */
+  --chat-bg: #2a2a30e6; /* @color Chat messages */
   --chat-name: #ffb347; /* @color Chat names (no Twitch colour) */
-  --stat-bg: #000000bf; /* @color Latest boxes */
+  --stat-bg: #000000a6; /* @color Latest boxes */
   --goal-fill: #3ddc84; /* @color Goal bar */
   --cash: #3ddc84; /* @color Cash green */
-  --sunset: #ff8a3d; /* @color Sunset orange */
   --font-body: 'Chakra Petch',Arial,sans-serif;
   --font-display: 'Anton',Impact,sans-serif;
 }
@@ -103,41 +103,57 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent
 .el.e-p2{font-family: var(--font-body);color: var(--text)}
 .el.e-p3{font-family: var(--font-body);color: var(--text)}
 .el.e-p4{font-family: var(--font-body);color: var(--text)}
+.el.e-p5{font-family: var(--font-body);color: var(--text)}
 /* ---- animations ---- */
 
 /* ---- parts ---- */
+/* Sunset Heist: screen */
+
+.sh-city:where(.src-sunsetheist,.src-sunsetheist *){position:absolute;left:0;top:0;width:1920px;height:1080px}
+
 /* Sunset Heist: cam */
 
-.cam:where(.src-sunsetheist,.src-sunsetheist *){--ring:5px;border:5px solid var(--cam-border);box-shadow:0 0 0 2px #000,0 12px 30px #000b}
-.sh-sun:where(.src-sunsetheist,.src-sunsetheist *){position:absolute;left:-5px;right:-5px;bottom:-12px;height:7px;background:linear-gradient(90deg,var(--sunset),var(--accent),#7b3fe4)}
-.sh-stars:where(.src-sunsetheist,.src-sunsetheist *){position:absolute;right:0;top:-38px;font:28px/1 Arial,sans-serif;letter-spacing:4px;color:#ffffff40;font-style:normal;text-shadow:0 2px 3px #000}
+.cam:where(.src-sunsetheist,.src-sunsetheist *){--ring:20px;border:20px solid var(--cam-border);border-radius:38px;
+  box-shadow:0 0 0 2px #3a3a44,0 0 0 4px #0008,inset 0 0 0 2px #000,0 20px 40px #000c}
+.sh-btn:where(.src-sunsetheist,.src-sunsetheist *){position:absolute;height:5px;background:linear-gradient(#55555f,#26262c);border-radius:3px 3px 0 0}
+.sh-btn.v1:where(.src-sunsetheist,.src-sunsetheist *){top:-27px;left:70px;width:44px}
+.sh-btn.v2:where(.src-sunsetheist,.src-sunsetheist *){top:-27px;left:124px;width:44px}
+.sh-btn.pw:where(.src-sunsetheist,.src-sunsetheist *){top:-27px;right:90px;width:60px}
+.sh-lens:where(.src-sunsetheist,.src-sunsetheist *){position:absolute;left:-14px;top:50%;width:9px;height:9px;margin-top:-4px;border-radius:50%;background:radial-gradient(circle at 40% 40%,#4a6ad0,#0a0a12 70%)}
+.sh-speaker:where(.src-sunsetheist,.src-sunsetheist *){position:absolute;right:-13px;top:50%;width:4px;height:46px;margin-top:-23px;border-radius:3px;background:#2a2a32}
+.sh-glare:where(.src-sunsetheist,.src-sunsetheist *){position:absolute;inset:0;border-radius:18px;pointer-events:none;box-shadow:inset 0 0 0 1px #ffffff14}
+.sh-stars:where(.src-sunsetheist,.src-sunsetheist *){position:absolute;right:4px;top:-62px;font:30px/1 Arial,sans-serif;letter-spacing:4px;color:#ffffff38;font-style:normal;text-shadow:0 2px 3px #000}
 .sh-stars:where(.src-sunsetheist,.src-sunsetheist *)::first-letter{color:#fff}
-.nameplate:where(.src-sunsetheist,.src-sunsetheist *){left:-5px;top:-44px;font:26px var(--font-display);letter-spacing:.06em;text-transform:uppercase;color:#fff;background:none;padding:0;text-shadow:3px 3px 0 #000,-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000}
+.nameplate:where(.src-sunsetheist,.src-sunsetheist *){left:6px;top:-66px;font:30px var(--font-display);letter-spacing:.05em;text-transform:uppercase;color:#fff;background:none;padding:0;
+  text-shadow:3px 3px 0 #000,-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000}
 
 /* Sunset Heist: latest */
 
-.stat:where(.src-sunsetheist,.src-sunsetheist *){padding:9px 14px;border-left:4px solid var(--accent)}
-.stat:where(.src-sunsetheist,.src-sunsetheist *) label{font:600 12px var(--font-body);letter-spacing:.16em;text-transform:uppercase;color:#ffffffaa}
-.stat:where(.src-sunsetheist,.src-sunsetheist *) strong{font:22px var(--font-display);letter-spacing:.04em;color:#fff}
+.stat:where(.src-sunsetheist,.src-sunsetheist *){padding:6px 14px 8px;text-align:right;background:linear-gradient(270deg,var(--stat-bg),transparent)}
+.stat:where(.src-sunsetheist,.src-sunsetheist *) label{font:600 12px var(--font-body);letter-spacing:.16em;text-transform:uppercase;color:#ffffffbb}
+.stat:where(.src-sunsetheist,.src-sunsetheist *) strong{font:26px/1.1 var(--font-display);letter-spacing:.03em;color:#fff;text-shadow:2px 2px 0 #000,-1px -1px 0 #000}
+.goal:where(.src-sunsetheist,.src-sunsetheist *) strong,#goal-count:where(.src-sunsetheist,.src-sunsetheist *){color:var(--cash)}
 .goal-track:where(.src-sunsetheist,.src-sunsetheist *){height:8px;border-radius:0;background:#ffffff26}
 #goal-fill:where(.src-sunsetheist,.src-sunsetheist *){border-radius:0}
-#goal-count:where(.src-sunsetheist,.src-sunsetheist *)::before{content:"$ ";color:var(--cash)}
 
 /* Sunset Heist: chat */
 
-.chat-title:where(.src-sunsetheist,.src-sunsetheist *){font:20px var(--font-display);letter-spacing:.1em;color:#fff;text-shadow:2px 2px 0 #000;margin-bottom:8px}
-.msg:where(.src-sunsetheist,.src-sunsetheist *){padding:8px 14px;font:600 18px var(--font-body);border-radius:16px 16px 16px 4px}
+.chat-title:where(.src-sunsetheist,.src-sunsetheist *){font:22px var(--font-display);letter-spacing:.1em;color:#fff;text-shadow:2px 2px 0 #000;margin-bottom:8px}
+.msg:where(.src-sunsetheist,.src-sunsetheist *){padding:8px 14px;font:600 18px var(--font-body);border-radius:18px 18px 18px 4px;box-shadow:0 2px 6px #0007}
+.msg:where(.src-sunsetheist,.src-sunsetheist *):nth-child(odd){background:#2f6fe8e6;border-radius:18px 18px 4px 18px}
 .msg-head:where(.src-sunsetheist,.src-sunsetheist *){font:700 15px var(--font-body)}
 .msg-role:where(.src-sunsetheist,.src-sunsetheist *){background:var(--accent);color:#fff;border-radius:8px}
 
 /* Sunset Heist: alert */
 
-.alert:where(.src-sunsetheist,.src-sunsetheist *){padding:16px 28px;overflow:hidden;border-top:3px solid var(--sunset);box-shadow:0 10px 30px #000c}
-.sh-band:where(.src-sunsetheist,.src-sunsetheist *){position:absolute;left:0;right:0;bottom:0;height:5px;background:linear-gradient(90deg,var(--sunset),var(--accent),#7b3fe4)}
-.alert-icon:where(.src-sunsetheist,.src-sunsetheist *){width:60px;height:60px;border-radius:50%;background:var(--cash);color:#000;font-size:28px;box-shadow:0 0 0 3px #000,0 0 0 5px #fff}
-.alert-kind:where(.src-sunsetheist,.src-sunsetheist *){font:22px var(--font-display);letter-spacing:.08em;color:var(--sunset);text-shadow:2px 2px 0 #000}
-.alert-name:where(.src-sunsetheist,.src-sunsetheist *){font:40px var(--font-display);letter-spacing:.03em;text-transform:uppercase;color:#fff;text-shadow:3px 3px 0 #000}
-.alert-detail:where(.src-sunsetheist,.src-sunsetheist *){font:700 17px var(--font-body);color:var(--cash)}
+.alert:where(.src-sunsetheist,.src-sunsetheist *){padding:12px 40px;justify-content:center;text-align:center;background:linear-gradient(90deg,transparent,var(--alert-bg) 18%,var(--alert-bg) 82%,transparent);overflow:visible}
+.sh-band:where(.src-sunsetheist,.src-sunsetheist *){position:absolute;left:12%;right:12%;bottom:0;height:3px;background:linear-gradient(90deg,transparent,var(--sunset),var(--accent),transparent)}
+.alert-icon:where(.src-sunsetheist,.src-sunsetheist *){display:none}
+.alert-copy:where(.src-sunsetheist,.src-sunsetheist *){text-align:center}
+.alert-kind:where(.src-sunsetheist,.src-sunsetheist *){font:44px/1 var(--font-display);letter-spacing:.03em;color:#ffcc33;text-transform:uppercase;
+  text-shadow:3px 3px 0 #000,-2px -2px 0 #000,2px -2px 0 #000,-2px 2px 0 #000,0 0 18px #ff8a3d88}
+.alert-name:where(.src-sunsetheist,.src-sunsetheist *){font:30px var(--font-display);letter-spacing:.04em;text-transform:uppercase;color:#fff;margin-top:4px;text-shadow:2px 2px 0 #000}
+.alert-detail:where(.src-sunsetheist,.src-sunsetheist *){font:700 16px var(--font-body);color:var(--cash);letter-spacing:.06em;text-transform:uppercase}
 
 /* ---- scene transition (bands) ---- */
 /* ---- scene transition: plays once when the scene appears (switch it off with "Show scene transition") ---- */

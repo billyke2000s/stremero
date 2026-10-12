@@ -96,7 +96,7 @@
   },
   "c_accent": {
     "type": "colorpicker",
-    "label": "Accent",
+    "label": "HUD yellow",
     "value": "#f0b429",
     "group": "Colours"
   },
@@ -121,7 +121,7 @@
   "c_alert_bg": {
     "type": "colorpicker",
     "label": "Alert box",
-    "value": "#101318f2",
+    "value": "#101318e6",
     "group": "Colours"
   },
   "c_chat_bg": {
@@ -152,6 +152,12 @@
     "type": "colorpicker",
     "label": "Team colour",
     "value": "#5d79ae",
+    "group": "Colours"
+  },
+  "c_steel": {
+    "type": "colorpicker",
+    "label": "Steel plates",
+    "value": "#3b424c",
     "group": "Colours"
   },
   "c_game_frame": {

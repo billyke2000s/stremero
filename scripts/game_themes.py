@@ -364,3 +364,7 @@ dict(
   keyframes='@keyframes inkturf-pop{from{transform:scale(.2) rotate(-40deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}',
 ),
 ]
+
+# richer versions of some themes live in game_themes_rich.py and replace the plain ones here
+from game_themes_rich import REPLACE as _RICH
+THEMES = [_RICH.get(t['id'], t) for t in THEMES]
