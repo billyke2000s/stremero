@@ -62,7 +62,16 @@ function loadSavedBackground() {
 function sanitiseName(v) { return typeof v === 'string' && /^[a-zA-Z0-9 _-]{1,32}$/.test(v) ? v : null; }
 function escapeHTML(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
 function basePath(item) { return item.path.split('/').filter(Boolean).map(encodeURIComponent).join('/') + '/'; }
-function linkTo(item) { return 'index.html?overlay=' + encodeURIComponent(item.path.replace(/\/$/, '')); }
+function linkTo(item, scene) { const b = item.base || item; return 'index.html?overlay=' + encodeURIComponent(b.path.replace(/\/$/, '')) + (scene && scene !== 'main' ? '&scene=' + encodeURIComponent(scene) : ''); }
+/* an overlay's extra scene (Starting soon, Be right back, Ending, Just Chatting), opened like its own overlay */
+function sceneItem(item, id) {
+  const sc = (item.scenes || []).find(x => x.id === id);
+  if (!sc) return item;
+  return Object.assign({}, item, { base: item, scene: sc.id, sceneLabel: sc.label, key: item.name + ' · ' + sc.id,
+    path: item.path + 'scenes/' + sc.id + '/', html: 'overlay.html', css: 'styles.css', js: 'overlay.js', fields: sc.fields, help: sc.help,
+    cam: sc.cam, game: [0, 0, 0, 0] });
+}
+const storeKey = item => item.key || item.name;
 function notify(message) { $('status').textContent = message; $('status').hidden = false; clearTimeout(notify.timer); notify.timer = setTimeout(() => { $('status').hidden = true; }, 5500); }
 function el(tag, props, ...kids) { const e = document.createElement(tag); Object.assign(e, props || {}); kids.forEach(k => e.append(k)); return e; }
 
@@ -143,7 +152,7 @@ function buildGallery() {
       if (bgURL) image.append(cardBackground(item));
       image.append(thumb(item, ''), el('span', { className: 'tag', textContent: item.category }));
       $('grid').append(el('a', { className: 'card', href: linkTo(item) }, image, el('h2', { textContent: item.name }),
-        el('p', { textContent: item.fields ? 'StreamElements · Background image · Name + socials' : 'StreamElements overlay' })));
+        el('p', { textContent: (item.fields ? 'StreamElements · Background image · Name + socials' : 'StreamElements overlay') + (item.scenes && item.scenes.length ? ' · ' + (item.scenes.length + 1) + ' scenes' : '') })));
     });
     $('empty').hidden = list.length > 0;
     $('empty').textContent = query ? 'Nothing matches “' + query + '”. Try a colour or a mood (cosy, neon, gold, horror).' : 'No overlays yet.';
@@ -251,7 +260,7 @@ function setValue(key, v, quiet) {
   clearTimeout(setValue.t); setValue.t = setTimeout(save, 250);
   if (!quiet) updateGameInfo();
 }
-function save() { store.set('overlay-values:' + selected.name, values); }
+function save() { store.set('overlay-values:' + storeKey(selected), values); }
 
 /* ------------------------------------------------------------------ colour maths */
 function parseHex(v) {
@@ -426,6 +435,15 @@ function buildCustomise() {
 }
 function buildBackground() {
   const gl = $('game-list'); gl.replaceChildren();
+  const hasGame = !!fieldDefs.gameX;
+  $('game-default').parentElement.hidden = !hasGame;
+  if (!hasGame) {
+    if (fieldDefs.bgOpacity) { const c = control('bgOpacity', fieldDefs.bgOpacity); if (c) gl.append(c); }
+    updateGameInfo();
+    $('bg-thumb').style.backgroundImage = bgImage ? 'url("' + bgImage + '")' : '';
+    $('bg-remove').hidden = !bgImage; $('bg-add').textContent = bgImage ? 'Change background' : 'Add background image';
+    return;
+  }
   const g = selected.game;
   const sliders = [['gameX', 'X', 1920], ['gameY', 'Y', 1080], ['gameW', 'Width', 1920], ['gameH', 'Height', 1080]];
   sliders.forEach(([k, lab, max]) => {
@@ -451,6 +469,7 @@ function buildBackground() {
 function updateGameInfo() {
   if (!selected) return;
   const cam = camFor(selected, values);
+  if (!fieldDefs.gameX) { $('game-info').textContent = 'This scene has no game window.' + (cam && val('showCam') !== false ? ' Webcam: X ' + cam[0] + ', Y ' + cam[1] + ', ' + cam[2] + ' × ' + cam[3] + ' on a 1920 × 1080 canvas.' : ''); return; }
   $('game-info').textContent = 'Put your game capture at X ' + val('gameX') + ', Y ' + val('gameY') + ', ' + val('gameW') + ' × ' + val('gameH') +
     ' on a 1920 × 1080 canvas' + (cam && val('showCam') !== false ? '. Webcam: X ' + cam[0] + ', Y ' + cam[1] + ', ' + cam[2] + ' × ' + cam[3] : '') + '.';
 }
@@ -523,17 +542,29 @@ async function openOverlay(item) {
   if ($('code-dialog').open) $('code-dialog').close();
   document.querySelectorAll('.side-link').forEach(a => { const on = a.title === item.name; a.classList.toggle('selected', on); if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
   $('gallery').hidden = true; $('watch').hidden = false; $('brand').textContent = item.name; document.title = item.name + ' — Overlay preview';
-  $('stream-title').textContent = item.name + ' | Your stream, your style'; $('category').textContent = item.category + ' overlay';
+  $('stream-title').textContent = item.name + (item.sceneLabel ? ' · ' + item.sceneLabel : '') + ' | Your stream, your style'; $('category').textContent = item.category + ' overlay';
+  renderSceneTabs(item);
   let loaded;
   try { [loaded] = await Promise.all([loadFiles(item), loadSavedBackground()]); }
   catch (e) { notify('This overlay could not be loaded. If you opened the site from your computer, upload it to Cloudflare Pages or use a local web server.'); return; }
   if (token !== loadToken) return;   // another overlay was clicked meanwhile
   files = loaded;
   fieldDefs = files.fields || {};
-  values = loadValues(item.name);
+  values = loadValues(storeKey(item));
   buildCustomise(); renderPreview(); setName(streamerName, true);
   $('open-editor').hidden = !item.editor;
   $('open-editor').href = 'editor.html?from=' + encodeURIComponent(item.name);
+}
+function renderSceneTabs(item) {
+  const base = item.base || item, nav = $('scene-tabs');
+  if (!base.scenes || !base.scenes.length) { nav.hidden = true; nav.replaceChildren(); return; }
+  nav.hidden = false;
+  nav.replaceChildren(...[{ id: 'main', label: 'Gameplay' }].concat(base.scenes).map(sc => {
+    const on = (item.scene || 'main') === sc.id;
+    const a = el('a', { href: linkTo(base, sc.id), textContent: sc.label, className: 'scene-tab' + (on ? ' on' : '') });
+    if (on) a.setAttribute('aria-current', 'page');
+    return a;
+  }));
 }
 function setName(name, quiet) {
   streamerName = name; store.set('overlay-name', name);
@@ -585,7 +616,7 @@ $('use-overlay').addEventListener('click', () => {
   if (!$('name-form').hidden) { notify('Save your streamer name before opening the code.'); $('name-input').focus(); return; }
   closePicker();
   const code = [['HTML', 'HTML tab', personalise(files.html)], ['CSS', 'CSS tab', buildCSS()], ['JavaScript', 'JS tab', files.js], ['Fields', 'FIELDS tab', buildFields()]];
-  $('code-title').textContent = 'Use ' + selected.name;
+  $('code-title').textContent = 'Use ' + selected.name + (selected.sceneLabel ? ' · ' + selected.sceneLabel : '');
   const changed = Object.keys(values).length;
   $('code-name').textContent = 'Personalised for ' + streamerName + (changed ? ' · ' + changed + ' setting' + (changed > 1 ? 's' : '') + ' changed' : '');
   $('size-note').hidden = !bgImage;
@@ -627,7 +658,7 @@ function route(push) {
   const item = overlays.find(o => o.path.replace(/\/$/, '') === name) || overlays.find(o => o.name === name) || null;   // old links used just the name
   if (item) {
     const fromGallery = !$('watch').hidden ? false : true;
-    openOverlay(item); startDemoChat();
+    openOverlay(sceneItem(item, params.get('scene'))); startDemoChat();
     if (fromGallery) scrollTo(0, 0);        // opening from the gallery starts at the player; switching overlays keeps your place
   } else {
     selected = null; $('watch').hidden = true; $('gallery').hidden = false; $('brand').textContent = 'Twitch overlays'; document.title = 'Twitch overlays';

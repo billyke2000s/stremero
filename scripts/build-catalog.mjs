@@ -23,6 +23,18 @@ const categories = dirs(root).sort((a, b) => {
   if (ia >= 0 || ib >= 0) return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
   return a.localeCompare(b);
 });
+// extra scenes (Starting soon, Be right back, Ending, Just Chatting) live in <overlay>/scenes/<id>/ with a scene.json
+const SCENE_ORDER = ['starting', 'brb', 'ending', 'chatting'];
+function scenesOf(dir) {
+  const root = path.join(dir, 'scenes');
+  if (!fs.existsSync(root)) return [];
+  return dirs(root).map(id => {
+    const d = path.join(root, id), fl = files(d);
+    if (!fl.includes('overlay.html') || !fl.includes('styles.css') || !fl.includes('overlay.js')) { warn.push(`skipped scene ${d}: needs overlay.html, styles.css and overlay.js`); return null; }
+    let meta = {}; try { meta = JSON.parse(fs.readFileSync(path.join(d, 'scene.json'), 'utf8')); } catch (e) { /* label falls back to the folder name */ }
+    return { id, label: meta.label || id, cam: meta.cam || null, fields: fl.includes('fields.json') ? 'fields.json' : '', help: fl.includes('START-HERE.txt') ? 'START-HERE.txt' : '' };
+  }).filter(Boolean).sort((a, b) => (SCENE_ORDER.indexOf(a.id) + 1 || 99) - (SCENE_ORDER.indexOf(b.id) + 1 || 99));
+}
 const list = [];
 for (const category of categories) {
   for (const name of dirs(path.join(root, category)).sort((a, b) => a.localeCompare(b))) {
@@ -42,6 +54,7 @@ for (const category of categories) {
       fields: fl.includes('fields.json') ? 'fields.json' : '', help: fl.includes('START-HERE.txt') ? 'START-HERE.txt' : '',
       icon: fl.includes('icon.png') ? 'icon.png' : '', cam: meta.cam || null, game: game || [0, 0, 1920, 1080],
       parts: meta.parts || {}, tags: meta.tags || '', layout: meta.layout || '', editor: !!meta.editor,
+      scenes: scenesOf(dir),
     });
   }
 }

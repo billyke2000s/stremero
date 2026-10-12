@@ -1,0 +1,240 @@
+/* Heavenly Glory — Be right back scene — paste ALL of this into the CSS tab of the same Custom Widget. */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=IM+Fell+English&display=swap');
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent}
+.ov{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:top left;pointer-events:none;
+  font-family:var(--font-body);color:var(--text)}
+.cam,.alert,.chat,.latest,.socials{position:absolute}
+.box,.cam,.chat{isolation:isolate}
+.cam{--ring:14px}
+.cam-hole{position:absolute;inset:0}
+.nameplate{position:absolute;z-index:4;white-space:nowrap}
+/* Chat: hidden while empty, messages fade after chatSeconds */
+.chat{opacity:0;transition:opacity .35s;display:flex;flex-direction:column}
+.chat.active{opacity:1}
+.chat-title>span{position:relative}
+.chat-list{display:flex;flex-direction:column;justify-content:flex-end;gap:8px;overflow:hidden;min-height:0}
+.msg{flex-shrink:0;overflow-wrap:anywhere;animation:msgIn .35s ease-out both;background:var(--chat-bg)}
+.msg.leaving{opacity:0;transform:translateY(-6px);transition:opacity .5s,transform .5s}
+.msg-head{display:flex;align-items:center;gap:6px;min-width:0}
+.msg-user{color:var(--user-colour,var(--chat-name));font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.msg-badges img{height:18px;vertical-align:middle;margin-right:2px}
+.msg-role{font-size:.62em;font-weight:800;letter-spacing:.08em;padding:2px 5px;background:var(--accent);color:var(--on-accent,#fff);border-radius:3px}
+.msg-body{color:var(--text)}
+.msg-body img.emote{height:1.6em;vertical-align:middle}
+.msg.action .msg-body{font-style:italic}
+/* Alerts: hidden until .show */
+.alert{display:flex;align-items:center;gap:18px;opacity:0;background:var(--alert-bg);color:var(--text)}
+.alert.show{animation:alertIn .55s cubic-bezier(.2,1.2,.3,1) forwards}
+.alert.hide{animation:alertOut .5s ease forwards}
+.alert-icon{flex:0 0 auto;display:grid;place-items:center}
+.alert-copy{min-width:0;flex:1}
+.alert-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* Latest boxes */
+.stat{position:relative;min-width:0;background:var(--stat-bg);color:var(--text)}
+.stat label{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stat strong{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.goal-track{height:6px;background:var(--goal-track,#ffffff26);overflow:hidden;border-radius:6px;margin-top:8px}
+#goal-fill{height:100%;width:0;background:var(--goal-fill);border-radius:inherit;transition:width .6s}
+/* Extras (switched on in Show / hide, moved in the site's Edit mode) */
+.socials,.extra-text,.extra-clock{position:absolute}
+.extra-text{left:660px;top:24px;width:600px;text-align:center;padding:12px 20px;font-family:var(--font-display);font-size:30px;color:var(--text);background:var(--stat-bg)}
+.extra-clock{right:48px;top:24px;padding:10px 18px;font-family:var(--font-display);font-size:34px;font-variant-numeric:tabular-nums;color:var(--text);background:var(--stat-bg)}
+.socials.extra{left:48px;top:380px;width:360px;display:grid;gap:8px;padding:14px 16px;background:var(--stat-bg);color:var(--text)}
+.socials.extra .social{display:flex;justify-content:space-between;gap:12px;white-space:nowrap}
+.socials.extra em{font-style:normal;opacity:.75}
+.socials.extra span{font-weight:700;overflow:hidden;text-overflow:ellipsis}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes alertIn{from{opacity:0;transform:translateY(-24px) scale(.94)}to{opacity:1;transform:none}}
+@keyframes alertOut{from{opacity:1;transform:none}to{opacity:0;transform:translateY(-16px) scale(.97)}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01s!important;animation-iteration-count:1!important;transition:none!important}}
+
+/* ---- background image + game window (set in the Fields panel) ---- */
+.ov>.bg-layer{position:absolute;left:0;top:0;width:1920px;height:1080px;display:none;pointer-events:none;
+  background:center/cover no-repeat;-webkit-mask-size:1920px 1080px;mask-size:1920px 1080px;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.ov.has-bg>.bg-layer{display:block}
+.ov>.game-frame{position:absolute;left:0;top:0;width:1920px;height:1080px;display:none;pointer-events:none;
+  -webkit-mask-size:1920px 1080px;mask-size:1920px 1080px;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.ov>.game-frame>.game-box{position:absolute;box-shadow:0 0 0 3px var(--game-frame,#ffffff),0 0 0 4px #0009,0 12px 30px #000a}
+.ov.has-bg.frame-on>.game-frame{display:block}
+/* ---- show / hide switches ---- */
+.ov.hide-socials .socials{display:none!important}
+.ov.hide-chat #chat{display:none!important}
+.ov.hide-alerts #alert{display:none!important}
+/* ---- animations off (keeps alerts visible, just instant) ---- */
+.ov.no-anim *,.ov.no-anim *::before,.ov.no-anim *::after{animation-duration:1ms!important;animation-iteration-count:1!important;transition-duration:1ms!important}
+/* ---- chat text size ---- */
+.chat{zoom:var(--chat-zoom,1)}
+
+
+/* ---- editor layout: every part is placed exactly where you put it ---- */
+.el{position:absolute;transform-origin:50% 50%}
+.el-in{position:absolute;left:0;top:0;transform-origin:0 0}
+.el-in>section{position:absolute!important;left:0!important;top:0!important;right:0!important;bottom:0!important;width:auto!important;height:auto!important;max-height:none!important;margin:0!important}
+.el-in>.latest{display:block!important}
+.el-in>.chat{justify-content:flex-end}
+.el-in>.latest>.stat{height:100%}
+.el-in>.decor-layer{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+.el-in>.user-img{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;display:block}
+.extra-text .ed-text{white-space:pre-wrap}
+/* ---- title: a big copy of the overlay's own name plate ---- */
+.el-in>.title-card{display:flex!important;align-items:center;justify-content:center}
+.title-card>.nameplate{position:relative!important;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;margin:0!important;transform:none!important;z-index:1}
+.title-card>.nameplate>span{max-width:none!important;overflow:visible!important}
+/* ---- colours (one block per part) ---- */
+.ov{
+  --metal: #f0cd6e; /* @color Metal */
+  --metal-hi: #fffdf2; /* @color Metal highlight */
+  --metal-lo: #b0842c; /* @color Metal shadow */
+  --bead: #ffffff; /* @color Pearls & beads */
+  --jewel: #9ad8ff; /* @color Jewels */
+  --jewel-hi: #ffffff; /* @color Jewel sparkle */
+  --jewel-2: #ffffff; /* @color Second jewels */
+  --velvet: #24508f; /* @color Velvet panels */
+  --velvet-hi: #6c9be0; /* @color Velvet sheen */
+  --text: #ffffff; /* @color Text */
+  --accent: #ffe6a3; /* @color Titles */
+  --chat-bg: #1d4380e6; /* @color Chat messages */
+  --chat-name: #ffe6a3; /* @color Chat names (no Twitch colour) */
+  --goal-fill: #ffd76a; /* @color Goal bar */
+  --font-body: 'IM Fell English',Georgia,serif;
+  --font-display: 'Cinzel',Georgia,serif;
+}
+.el.e-p1{font-family: var(--font-body);color: var(--text)}
+.el.e-p1{--alert-bg:transparent;--stat-bg:transparent;--nameplate-bg:transparent;--on-accent:#1a1206;
+  --metal-text:linear-gradient(180deg,var(--metal-hi) 0%,var(--metal) 45%,var(--metal-lo) 52%,var(--metal-hi) 80%,var(--metal) 100%)}
+.el.e-p2{font-family: var(--font-body);color: var(--text)}
+.el.e-p2{--alert-bg:transparent;--stat-bg:transparent;--nameplate-bg:transparent;--on-accent:#1a1206;
+  --metal-text:linear-gradient(180deg,var(--metal-hi) 0%,var(--metal) 45%,var(--metal-lo) 52%,var(--metal-hi) 80%,var(--metal) 100%)}
+.el.e-p3{font-family: var(--font-body);color: var(--text)}
+.el.e-p3{--alert-bg:transparent;--stat-bg:transparent;--nameplate-bg:transparent;--on-accent:#1a1206;
+  --metal-text:linear-gradient(180deg,var(--metal-hi) 0%,var(--metal) 45%,var(--metal-lo) 52%,var(--metal-hi) 80%,var(--metal) 100%)}
+.el.e-p4{font-family: var(--font-body);color: var(--text)}
+.el.e-p4{--alert-bg:transparent;--stat-bg:transparent;--nameplate-bg:transparent;--on-accent:#1a1206;
+  --metal-text:linear-gradient(180deg,var(--metal-hi) 0%,var(--metal) 45%,var(--metal-lo) 52%,var(--metal-hi) 80%,var(--metal) 100%)}
+.el.e-p5{font-family: var(--font-body);color: var(--text)}
+.el.e-p5{--alert-bg:transparent;--stat-bg:transparent;--nameplate-bg:transparent;--on-accent:#1a1206;
+  --metal-text:linear-gradient(180deg,var(--metal-hi) 0%,var(--metal) 45%,var(--metal-lo) 52%,var(--metal-hi) 80%,var(--metal) 100%)}
+/* ---- animations ---- */
+@keyframes spark-src-heavenlyglory{0%,70%,100%{opacity:0;transform:scale(.2) rotate(0)}80%{opacity:1;transform:scale(1) rotate(45deg)}90%{opacity:0;transform:scale(.4) rotate(90deg)}}
+@keyframes ornIn-src-heavenlyglory{from{opacity:0;transform:translateY(-18px) scale(.9)}to{opacity:1;transform:none}}
+@keyframes spin-src-heavenlyglory{to{transform:rotate(360deg)}}
+/* ---- parts ---- */
+/* Heavenly Glory: screen */
+.orn:where(.src-heavenlyglory,.src-heavenlyglory *){position:absolute;overflow:visible;pointer-events:none}
+.screen-orn:where(.src-heavenlyglory,.src-heavenlyglory *){left:0;top:0;filter:drop-shadow(0 6px 8px #000c)}
+.spark:where(.src-heavenlyglory,.src-heavenlyglory *){position:absolute;width:18px;height:18px;margin:-9px 0 0 -9px;z-index:7;background:radial-gradient(circle,#fff 0 18%,transparent 20%),
+  linear-gradient(0deg,transparent 45%,#fff 50%,transparent 55%),linear-gradient(90deg,transparent 45%,#fff 50%,transparent 55%);
+  animation:spark-src-heavenlyglory 4s ease-in-out infinite;opacity:0;will-change:transform,opacity}
+.spin-slow:where(.src-heavenlyglory,.src-heavenlyglory *){animation:spin-src-heavenlyglory 24s linear infinite}
+.spin-rev:where(.src-heavenlyglory,.src-heavenlyglory *){animation:spin-src-heavenlyglory 16s linear infinite reverse}
+/* ---- Heavenly Glory: light from above, clouds, rising light ---- */
+.hv-sky{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden;pointer-events:none;z-index:0}
+.hv-beam{position:absolute;top:-120px;width:230px;height:640px;transform-origin:50% 0;pointer-events:none;
+  background:linear-gradient(90deg,#fff6dc00,#fff6dc38 50%,#fff6dc00);filter:blur(7px);
+  -webkit-mask-image:linear-gradient(#000 0%,#0008 45%,#0000 85%);mask-image:linear-gradient(#000 0%,#0008 45%,#0000 85%);
+  animation:hv-shimmer 9s ease-in-out infinite}
+.hv-beam.b3{right:-40px;transform:rotate(17deg);animation-delay:-5s}
+.hv-beam.b4{right:150px;width:130px;transform:rotate(12deg);animation-delay:-7s}
+.hv-cloud{position:absolute;width:560px;height:210px;pointer-events:none;filter:blur(9px);opacity:.62;
+  background:radial-gradient(closest-side at 26% 64%,#fff 0,#fff0 100%),radial-gradient(closest-side at 50% 44%,#fff 0,#fff0 100%),
+    radial-gradient(closest-side at 74% 60%,#fff 0,#fff0 100%),radial-gradient(closest-side at 50% 80%,#fffaf0 0,#fffaf000 100%);
+  animation:hv-drift 48s ease-in-out infinite alternate}
+.hv-cloud.c1{left:-200px;bottom:-110px}.hv-cloud.c2{left:260px;bottom:-140px;animation-delay:-12s}
+.hv-cloud.c3{left:720px;bottom:-150px;animation-delay:-24s;opacity:.5}.hv-cloud.c4{left:1180px;bottom:-140px;animation-delay:-6s}
+.hv-cloud.c5{left:1600px;bottom:-110px;animation-delay:-30s}
+.hv-cloud.c6{left:-230px;top:730px;width:420px;height:170px;opacity:.45;animation-delay:-18s}
+.hv-cloud.c7{right:-220px;top:180px;width:420px;height:170px;opacity:.45;animation-delay:-36s}
+.hv-mote{position:absolute;bottom:-12px;width:7px;height:7px;border-radius:50%;opacity:0;pointer-events:none;
+  background:radial-gradient(circle,#fff 0,#fff3c4 45%,#fff3c400 72%);box-shadow:0 0 10px 3px #fff1c070;
+  animation:hv-rise var(--d,15s) linear infinite}
+@keyframes hv-shimmer{0%,100%{opacity:.55}50%{opacity:1}}
+@keyframes hv-drift{from{translate:-40px 0}to{translate:40px -6px}}
+@keyframes hv-rise{0%{transform:translate(0,0) scale(var(--s,1));opacity:0}12%{opacity:.95}80%{opacity:.7}
+  100%{transform:translate(var(--x,20px),-1080px) scale(var(--s,1));opacity:0}}
+
+/* Heavenly Glory: cam */
+.orn:where(.src-heavenlyglory,.src-heavenlyglory *){position:absolute;overflow:visible;pointer-events:none}
+.cam:where(.src-heavenlyglory,.src-heavenlyglory *){--ring:22px;--bw:18px}
+.cam-orn:where(.src-heavenlyglory,.src-heavenlyglory *){filter:drop-shadow(0 3px 3px #000c)}
+.nameplate:where(.src-heavenlyglory,.src-heavenlyglory *){left:50%;top:296px;width:340px;height:60px;margin-left:-170px;display:grid;place-items:center;z-index:6;
+  filter:drop-shadow(0 6px 8px #000c)}
+.nameplate:where(.src-heavenlyglory,.src-heavenlyglory *) span{position:relative;z-index:1;max-width:270px;overflow:hidden;text-overflow:ellipsis;font:700 24px var(--font-display);
+  background:var(--metal-text);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 2px 1px #000)}
+.plate-orn:where(.src-heavenlyglory,.src-heavenlyglory *){left:0;top:0}
+.spark:where(.src-heavenlyglory,.src-heavenlyglory *){position:absolute;width:18px;height:18px;margin:-9px 0 0 -9px;z-index:7;background:radial-gradient(circle,#fff 0 18%,transparent 20%),
+  linear-gradient(0deg,transparent 45%,#fff 50%,transparent 55%),linear-gradient(90deg,transparent 45%,#fff 50%,transparent 55%);
+  animation:spark-src-heavenlyglory 4s ease-in-out infinite;opacity:0;will-change:transform,opacity}
+/* ---- Heavenly Glory: glory rays (never over the webcam) + halo ---- */
+.hv-glory{position:absolute;left:50%;top:50%;width:1000px;height:1000px;margin:-500px 0 0 -500px;pointer-events:none;z-index:0;
+  clip-path:polygon(evenodd,0 0,1000px 0,1000px 1000px,0 1000px,0 0,260px 350px,740px 350px,740px 650px,260px 650px,260px 350px)}
+.hv-glory>i{position:absolute;inset:0;border-radius:50%;
+  background:repeating-conic-gradient(from 0deg,#fff4d24a 0 3.5deg,#fff4d200 3.5deg 11deg);
+  -webkit-mask-image:radial-gradient(circle,#000 22%,#0000 54%);mask-image:radial-gradient(circle,#000 22%,#0000 54%);
+  animation:hv-spin 120s linear infinite}
+.hv-halo{position:absolute;left:50%;top:-86px;width:156px;height:36px;margin-left:-78px;border-radius:50%;z-index:7;pointer-events:none;
+  border:5px solid #fff7dc;box-shadow:0 0 16px 5px #ffe39acc,inset 0 0 10px 3px #ffe39aaa,0 0 42px 14px #fff3c455;
+  animation:hv-float 5.5s ease-in-out infinite}
+@keyframes hv-spin{to{transform:rotate(360deg)}}
+@keyframes hv-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+
+/* Heavenly Glory: latest */
+.orn:where(.src-heavenlyglory,.src-heavenlyglory *){position:absolute;overflow:visible;pointer-events:none}
+.stat:where(.src-heavenlyglory,.src-heavenlyglory *){height:88px;padding:17px 30px 0}
+.stat:where(.src-heavenlyglory,.src-heavenlyglory *)>.orn{left:0;top:0;z-index:0}
+.stat:where(.src-heavenlyglory,.src-heavenlyglory *) label{position:relative;z-index:2}
+.stat:where(.src-heavenlyglory,.src-heavenlyglory *) strong{position:relative;z-index:2}
+.goal-track:where(.src-heavenlyglory,.src-heavenlyglory *){position:relative;z-index:2}
+.stat:where(.src-heavenlyglory,.src-heavenlyglory *) label{font:700 11px var(--font-display);letter-spacing:.2em;color:var(--accent);text-transform:uppercase;text-align:center;text-shadow:0 1px 2px #000}
+.stat:where(.src-heavenlyglory,.src-heavenlyglory *) strong{font:700 18px var(--font-display);margin-top:5px;text-align:center;color:var(--text);text-shadow:0 2px 3px #000}
+.goal-track:where(.src-heavenlyglory,.src-heavenlyglory *){height:8px;margin:6px 8px 0;background:#0009;box-shadow:0 0 0 1px var(--metal-lo),0 0 0 2px var(--metal)}
+#goal-fill:where(.src-heavenlyglory,.src-heavenlyglory *){background:linear-gradient(180deg,var(--jewel-hi),var(--goal-fill) 60%,#000);box-shadow:0 0 8px var(--goal-fill)}
+.socials:where(.src-heavenlyglory,.src-heavenlyglory *){left:72px;top:480px;width:480px;height:212px;padding:44px 52px 0;filter:drop-shadow(0 10px 14px #000c)}
+.soc-orn:where(.src-heavenlyglory,.src-heavenlyglory *){left:0;top:0;z-index:0}
+.social:where(.src-heavenlyglory,.src-heavenlyglory *){position:relative;z-index:2;display:flex;align-items:baseline;gap:14px;height:46px;border-bottom:1px solid #ffffff1f}
+.social:last-child:where(.src-heavenlyglory,.src-heavenlyglory *){border-bottom:0}
+.social:where(.src-heavenlyglory,.src-heavenlyglory *) em{flex:0 0 138px;white-space:nowrap;font:700 13px var(--font-display);font-style:normal;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);text-shadow:0 1px 2px #000}
+.social:where(.src-heavenlyglory,.src-heavenlyglory *) em::before{content:"";display:inline-block;width:10px;height:10px;margin-right:10px;transform:rotate(45deg);
+  background:radial-gradient(circle at 35% 35%,var(--jewel-hi),var(--jewel) 55%,#000);box-shadow:0 0 0 2px var(--metal)}
+.social:where(.src-heavenlyglory,.src-heavenlyglory *) span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:700 22px var(--font-display);color:var(--text);text-shadow:0 2px 3px #000}
+/* Heavenly Glory: chat */
+.orn:where(.src-heavenlyglory,.src-heavenlyglory *){position:absolute;overflow:visible;pointer-events:none}
+.chat-title:where(.src-heavenlyglory,.src-heavenlyglory *){position:relative;align-self:flex-end;width:300px;height:48px;display:grid;place-items:center;margin-bottom:8px;
+  font:700 15px var(--font-display);letter-spacing:.24em;color:var(--accent);text-shadow:0 1px 2px #000;filter:drop-shadow(0 4px 6px #000b)}
+.chat:where(.src-heavenlyglory,.src-heavenlyglory *)>.orn{display:none}
+.msg:where(.src-heavenlyglory,.src-heavenlyglory *){position:relative;padding:11px 18px 11px 30px;border-radius:6px;font-size:19px;color:var(--text);
+  background:radial-gradient(ellipse at 30% 0,#ffffff14,transparent 60%),var(--chat-bg);
+  box-shadow:inset 0 0 0 1px var(--metal-lo),inset 0 0 0 3px var(--metal),inset 0 0 0 4px var(--metal-hi),inset 0 0 0 5px var(--metal-lo),0 6px 14px #000b}
+.msg:where(.src-heavenlyglory,.src-heavenlyglory *)::before{content:"";position:absolute;left:9px;top:50%;width:11px;height:11px;margin-top:-6px;transform:rotate(45deg);
+  background:radial-gradient(circle at 35% 35%,var(--jewel-hi),var(--jewel) 55%,#000);box-shadow:0 0 0 2px var(--metal),0 0 0 3px var(--metal-lo)}
+.msg-user:where(.src-heavenlyglory,.src-heavenlyglory *){font-family:var(--font-display);font-size:16px;letter-spacing:.04em}
+.msg-role:where(.src-heavenlyglory,.src-heavenlyglory *){background:var(--metal-text);color:#1a1206}
+/* Heavenly Glory: alert */
+.orn:where(.src-heavenlyglory,.src-heavenlyglory *){position:absolute;overflow:visible;pointer-events:none}
+.spark:where(.src-heavenlyglory,.src-heavenlyglory *){position:absolute;width:18px;height:18px;margin:-9px 0 0 -9px;z-index:7;background:radial-gradient(circle,#fff 0 18%,transparent 20%),
+  linear-gradient(0deg,transparent 45%,#fff 50%,transparent 55%),linear-gradient(90deg,transparent 45%,#fff 50%,transparent 55%);
+  animation:spark-src-heavenlyglory 4s ease-in-out infinite;opacity:0;will-change:transform,opacity}
+.alert:where(.src-heavenlyglory,.src-heavenlyglory *){width:700px;height:156px;margin-left:-350px;padding:0 70px 0 64px;gap:18px;filter:drop-shadow(0 12px 16px #000c)}
+.alert-orn:where(.src-heavenlyglory,.src-heavenlyglory *){left:0;top:0;z-index:0}
+.alert-icon:where(.src-heavenlyglory,.src-heavenlyglory *){position:relative;z-index:2}
+.alert-copy:where(.src-heavenlyglory,.src-heavenlyglory *){position:relative;z-index:2}
+.alert-icon:where(.src-heavenlyglory,.src-heavenlyglory *){width:64px;height:64px;border-radius:50%;font-size:28px;color:var(--jewel-hi);background:radial-gradient(circle at 35% 30%,var(--jewel-hi),var(--jewel) 45%,#000 100%);
+  box-shadow:0 0 0 3px var(--metal),0 0 0 5px var(--metal-lo),0 0 0 7px var(--metal-hi),0 0 22px var(--jewel);text-shadow:0 0 6px #fff}
+.alert-icon:where(.src-heavenlyglory,.src-heavenlyglory *){color:#fff}
+.alert-kind:where(.src-heavenlyglory,.src-heavenlyglory *){font:700 13px var(--font-display);letter-spacing:.32em;color:var(--accent);text-shadow:0 1px 2px #000}
+.alert-name:where(.src-heavenlyglory,.src-heavenlyglory *){font:700 34px/1.2 var(--font-display);background:var(--metal-text);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 2px 1px #000)}
+.alert-detail:where(.src-heavenlyglory,.src-heavenlyglory *){font-size:19px;color:var(--text);text-shadow:0 1px 3px #000}
+.alert.show:where(.src-heavenlyglory,.src-heavenlyglory *){animation:ornIn-src-heavenlyglory .8s cubic-bezier(.2,1.1,.3,1) forwards}
+/* ---- Heavenly Glory: angel wings + light burst on alerts ---- */
+.hv-burst{position:absolute;left:-140px;right:-140px;top:-90px;bottom:-90px;pointer-events:none;z-index:0;
+  background:radial-gradient(closest-side,#fff6d690,#fff6d630 55%,#fff6d600);animation:hv-pulse 2.6s ease-in-out infinite}
+.hv-wing{position:absolute;top:-32px;pointer-events:none;z-index:0;filter:drop-shadow(0 0 10px #fff6d8b0) drop-shadow(0 3px 4px #0005)}
+.hv-wing.left{left:-200px}.hv-wing.right{right:-200px}
+.hv-wing-g{transform-box:view-box}
+.hv-wing.left .hv-wing-g{transform-origin:212px 110px;animation:hv-flap-l 3.4s ease-in-out infinite}
+.hv-wing.right .hv-wing-g{transform-origin:8px 110px;animation:hv-flap-r 3.4s ease-in-out infinite}
+@keyframes hv-flap-l{0%,100%{rotate:-4deg}50%{rotate:7deg}}
+@keyframes hv-flap-r{0%,100%{rotate:4deg}50%{rotate:-7deg}}
+@keyframes hv-pulse{0%,100%{opacity:.7;transform:scale(.97)}50%{opacity:1;transform:scale(1.03)}}
+
+

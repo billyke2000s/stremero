@@ -36,6 +36,7 @@ const KINDS = {
   goal: { name: 'Follower goal', single: true, slot: 'latest', part: 'latest' },
   socials: { name: 'Socials', slot: 'latest', part: 'socials' },
   text: { name: 'Text', slot: 'latest', part: 'text' },
+  title: { name: 'Title', slot: 'cam' },
   clock: { name: 'Clock', slot: 'latest', part: 'clock' },
   decor: { name: 'Decorations', slot: 'screen' },
   image: { name: 'Image' }
@@ -44,9 +45,9 @@ const STATS = { follower: 'Latest follower', subscriber: 'Latest sub', tip: 'Lat
 const BASE_VARS = {   // colours each kind of part uses from the shared overlay code
   cam: ['--cam-border', '--nameplate-bg', '--text', '--accent'], chat: ['--chat-bg', '--chat-name', '--text', '--accent'],
   alert: ['--alert-bg', '--text', '--accent'], stat: ['--stat-bg', '--text', '--accent'], goal: ['--stat-bg', '--text', '--accent', '--goal-fill'],
-  socials: ['--stat-bg', '--text', '--accent'], text: ['--stat-bg', '--text', '--accent'], clock: ['--stat-bg', '--text', '--accent'], decor: []
+  socials: ['--stat-bg', '--text', '--accent'], text: ['--stat-bg', '--text', '--accent'], title: ['--nameplate-bg', '--text', '--accent', '--cam-border'], clock: ['--stat-bg', '--text', '--accent'], decor: []
 };
-const SCENES = [['main', 'Gameplay'], ['starting', 'Starting soon'], ['brb', 'Be right back'], ['ending', 'Ending']];
+const SCENES = [['main', 'Gameplay'], ['starting', 'Starting soon'], ['brb', 'Be right back'], ['ending', 'Ending'], ['chatting', 'Just Chatting']];
 const SCENE_TEXT = { starting: 'STARTING SOON', brb: 'BE RIGHT BACK', ending: 'THANKS FOR WATCHING' };
 const SHARED = ['youtube', 'tiktok', 'twitch', 'bgOpacity', 'animations', 'chatScale', 'chatSeconds', 'maxMessages', 'useChatColours', 'hideCommands', 'hideLinks',
   'hiddenUsers', 'alertSeconds', 'alertFollower', 'alertSubscriber', 'alertGift', 'alertCheer', 'alertTip', 'alertRaid', 'minBits', 'minTip', 'minRaid', 'alertVolume', 'followerGoal', 'clock24'];
@@ -91,7 +92,7 @@ function updateUndo() { $('undo').disabled = !undoStack.length; $('redo').disabl
 const srcRect = (s, key) => (s.rects && s.rects[key]) ? s.rects[key].slice() : null;
 function defaultRect(kind, stat) {
   return { cam: [48, 48, 480, 300], chat: [1462, 300, 410, 600], alert: [680, 48, 560, 110], stat: [48, 965, 296, 75], goal: [1576, 965, 296, 75],
-    socials: [48, 380, 360, 110], text: [660, 24, 600, 60], clock: [1740, 24, 132, 60], decor: [0, 0, 1920, 1080], image: [760, 340, 400, 400] }[kind];
+    socials: [48, 380, 360, 110], text: [660, 24, 600, 60], title: [260, 330, 1400, 220], clock: [1740, 24, 132, 60], decor: [0, 0, 1920, 1080], image: [760, 340, 400, 400] }[kind];
 }
 function makeElement(kind, srcId, opts) {
   opts = opts || {};
@@ -102,6 +103,7 @@ function makeElement(kind, srcId, opts) {
   const e = { id: newId(), kind, src: kind === 'image' ? null : srcId, x: r[0], y: r[1], w: Math.max(20, r[2]), h: Math.max(20, r[3]), rot: 0, s: 1, locked: false, hidden: false, colours: {} };
   if (kind === 'stat') e.stat = opts.stat || 'follower';
   if (kind === 'text') { e.text = opts.text || 'Your text here'; if (opts.big) e.s = 2.4; }
+  if (kind === 'title') { e.text = opts.text || 'YOUR TITLE'; e.s = opts.s || 2.6; }
   if (kind === 'image') { e.img = opts.img; e.w = opts.w || 400; e.h = opts.h || 400; e.x = round(960 - e.w / 2); e.y = round(540 - e.h / 2); }
   return e;
 }
@@ -116,19 +118,42 @@ function designFromOverlay(srcId) {
   const g = LIB.game[s.layout] || [48, 150, 1390, 782];
   return { elements: list, game: { x: g[0], y: g[1], w: g[2], h: g[3], r: 0, frame: true, frameSrc: srcId, lock: true } };
 }
-function sceneFromTemplate(sceneId) {
+function picksFromMain() {   // which overlay each part of the gameplay scene uses
   const main = design.scenes.main.elements;
   const pick = k => (main.find(e => e.kind === k) || {}).src;
-  const srcId = pick('decor') || pick('alert') || pick('chat') || LIB.sources[0].id;
+  const first = pick('cam') || pick('alert') || pick('chat') || pick('decor') || LIB.sources[0].id;
+  return { main: first, decor: pick('decor') || null, alert: pick('alert') || first, chat: pick('chat') || first, socials: pick('socials') || first, cam: pick('cam') || first, stat: pick('stat') || pick('goal') || first };
+}
+function picksFor(srcId) { return { main: srcId, decor: SRC[srcId].screen && SRC[srcId].screen.trim() ? srcId : null, alert: srcId, chat: srcId, socials: srcId, cam: srcId, stat: srcId }; }
+const sized = (e, w, h, s) => Object.assign(e, { w: round(w), h: round(h), s: s || 1 });
+function sceneFor(p, sceneId) {   // a whole scene in the style of the picked overlays (also used to make the main page's scenes)
   const list = [];
-  if (pick('decor')) list.push(makeElement('decor', pick('decor')));
-  list.push(makeElement('text', srcId, { big: true, text: SCENE_TEXT[sceneId] }));
-  const soc = makeElement('socials', pick('socials') || srcId); soc.x = 780; soc.y = 640; soc.w = 360; soc.h = soc.h || 110; list.push(soc);
-  if (sceneId !== 'ending') { const ch = makeElement('chat', pick('chat') || srcId); ch.x = 1462; ch.y = 300; list.push(ch); }
-  const cl = makeElement('clock', srcId); cl.x = 894; cl.y = 290; list.push(cl);
-  const al = makeElement('alert', pick('alert') || srcId); list.push(al);
+  if (p.decor) list.push(makeElement('decor', p.decor));
+  const al = makeElement('alert', p.alert);
+  if (sceneId === 'chatting') {   // Just Chatting: big webcam left, chat right, alerts on top
+    const cam = makeElement('cam', p.cam), cs = 1216 / cam.w;
+    sized(cam, 1216, cam.h * cs, cs); cam.x = 48; cam.y = 176; list.push(cam);
+    const goal = makeElement('goal', p.stat), gs = Math.min(1.5, 560 / goal.w);
+    sized(goal, goal.w * gs, goal.h * gs, gs); goal.x = 1872 - goal.w; goal.y = cam.y + cam.h - goal.h; list.push(goal);
+    const ch = makeElement('chat', p.chat); ch.x = 1300; ch.y = cam.y; sized(ch, 572, goal.y - 28 - cam.y, 1.15); list.push(ch);
+    al.x = round(Math.min(1872 - al.w, 1586 - al.w / 2)); al.y = 12; list.push(al);   // over the chat column, clear of name plates above the webcam
+    return { elements: list, game: null };
+  }
+  const t = makeElement('title', p.main, { text: SCENE_TEXT[sceneId] }); list.push(t);
+  const soc = makeElement('socials', p.socials);
+  if (!SRC[p.socials].nativeSocials) sized(soc, 420, 130, 1.15);
+  soc.x = round(960 - soc.w / 2); soc.y = t.y + t.h + 40; list.push(soc);
+  if (sceneId === 'ending') {     // thank-you credits: the latest supporters in a row
+    const row = Object.keys(STATS).map(k => makeElement('stat', p.stat, { stat: k }));
+    const gap = 16, total = row.reduce((a, e) => a + e.w, 0) + gap * (row.length - 1);
+    let x = round(960 - total / 2); row.forEach(e => { e.x = x; e.y = 1080 - 56 - e.h; x += e.w + gap; list.push(e); });
+  } else {
+    const ch = makeElement('chat', p.chat); sized(ch, 420, 440, 1); ch.x = 1920 - 48 - ch.w; ch.y = 1080 - 48 - ch.h; list.push(ch);
+  }
+  al.x = round(960 - al.w / 2); al.y = 40; list.push(al);
   return { elements: list, game: null };
 }
+function sceneFromTemplate(sceneId) { return sceneFor(picksFromMain(), sceneId); }
 
 /* ------------------------------------------------------------------ code generation (used for the canvas AND the copy boxes) */
 function varsFor(e) {
@@ -153,6 +178,7 @@ function pieceHTML(e, forPreview) {
       return `<section class="socials box${s.nativeSocials ? '' : ' extra'}${c}" aria-label="Socials">${s.nativeSocials ? sub(s.decor.socials) : ''}<div class="social"><em>YouTube</em><span data-field="youtube">${v('youtube')}</span></div><div class="social"><em>TikTok</em><span data-field="tiktok">${v('tiktok')}</span></div><div class="social"><em>Twitch</em><span data-field="twitch">${v('twitch')}</span></div></section>`;
     }
     case 'text': return `<section class="extra-text box extra${c}"><span class="ed-text">${esc(e.text || '')}</span></section>`;
+    case 'title': return `<section class="title-card${c}" aria-label="Title"><div class="nameplate">${sub(s.plate)}<span class="ed-text">${esc(e.text || '')}</span></div></section>`;
     case 'clock': return `<section class="extra-clock box extra${c}"><span class="clock-time">00:00</span></section>`;
     case 'decor': return `<div class="decor-layer${c}" style="transform:scale(${(e.w / 1920).toFixed(5)},${(e.h / 1080).toFixed(5)})">${sub(s.screen)}</div>`;
     case 'image': return `<img class="user-img" data-img="${esc(e.img)}" alt=""${forPreview && imgCache[e.img] ? ` src="${imgCache[e.img]}" data-keep="1"` : ''}>`;
@@ -174,15 +200,30 @@ const EDITOR_CSS = `
 .el-in>.latest>.stat{height:100%}
 .el-in>.decor-layer{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
 .el-in>.user-img{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;display:block}
-.extra-text .ed-text{white-space:pre-wrap}`;
+.extra-text .ed-text{white-space:pre-wrap}
+/* ---- title: a big copy of the overlay's own name plate ---- */
+.el-in>.title-card{display:flex!important;align-items:center;justify-content:center}
+.title-card>.nameplate{position:relative!important;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;margin:0!important;transform:none!important;z-index:1}
+.title-card>.nameplate>span{max-width:none!important;overflow:visible!important}`;
 
-function build(sc, forPreview) {
+function build(sc, forPreview, opts) {
   const list = sc.elements;
   const used = [...new Set(list.map(e => e.src).filter(Boolean))].map(id => SRC[id]);
   const frameSrc = sc.game && sc.game.frameSrc && SRC[sc.game.frameSrc];
   if (frameSrc && !used.includes(frameSrc)) used.push(frameSrc);
+  // shared colours: when every part comes from one overlay and none has its own colours, the whole scene uses one set of
+  // colours (like the overlay's gameplay scene) instead of a separate set per part
+  const unified = !!(opts && opts.unified) && used.length === 1 && list.every(e => e.kind === 'image' || !Object.keys(e.colours || {}).length);
   // HTML
-  const defs = used.map(s => swap(s.defs, '__SRC__', 'src-' + s.id)).join('');
+  // SVG patterns/gradients take their colours from where they are defined, not where they are used, so each overlay's
+  // definitions get that overlay's colours (and the e-<id> class, so the Fields colour settings reach them too)
+  const defs = used.map(s => {
+    if (!s.defs) return '';
+    if (unified) return `<div class="src-defs" style="position:absolute;width:0;height:0;overflow:hidden">${swap(s.defs, '__SRC__', 'src-' + s.id)}</div>`;
+    const e0 = list.find(e => e.src === s.id && e.kind !== 'image');
+    const vars = s.vars.map(([n, , v]) => n + ':' + ((e0 && e0.colours[n]) || v)).join(';');
+    return `<div class="src-defs${e0 ? ' e-' + e0.id : ''}" style="position:absolute;width:0;height:0;overflow:hidden;${vars}">${swap(s.defs, '__SRC__', 'src-' + s.id)}</div>`;
+  }).join('');
   const body = list.map((e, i) => `  <div class="el e-${e.id} k-${e.kind}${e.src ? ' src-' + e.src : ''}" data-el="${e.id}" style="${wrapStyle(e, i)}"><div class="el-in" style="${innerStyle(e)}">${pieceHTML(e, forPreview)}</div></div>`).join('\n');
   const html = `<!-- My overlay (made in the overlay editor) — paste ALL of this into the HTML tab of ONE StreamElements Custom Widget.
      The game window and the webcam hole are left completely empty (see-through). -->
@@ -195,8 +236,23 @@ ${body}
   let varsCss = '';
   if (frameSrc) varsCss += `.ov{${frameSrc.vars.map(v => `${v[0]}:${v[2]}`).join(';')}}\n`;
   if (sc.game) varsCss += `.ov{\n  --game-frame: ${sc.game.frameColour || '#ffffff'}; /* @color Game window frame @key c_game_frame */\n}\n`;
+  if (unified) {
+    const s = used[0];
+    const lines = s.vars.filter(v => v[0] !== '--game-frame' || sc.game).map(([name, lab, value]) => {
+      const key = 'c_' + name.slice(2).replace(/-/g, '_');
+      if (name !== '--game-frame') { colorSpecs.push(name); colourFields[key] = { type: 'colorpicker', label: lab, value, group: 'Colours' }; }
+      return name === '--game-frame' ? `  ${name}: ${value};` : `  ${name}: ${value}; /* @color ${lab} */`;
+    });
+    varsCss += `.ov{\n${lines.join('\n')}\n  --font-body: ${s.fontBody};\n  --font-display: ${s.fontDisplay};\n}\n`;
+  }
   list.forEach((e, i) => {
     if (e.kind === 'image') return;
+    if (unified) {
+      const s = SRC[e.src];
+      varsCss += `.el.e-${e.id}{font-family: var(--font-body);color: var(--text)}\n`;
+      if (s.root) varsCss += `.el.e-${e.id}{${s.root}}\n`;
+      return;
+    }
     const s = SRC[e.src], vars = s.vars, rel = varsFor(e).map(v => v[0]);
     const label = partLabel(e, i);
     const lines = vars.map(([name, lab, value]) => {
@@ -258,7 +314,7 @@ function values() {           // current setting values for the Fields box
   return v;
 }
 function partLabel(e, i) {
-  const n = e.kind === 'stat' ? STATS[e.stat] : e.kind === 'text' ? 'Text “' + String(e.text || '').slice(0, 18) + '”' : KINDS[e.kind].name;
+  const n = e.kind === 'stat' ? STATS[e.stat] : e.kind === 'text' ? 'Text “' + String(e.text || '').slice(0, 18) + '”' : e.kind === 'title' ? 'Title “' + String(e.text || '').slice(0, 18) + '”' : KINDS[e.kind].name;
   const same = els().filter(x => x.kind === e.kind && (e.kind !== 'stat' || x.stat === e.stat));
   return same.length > 1 ? n + ' ' + (same.indexOf(e) + 1) : n;
 }
@@ -623,13 +679,11 @@ function renderLibrary() {
     if (openSrc === s.id) {
       const grid = el('div', { className: 'lib-pieces' });
       const whole = el('button', { type: 'button', className: 'piece whole', textContent: '⧉ Use this whole overlay' });
-      whole.addEventListener('click', () => confirmReplace('Start this scene from ' + s.name + '?', 'Everything on the ' + sceneName() + ' scene is replaced by ' + s.name + '’s parts. You can undo this.', () => {
-        change(() => { design.scenes[design.scene] = design.scene === 'main' ? designFromOverlay(s.id) : Object.assign(designFromOverlay(s.id), { game: null }); selId = null; }, { rerender: true });
-      }));
+      whole.addEventListener('click', () => useOverlay(s));
       grid.append(whole,
         pieceTile(s, 'cam', 'Webcam frame'), pieceTile(s, 'chat', 'Chat'), pieceTile(s, 'alert', 'Alert box'),
         ...Object.keys(STATS).map(k => pieceTile(s, 'stat', STATS[k], { stat: k })), pieceTile(s, 'goal', 'Follower goal'),
-        pieceTile(s, 'socials', 'Socials'), pieceTile(s, 'text', 'Text', { text: 'Your text here' }), pieceTile(s, 'clock', 'Clock'));
+        pieceTile(s, 'socials', 'Socials'), pieceTile(s, 'title', 'Big title', { text: 'YOUR TITLE' }), pieceTile(s, 'text', 'Text', { text: 'Your text here' }), pieceTile(s, 'clock', 'Clock'));
       if (s.screen && s.screen.trim()) grid.append(pieceTile(s, 'decor', 'Decorations'));
       wrap.append(grid);
     }
@@ -767,7 +821,7 @@ function renderRight() {
     t.addEventListener('change', () => setProp(e, { stat: t.value }, { rerender: true }));
     box.append(field('Shows', t));
   }
-  if (e.kind === 'text') {
+  if (e.kind === 'text' || e.kind === 'title') {
     const ta = el('textarea', { rows: 3, maxLength: 200, value: e.text || '' });
     let before = null;
     ta.addEventListener('focus', () => { before = snapshot(); });
@@ -985,6 +1039,18 @@ function modal(title, text, actions) {
   $('modal').showModal();
 }
 function confirmReplace(title, text, yes) { modal(title, text, [['Cancel', 'ghost'], ['Replace', 'primary', yes]]); }
+function sceneFromOverlay(srcId, sceneId) { return sceneId === 'main' ? designFromOverlay(srcId) : sceneFor(picksFor(srcId), sceneId); }
+function useOverlay(s) {   // picking a whole overlay: just this scene, or every scene
+  const only = () => change(() => { design.scenes[design.scene] = sceneFromOverlay(s.id, design.scene); selId = null; }, { rerender: true });
+  const all = () => change(() => {
+    SCENES.forEach(([id]) => { design.scenes[id] = sceneFromOverlay(s.id, id); });
+    design.from = s.name; selId = null;
+  }, { rerender: true });
+  modal('Use ' + s.name + '?',
+    'Change just your “' + sceneName() + '” scene to ' + s.name + ', or change the whole overlay so every scene (Gameplay, Starting soon, Be right back, Ending and Just Chatting) uses ' + s.name + '. You can press Undo afterwards.',
+    [['Cancel', 'ghost'], ['Only “' + sceneName() + '”', '', () => { only(); toast(sceneName() + ' now uses ' + s.name + '.'); }],
+     ['Whole overlay', 'primary', () => { all(); renderScenes(); toast('Every scene now uses ' + s.name + '.'); }]]);
+}
 $('undo').addEventListener('click', undo); $('redo').addEventListener('click', redo);
 $('play').addEventListener('click', () => {
   playing = !playing; $('play').setAttribute('aria-pressed', String(playing)); $('play').textContent = playing ? '■ Stop preview' : '▶ Preview';

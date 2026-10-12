@@ -1,0 +1,127 @@
+/* Pixel Quest — Ending scene — paste ALL of this into the CSS tab of the same Custom Widget. */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent}
+.ov{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:top left;pointer-events:none;
+  font-family:var(--font-body);color:var(--text)}
+.cam,.alert,.chat,.latest,.socials{position:absolute}
+.box,.cam,.chat{isolation:isolate}
+.cam{--ring:14px}
+.cam-hole{position:absolute;inset:0}
+.nameplate{position:absolute;z-index:4;white-space:nowrap}
+/* Chat: hidden while empty, messages fade after chatSeconds */
+.chat{opacity:0;transition:opacity .35s;display:flex;flex-direction:column}
+.chat.active{opacity:1}
+.chat-title>span{position:relative}
+.chat-list{display:flex;flex-direction:column;justify-content:flex-end;gap:8px;overflow:hidden;min-height:0}
+.msg{flex-shrink:0;overflow-wrap:anywhere;animation:msgIn .35s ease-out both;background:var(--chat-bg)}
+.msg.leaving{opacity:0;transform:translateY(-6px);transition:opacity .5s,transform .5s}
+.msg-head{display:flex;align-items:center;gap:6px;min-width:0}
+.msg-user{color:var(--user-colour,var(--chat-name));font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.msg-badges img{height:18px;vertical-align:middle;margin-right:2px}
+.msg-role{font-size:.62em;font-weight:800;letter-spacing:.08em;padding:2px 5px;background:var(--accent);color:var(--on-accent,#fff);border-radius:3px}
+.msg-body{color:var(--text)}
+.msg-body img.emote{height:1.6em;vertical-align:middle}
+.msg.action .msg-body{font-style:italic}
+/* Alerts: hidden until .show */
+.alert{display:flex;align-items:center;gap:18px;opacity:0;background:var(--alert-bg);color:var(--text)}
+.alert.show{animation:alertIn .55s cubic-bezier(.2,1.2,.3,1) forwards}
+.alert.hide{animation:alertOut .5s ease forwards}
+.alert-icon{flex:0 0 auto;display:grid;place-items:center}
+.alert-copy{min-width:0;flex:1}
+.alert-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* Latest boxes */
+.stat{position:relative;min-width:0;background:var(--stat-bg);color:var(--text)}
+.stat label{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stat strong{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.goal-track{height:6px;background:var(--goal-track,#ffffff26);overflow:hidden;border-radius:6px;margin-top:8px}
+#goal-fill{height:100%;width:0;background:var(--goal-fill);border-radius:inherit;transition:width .6s}
+/* Extras (switched on in Show / hide, moved in the site's Edit mode) */
+.socials,.extra-text,.extra-clock{position:absolute}
+.extra-text{left:660px;top:24px;width:600px;text-align:center;padding:12px 20px;font-family:var(--font-display);font-size:30px;color:var(--text);background:var(--stat-bg)}
+.extra-clock{right:48px;top:24px;padding:10px 18px;font-family:var(--font-display);font-size:34px;font-variant-numeric:tabular-nums;color:var(--text);background:var(--stat-bg)}
+.socials.extra{left:48px;top:380px;width:360px;display:grid;gap:8px;padding:14px 16px;background:var(--stat-bg);color:var(--text)}
+.socials.extra .social{display:flex;justify-content:space-between;gap:12px;white-space:nowrap}
+.socials.extra em{font-style:normal;opacity:.75}
+.socials.extra span{font-weight:700;overflow:hidden;text-overflow:ellipsis}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes alertIn{from{opacity:0;transform:translateY(-24px) scale(.94)}to{opacity:1;transform:none}}
+@keyframes alertOut{from{opacity:1;transform:none}to{opacity:0;transform:translateY(-16px) scale(.97)}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01s!important;animation-iteration-count:1!important;transition:none!important}}
+
+/* ---- background image + game window (set in the Fields panel) ---- */
+.ov>.bg-layer{position:absolute;left:0;top:0;width:1920px;height:1080px;display:none;pointer-events:none;
+  background:center/cover no-repeat;-webkit-mask-size:1920px 1080px;mask-size:1920px 1080px;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.ov.has-bg>.bg-layer{display:block}
+.ov>.game-frame{position:absolute;left:0;top:0;width:1920px;height:1080px;display:none;pointer-events:none;
+  -webkit-mask-size:1920px 1080px;mask-size:1920px 1080px;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.ov>.game-frame>.game-box{position:absolute;box-shadow:0 0 0 3px var(--game-frame,#ffffff),0 0 0 4px #0009,0 12px 30px #000a}
+.ov.has-bg.frame-on>.game-frame{display:block}
+/* ---- show / hide switches ---- */
+.ov.hide-socials .socials{display:none!important}
+.ov.hide-latest .latest{display:none!important}
+.ov.hide-alerts #alert{display:none!important}
+/* ---- animations off (keeps alerts visible, just instant) ---- */
+.ov.no-anim *,.ov.no-anim *::before,.ov.no-anim *::after{animation-duration:1ms!important;animation-iteration-count:1!important;transition-duration:1ms!important}
+/* ---- chat text size ---- */
+.chat{zoom:var(--chat-zoom,1)}
+
+
+/* ---- editor layout: every part is placed exactly where you put it ---- */
+.el{position:absolute;transform-origin:50% 50%}
+.el-in{position:absolute;left:0;top:0;transform-origin:0 0}
+.el-in>section{position:absolute!important;left:0!important;top:0!important;right:0!important;bottom:0!important;width:auto!important;height:auto!important;max-height:none!important;margin:0!important}
+.el-in>.latest{display:block!important}
+.el-in>.chat{justify-content:flex-end}
+.el-in>.latest>.stat{height:100%}
+.el-in>.decor-layer{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+.el-in>.user-img{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;display:block}
+.extra-text .ed-text{white-space:pre-wrap}
+/* ---- title: a big copy of the overlay's own name plate ---- */
+.el-in>.title-card{display:flex!important;align-items:center;justify-content:center}
+.title-card>.nameplate{position:relative!important;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;margin:0!important;transform:none!important;z-index:1}
+.title-card>.nameplate>span{max-width:none!important;overflow:visible!important}
+/* ---- colours (one block per part) ---- */
+.ov{
+  --accent: #ffd23f; /* @color Accent */
+  --text: #ffffff; /* @color Text */
+  --cam-border: #ffffff; /* @color Webcam border */
+  --nameplate-bg: #1d2b53f0; /* @color Name plate */
+  --alert-bg: #1d2b53f2; /* @color Alert box */
+  --chat-bg: #1d2b53e6; /* @color Chat messages */
+  --chat-name: #ffd23f; /* @color Chat names (no Twitch colour) */
+  --stat-bg: #1d2b53e6; /* @color Latest boxes */
+  --goal-fill: #3bce71; /* @color Goal bar */
+  --pixel-shadow: #000000; /* @color Pixel shadow */
+  --font-body: 'Press Start 2P','Courier New',monospace;
+  --font-display: 'Press Start 2P','Courier New',monospace;
+}
+.el.e-p1{font-family: var(--font-body);color: var(--text)}
+.el.e-p2{font-family: var(--font-body);color: var(--text)}
+.el.e-p3{font-family: var(--font-body);color: var(--text)}
+.el.e-p4{font-family: var(--font-body);color: var(--text)}
+.el.e-p5{font-family: var(--font-body);color: var(--text)}
+.el.e-p6{font-family: var(--font-body);color: var(--text)}
+.el.e-p7{font-family: var(--font-body);color: var(--text)}
+.el.e-p8{font-family: var(--font-body);color: var(--text)}
+/* ---- animations ---- */
+@keyframes pixIn-src-pixelquest{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:none}}
+/* ---- parts ---- */
+/* Pixel Quest: cam */
+.cam:where(.src-pixelquest,.src-pixelquest *){--ring:12px;border:6px solid var(--cam-border);box-shadow:0 0 0 6px var(--pixel-shadow),6px 6px 0 6px var(--pixel-shadow)}
+.nameplate:where(.src-pixelquest,.src-pixelquest *){left:-6px;bottom:-44px;background:var(--nameplate-bg);border:4px solid var(--cam-border);padding:8px 12px;font-size:13px;color:var(--accent);box-shadow:4px 4px 0 var(--pixel-shadow)}
+.cam:where(.src-pixelquest,.src-pixelquest *){--bw:6px}
+/* Pixel Quest: latest */
+.stat:where(.src-pixelquest,.src-pixelquest *){padding:12px;border:3px solid #fff;box-shadow:4px 4px 0 var(--pixel-shadow)}
+.stat:where(.src-pixelquest,.src-pixelquest *) label{font-size:8px;color:var(--accent);line-height:1.5}
+.stat:where(.src-pixelquest,.src-pixelquest *) strong{font-size:11px;margin-top:8px}
+.goal-track:where(.src-pixelquest,.src-pixelquest *){border-radius:0;height:10px;border:2px solid #fff;background:#0006}
+#goal-fill:where(.src-pixelquest,.src-pixelquest *){border-radius:0}
+/* Pixel Quest: alert */
+.alert:where(.src-pixelquest,.src-pixelquest *){padding:16px 20px;border:4px solid #fff;box-shadow:6px 6px 0 var(--pixel-shadow);image-rendering:pixelated}
+.alert.show:where(.src-pixelquest,.src-pixelquest *){animation:pixIn-src-pixelquest .5s steps(5) forwards}
+.alert-icon:where(.src-pixelquest,.src-pixelquest *){width:48px;height:48px;background:var(--accent);color:#1d2b53;font-size:20px;box-shadow:inset -4px -4px 0 #0005}
+.alert-kind:where(.src-pixelquest,.src-pixelquest *){font-size:11px;color:var(--accent);margin-bottom:8px}
+.alert-name:where(.src-pixelquest,.src-pixelquest *){font-size:18px;line-height:1.4}
+.alert-detail:where(.src-pixelquest,.src-pixelquest *){font-size:10px;line-height:1.6;margin-top:6px;opacity:.85}
+

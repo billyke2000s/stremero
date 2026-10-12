@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Twitch overlays</title><link rel="stylesheet" href="site.css?v=37fcc655a9"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%239146ff'/%3E%3Cpath d='M8 10h16v12H8z' fill='none' stroke='white' stroke-width='3'/%3E%3C/svg%3E"></head>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Twitch overlays</title><link rel="stylesheet" href="site.css?v=6b6859df90"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%239146ff'/%3E%3Cpath d='M8 10h16v12H8z' fill='none' stroke='white' stroke-width='3'/%3E%3C/svg%3E"></head>
 <body>
 <header class="topbar"><a class="brand" id="brand" href="index.html">Twitch overlays</a><a href="index.html" class="browse">Browse</a><a href="editor.html" class="browse editor-link">✎ Editor</a><span class="demo-badge">OVERLAY PREVIEW</span><span class="top-avatar" aria-hidden="true">Y</span></header>
 <aside class="sidebar"><div class="sidebar-title">OVERLAY COLLECTION</div><nav id="side-links" aria-label="Overlays"></nav><div class="sidebar-note">Community-made overlays.<br>Try a look. Make it yours.</div></aside>
@@ -17,6 +17,7 @@
 <main id="watch" hidden>
  <div class="stream-column">
   
+  <nav class="scene-tabs" id="scene-tabs" aria-label="Scenes" hidden></nav>
   <div class="player" id="player" data-backdrop="grid"><iframe id="preview" title="Overlay preview" sandbox="allow-scripts" allow="fullscreen"></iframe><span class="live-badge">DEMO</span>
    <div class="player-controls"><span class="sample-label">Sample stream · 1080p</span>
     <button id="backdrop" title="Switch preview background" aria-label="Switch preview background">▦</button>
@@ -64,5 +65,5 @@
 <details><summary>Overlay setup instructions</summary><pre id="overlay-instructions"></pre></details>
 </dialog>
 <div id="status" role="status" class="status" hidden></div>
-<script src="catalog.js"></script><script src="app.js?v=b9e9d2340d"></script>
+<script src="catalog.js"></script><script src="app.js?v=b50eeb9399"></script>
 </body></html>

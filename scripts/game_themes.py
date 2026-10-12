@@ -116,7 +116,7 @@ dict(
   labels={'follower': 'NEW CREW MEMBER', 'subscriber': 'MADE IT BIG', 'gift': 'CARE PACKAGE', 'cheer': 'CASH BONUS',
           'tip': 'PAYDAY', 'raid': 'THE CREW ROLLS IN'},
   chatTitle='MESSAGES',
-  decor={'cam': '<i class="sh-stars">★★★★★</i><i class="sh-radar"><b></b></i><i class="sh-sun"></i>',
+  decor={'cam': '<i class="sh-stars">★★★★★</i><i class="sh-sun"></i>',
          'alert': '<i class="sh-band"></i>', 'chat': ''},
   css={
 'cam': """
@@ -124,9 +124,6 @@ dict(
 .sh-sun{position:absolute;left:-5px;right:-5px;bottom:-12px;height:7px;background:linear-gradient(90deg,var(--sunset),var(--accent),#7b3fe4)}
 .sh-stars{position:absolute;right:0;top:-38px;font:28px/1 Arial,sans-serif;letter-spacing:4px;color:#ffffff40;font-style:normal;text-shadow:0 2px 3px #000}
 .sh-stars::first-letter{color:#fff}
-.sh-radar{position:absolute;right:-116px;bottom:-4px;width:92px;height:92px;border-radius:50%;border:4px solid #000;background:radial-gradient(circle,#3a4a3a 0 30%,#253025 31% 60%,#1a221a 61%);box-shadow:0 0 0 3px #ffffffcc,0 6px 14px #000a;overflow:hidden;z-index:2}
-.sh-radar b{position:absolute;left:50%;top:50%;width:46px;height:46px;transform-origin:0 0;background:conic-gradient(from 0deg,#3ddc8466,transparent 60deg);animation:sunsetheist-sweep 3s linear infinite}
-.sh-radar::after{content:"";position:absolute;left:50%;top:50%;width:10px;height:10px;margin:-5px 0 0 -5px;background:#fff;clip-path:polygon(50% 0,100% 100%,50% 75%,0 100%)}
 .nameplate{left:-5px;top:-44px;font:26px var(--font-display);letter-spacing:.06em;text-transform:uppercase;color:#fff;background:none;padding:0;text-shadow:3px 3px 0 #000,-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000}
 """,
 'alert': """
@@ -151,7 +148,7 @@ dict(
 #goal-fill{border-radius:0}
 #goal-count::before{content:"$ ";color:var(--cash)}
 """},
-  keyframes='@keyframes sunsetheist-sweep{to{transform:rotate(360deg)}}',
+  keyframes='',
 ),
 # --------------------------------------------------------------------------------------------- Valorant
 dict(

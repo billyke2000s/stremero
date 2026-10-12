@@ -1,0 +1,140 @@
+/* Holo Prism — Starting soon scene — paste ALL of this into the CSS tab of the same Custom Widget. */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap');
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent}
+.ov{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:top left;pointer-events:none;
+  font-family:var(--font-body);color:var(--text)}
+.cam,.alert,.chat,.latest,.socials{position:absolute}
+.box,.cam,.chat{isolation:isolate}
+.cam{--ring:14px}
+.cam-hole{position:absolute;inset:0}
+.nameplate{position:absolute;z-index:4;white-space:nowrap}
+/* Chat: hidden while empty, messages fade after chatSeconds */
+.chat{opacity:0;transition:opacity .35s;display:flex;flex-direction:column}
+.chat.active{opacity:1}
+.chat-title>span{position:relative}
+.chat-list{display:flex;flex-direction:column;justify-content:flex-end;gap:8px;overflow:hidden;min-height:0}
+.msg{flex-shrink:0;overflow-wrap:anywhere;animation:msgIn .35s ease-out both;background:var(--chat-bg)}
+.msg.leaving{opacity:0;transform:translateY(-6px);transition:opacity .5s,transform .5s}
+.msg-head{display:flex;align-items:center;gap:6px;min-width:0}
+.msg-user{color:var(--user-colour,var(--chat-name));font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.msg-badges img{height:18px;vertical-align:middle;margin-right:2px}
+.msg-role{font-size:.62em;font-weight:800;letter-spacing:.08em;padding:2px 5px;background:var(--accent);color:var(--on-accent,#fff);border-radius:3px}
+.msg-body{color:var(--text)}
+.msg-body img.emote{height:1.6em;vertical-align:middle}
+.msg.action .msg-body{font-style:italic}
+/* Alerts: hidden until .show */
+.alert{display:flex;align-items:center;gap:18px;opacity:0;background:var(--alert-bg);color:var(--text)}
+.alert.show{animation:alertIn .55s cubic-bezier(.2,1.2,.3,1) forwards}
+.alert.hide{animation:alertOut .5s ease forwards}
+.alert-icon{flex:0 0 auto;display:grid;place-items:center}
+.alert-copy{min-width:0;flex:1}
+.alert-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* Latest boxes */
+.stat{position:relative;min-width:0;background:var(--stat-bg);color:var(--text)}
+.stat label{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stat strong{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.goal-track{height:6px;background:var(--goal-track,#ffffff26);overflow:hidden;border-radius:6px;margin-top:8px}
+#goal-fill{height:100%;width:0;background:var(--goal-fill);border-radius:inherit;transition:width .6s}
+/* Extras (switched on in Show / hide, moved in the site's Edit mode) */
+.socials,.extra-text,.extra-clock{position:absolute}
+.extra-text{left:660px;top:24px;width:600px;text-align:center;padding:12px 20px;font-family:var(--font-display);font-size:30px;color:var(--text);background:var(--stat-bg)}
+.extra-clock{right:48px;top:24px;padding:10px 18px;font-family:var(--font-display);font-size:34px;font-variant-numeric:tabular-nums;color:var(--text);background:var(--stat-bg)}
+.socials.extra{left:48px;top:380px;width:360px;display:grid;gap:8px;padding:14px 16px;background:var(--stat-bg);color:var(--text)}
+.socials.extra .social{display:flex;justify-content:space-between;gap:12px;white-space:nowrap}
+.socials.extra em{font-style:normal;opacity:.75}
+.socials.extra span{font-weight:700;overflow:hidden;text-overflow:ellipsis}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes alertIn{from{opacity:0;transform:translateY(-24px) scale(.94)}to{opacity:1;transform:none}}
+@keyframes alertOut{from{opacity:1;transform:none}to{opacity:0;transform:translateY(-16px) scale(.97)}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01s!important;animation-iteration-count:1!important;transition:none!important}}
+
+/* ---- background image + game window (set in the Fields panel) ---- */
+.ov>.bg-layer{position:absolute;left:0;top:0;width:1920px;height:1080px;display:none;pointer-events:none;
+  background:center/cover no-repeat;-webkit-mask-size:1920px 1080px;mask-size:1920px 1080px;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.ov.has-bg>.bg-layer{display:block}
+.ov>.game-frame{position:absolute;left:0;top:0;width:1920px;height:1080px;display:none;pointer-events:none;
+  -webkit-mask-size:1920px 1080px;mask-size:1920px 1080px;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.ov>.game-frame>.game-box{position:absolute;box-shadow:0 0 0 3px var(--game-frame,#ffffff),0 0 0 4px #0009,0 12px 30px #000a}
+.ov.has-bg.frame-on>.game-frame{display:block}
+/* ---- show / hide switches ---- */
+.ov.hide-socials .socials{display:none!important}
+.ov.hide-chat #chat{display:none!important}
+.ov.hide-alerts #alert{display:none!important}
+/* ---- animations off (keeps alerts visible, just instant) ---- */
+.ov.no-anim *,.ov.no-anim *::before,.ov.no-anim *::after{animation-duration:1ms!important;animation-iteration-count:1!important;transition-duration:1ms!important}
+/* ---- chat text size ---- */
+.chat{zoom:var(--chat-zoom,1)}
+
+
+/* ---- editor layout: every part is placed exactly where you put it ---- */
+.el{position:absolute;transform-origin:50% 50%}
+.el-in{position:absolute;left:0;top:0;transform-origin:0 0}
+.el-in>section{position:absolute!important;left:0!important;top:0!important;right:0!important;bottom:0!important;width:auto!important;height:auto!important;max-height:none!important;margin:0!important}
+.el-in>.latest{display:block!important}
+.el-in>.chat{justify-content:flex-end}
+.el-in>.latest>.stat{height:100%}
+.el-in>.decor-layer{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+.el-in>.user-img{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;display:block}
+.extra-text .ed-text{white-space:pre-wrap}
+/* ---- title: a big copy of the overlay's own name plate ---- */
+.el-in>.title-card{display:flex!important;align-items:center;justify-content:center}
+.title-card>.nameplate{position:relative!important;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;margin:0!important;transform:none!important;z-index:1}
+.title-card>.nameplate>span{max-width:none!important;overflow:visible!important}
+/* ---- colours (one block per part) ---- */
+.ov{
+  --accent: #a78bfa; /* @color Accent */
+  --text: #ffffff; /* @color Text */
+  --cam-border: #7dd3fc; /* @color Webcam border */
+  --nameplate-bg: #0f0c1ee6; /* @color Name plate */
+  --alert-bg: #0f0c1eeb; /* @color Alert box */
+  --chat-bg: #0f0c1ed9; /* @color Chat messages */
+  --chat-name: #c4b5fd; /* @color Chat names (no Twitch colour) */
+  --stat-bg: #0f0c1ed9; /* @color Latest boxes */
+  --goal-fill: #f0abfc; /* @color Goal bar */
+  --holo-1: #7dd3fc; /* @color Holo colour 1 */
+  --holo-2: #f0abfc; /* @color Holo colour 2 */
+  --holo-3: #fde68a; /* @color Holo colour 3 */
+  --font-body: 'Space Grotesk',Arial,sans-serif;
+  --font-display: 'Space Grotesk',Arial,sans-serif;
+}
+.el.e-p1{font-family: var(--font-body);color: var(--text)}
+.el.e-p1{--holo:linear-gradient(115deg,var(--holo-1),var(--holo-2),var(--holo-3),var(--holo-1),var(--holo-2))}
+.el.e-p2{font-family: var(--font-body);color: var(--text)}
+.el.e-p2{--holo:linear-gradient(115deg,var(--holo-1),var(--holo-2),var(--holo-3),var(--holo-1),var(--holo-2))}
+.el.e-p3{font-family: var(--font-body);color: var(--text)}
+.el.e-p3{--holo:linear-gradient(115deg,var(--holo-1),var(--holo-2),var(--holo-3),var(--holo-1),var(--holo-2))}
+.el.e-p4{font-family: var(--font-body);color: var(--text)}
+.el.e-p4{--holo:linear-gradient(115deg,var(--holo-1),var(--holo-2),var(--holo-3),var(--holo-1),var(--holo-2))}
+/* ---- animations ---- */
+@keyframes holo-src-holoprism{to{background-position:300% 0}}
+@keyframes sheen-src-holoprism{60%,100%{transform:translateX(100%)}}
+/* ---- parts ---- */
+/* Holo Prism: cam */
+.cam:where(.src-holoprism,.src-holoprism *){--ring:8px;border-radius:20px}
+.cam:where(.src-holoprism,.src-holoprism *)::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:var(--hb,2px);background:var(--holo);background-size:300% 100%;
+  animation:holo-src-holoprism 6s linear infinite;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.cam:where(.src-holoprism,.src-holoprism *)::before{--hb:8px;filter:drop-shadow(0 0 12px var(--holo-2))}
+.nameplate:where(.src-holoprism,.src-holoprism *){right:18px;top:-22px;padding:7px 20px;border-radius:30px;background:var(--holo);background-size:300% 100%;animation:holo-src-holoprism 6s linear infinite;color:#1b1030;font-weight:700;font-size:19px}
+/* Holo Prism: latest */
+.stat:where(.src-holoprism,.src-holoprism *)::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:var(--hb,2px);background:var(--holo);background-size:300% 100%;
+  animation:holo-src-holoprism 6s linear infinite;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.stat:where(.src-holoprism,.src-holoprism *){padding:12px 18px;border-radius:14px}
+.stat:where(.src-holoprism,.src-holoprism *) label{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--holo-1);font-weight:700}
+.stat:where(.src-holoprism,.src-holoprism *) strong{font-size:18px}
+#goal-fill:where(.src-holoprism,.src-holoprism *){background:var(--holo);background-size:300% 100%;animation:holo-src-holoprism 6s linear infinite}
+/* Holo Prism: chat */
+.msg:where(.src-holoprism,.src-holoprism *)::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:var(--hb,2px);background:var(--holo);background-size:300% 100%;
+  animation:holo-src-holoprism 6s linear infinite;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.chat-title:where(.src-holoprism,.src-holoprism *){display:none}
+.msg:where(.src-holoprism,.src-holoprism *){position:relative;padding:10px 15px;border-radius:14px;font-size:18px}
+/* Holo Prism: alert */
+.alert:where(.src-holoprism,.src-holoprism *)::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:var(--hb,2px);background:var(--holo);background-size:300% 100%;
+  animation:holo-src-holoprism 6s linear infinite;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.alert:where(.src-holoprism,.src-holoprism *){padding:18px 26px;border-radius:22px;position:absolute;overflow:hidden;box-shadow:0 20px 50px #0008}
+.alert:where(.src-holoprism,.src-holoprism *)::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,#ffffff30 45%,transparent 60%);transform:translateX(-100%);animation:sheen-src-holoprism 3s ease-in-out infinite;pointer-events:none}
+.alert-icon:where(.src-holoprism,.src-holoprism *){width:60px;height:60px;border-radius:18px;background:var(--holo);background-size:300% 100%;animation:holo-src-holoprism 6s linear infinite;color:#1b1030;font-size:28px}
+.alert-kind:where(.src-holoprism,.src-holoprism *){font-size:12px;letter-spacing:.22em;font-weight:700;color:var(--holo-1)}
+.alert-name:where(.src-holoprism,.src-holoprism *){font-size:32px;font-weight:700;background:var(--holo);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:holo-src-holoprism 6s linear infinite}
+.alert-detail:where(.src-holoprism,.src-holoprism *){font-size:16px;opacity:.9}
+

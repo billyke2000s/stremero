@@ -1,0 +1,135 @@
+/* Synthwave Horizon — Ending scene — paste ALL of this into the CSS tab of the same Custom Widget. */
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Exo+2:wght@500;700&display=swap');
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent}
+.ov{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:top left;pointer-events:none;
+  font-family:var(--font-body);color:var(--text)}
+.cam,.alert,.chat,.latest,.socials{position:absolute}
+.box,.cam,.chat{isolation:isolate}
+.cam{--ring:14px}
+.cam-hole{position:absolute;inset:0}
+.nameplate{position:absolute;z-index:4;white-space:nowrap}
+/* Chat: hidden while empty, messages fade after chatSeconds */
+.chat{opacity:0;transition:opacity .35s;display:flex;flex-direction:column}
+.chat.active{opacity:1}
+.chat-title>span{position:relative}
+.chat-list{display:flex;flex-direction:column;justify-content:flex-end;gap:8px;overflow:hidden;min-height:0}
+.msg{flex-shrink:0;overflow-wrap:anywhere;animation:msgIn .35s ease-out both;background:var(--chat-bg)}
+.msg.leaving{opacity:0;transform:translateY(-6px);transition:opacity .5s,transform .5s}
+.msg-head{display:flex;align-items:center;gap:6px;min-width:0}
+.msg-user{color:var(--user-colour,var(--chat-name));font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.msg-badges img{height:18px;vertical-align:middle;margin-right:2px}
+.msg-role{font-size:.62em;font-weight:800;letter-spacing:.08em;padding:2px 5px;background:var(--accent);color:var(--on-accent,#fff);border-radius:3px}
+.msg-body{color:var(--text)}
+.msg-body img.emote{height:1.6em;vertical-align:middle}
+.msg.action .msg-body{font-style:italic}
+/* Alerts: hidden until .show */
+.alert{display:flex;align-items:center;gap:18px;opacity:0;background:var(--alert-bg);color:var(--text)}
+.alert.show{animation:alertIn .55s cubic-bezier(.2,1.2,.3,1) forwards}
+.alert.hide{animation:alertOut .5s ease forwards}
+.alert-icon{flex:0 0 auto;display:grid;place-items:center}
+.alert-copy{min-width:0;flex:1}
+.alert-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* Latest boxes */
+.stat{position:relative;min-width:0;background:var(--stat-bg);color:var(--text)}
+.stat label{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stat strong{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.goal-track{height:6px;background:var(--goal-track,#ffffff26);overflow:hidden;border-radius:6px;margin-top:8px}
+#goal-fill{height:100%;width:0;background:var(--goal-fill);border-radius:inherit;transition:width .6s}
+/* Extras (switched on in Show / hide, moved in the site's Edit mode) */
+.socials,.extra-text,.extra-clock{position:absolute}
+.extra-text{left:660px;top:24px;width:600px;text-align:center;padding:12px 20px;font-family:var(--font-display);font-size:30px;color:var(--text);background:var(--stat-bg)}
+.extra-clock{right:48px;top:24px;padding:10px 18px;font-family:var(--font-display);font-size:34px;font-variant-numeric:tabular-nums;color:var(--text);background:var(--stat-bg)}
+.socials.extra{left:48px;top:380px;width:360px;display:grid;gap:8px;padding:14px 16px;background:var(--stat-bg);color:var(--text)}
+.socials.extra .social{display:flex;justify-content:space-between;gap:12px;white-space:nowrap}
+.socials.extra em{font-style:normal;opacity:.75}
+.socials.extra span{font-weight:700;overflow:hidden;text-overflow:ellipsis}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes alertIn{from{opacity:0;transform:translateY(-24px) scale(.94)}to{opacity:1;transform:none}}
+@keyframes alertOut{from{opacity:1;transform:none}to{opacity:0;transform:translateY(-16px) scale(.97)}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01s!important;animation-iteration-count:1!important;transition:none!important}}
+
+/* ---- background image + game window (set in the Fields panel) ---- */
+.ov>.bg-layer{position:absolute;left:0;top:0;width:1920px;height:1080px;display:none;pointer-events:none;
+  background:center/cover no-repeat;-webkit-mask-size:1920px 1080px;mask-size:1920px 1080px;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.ov.has-bg>.bg-layer{display:block}
+.ov>.game-frame{position:absolute;left:0;top:0;width:1920px;height:1080px;display:none;pointer-events:none;
+  -webkit-mask-size:1920px 1080px;mask-size:1920px 1080px;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.ov>.game-frame>.game-box{position:absolute;box-shadow:0 0 0 3px var(--game-frame,#ffffff),0 0 0 4px #0009,0 12px 30px #000a}
+.ov.has-bg.frame-on>.game-frame{display:block}
+/* ---- show / hide switches ---- */
+.ov.hide-socials .socials{display:none!important}
+.ov.hide-latest .latest{display:none!important}
+.ov.hide-alerts #alert{display:none!important}
+/* ---- animations off (keeps alerts visible, just instant) ---- */
+.ov.no-anim *,.ov.no-anim *::before,.ov.no-anim *::after{animation-duration:1ms!important;animation-iteration-count:1!important;transition-duration:1ms!important}
+/* ---- chat text size ---- */
+.chat{zoom:var(--chat-zoom,1)}
+
+
+/* ---- editor layout: every part is placed exactly where you put it ---- */
+.el{position:absolute;transform-origin:50% 50%}
+.el-in{position:absolute;left:0;top:0;transform-origin:0 0}
+.el-in>section{position:absolute!important;left:0!important;top:0!important;right:0!important;bottom:0!important;width:auto!important;height:auto!important;max-height:none!important;margin:0!important}
+.el-in>.latest{display:block!important}
+.el-in>.chat{justify-content:flex-end}
+.el-in>.latest>.stat{height:100%}
+.el-in>.decor-layer{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+.el-in>.user-img{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;display:block}
+.extra-text .ed-text{white-space:pre-wrap}
+/* ---- title: a big copy of the overlay's own name plate ---- */
+.el-in>.title-card{display:flex!important;align-items:center;justify-content:center}
+.title-card>.nameplate{position:relative!important;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;margin:0!important;transform:none!important;z-index:1}
+.title-card>.nameplate>span{max-width:none!important;overflow:visible!important}
+/* ---- colours (one block per part) ---- */
+.ov{
+  --accent: #ff3fa4; /* @color Accent */
+  --text: #fff1fb; /* @color Text */
+  --cam-border: #ff3fa4; /* @color Webcam border */
+  --nameplate-bg: #1a0536f0; /* @color Name plate */
+  --alert-bg: #1a0536f2; /* @color Alert box */
+  --chat-bg: #1a0536dd; /* @color Chat messages */
+  --chat-name: #2de2e6; /* @color Chat names (no Twitch colour) */
+  --stat-bg: #1a0536e0; /* @color Latest boxes */
+  --goal-fill: #2de2e6; /* @color Goal bar */
+  --sun-top: #ffd319; /* @color Sun top */
+  --sun-bottom: #ff2975; /* @color Sun bottom */
+  --grid: #8c1eff; /* @color Grid lines */
+  --font-body: 'Exo 2',Arial,sans-serif;
+  --font-display: 'Audiowide',Arial,sans-serif;
+}
+.el.e-p1{font-family: var(--font-body);color: var(--text)}
+.el.e-p2{font-family: var(--font-body);color: var(--text)}
+.el.e-p3{font-family: var(--font-body);color: var(--text)}
+.el.e-p4{font-family: var(--font-body);color: var(--text)}
+.el.e-p5{font-family: var(--font-body);color: var(--text)}
+.el.e-p6{font-family: var(--font-body);color: var(--text)}
+.el.e-p7{font-family: var(--font-body);color: var(--text)}
+.el.e-p8{font-family: var(--font-body);color: var(--text)}
+/* ---- animations ---- */
+@keyframes floor-src-synthwavehorizon{to{background-position:0 18px,0 18px}}
+/* ---- parts ---- */
+/* Synthwave Horizon: cam */
+.cam:where(.src-synthwavehorizon,.src-synthwavehorizon *){--ring:6px;border-radius:6px;box-shadow:0 0 30px var(--cam-border)}
+.cam:where(.src-synthwavehorizon,.src-synthwavehorizon *)::before{content:"";position:absolute;inset:0;padding:6px;border-radius:6px;background:linear-gradient(var(--sun-top),var(--sun-bottom),var(--grid));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;filter:drop-shadow(0 0 10px var(--cam-border))}
+.sun:where(.src-synthwavehorizon,.src-synthwavehorizon *){position:absolute;left:50%;top:-58px;width:116px;height:58px;margin-left:-58px;border-radius:58px 58px 0 0;
+  background:repeating-linear-gradient(180deg,transparent 0 30px,#0000 30px),linear-gradient(var(--sun-top),var(--sun-bottom));
+  -webkit-mask:repeating-linear-gradient(180deg,#000 0 7px,transparent 7px 10px);filter:drop-shadow(0 0 14px var(--sun-bottom))}
+.nameplate:where(.src-synthwavehorizon,.src-synthwavehorizon *){left:50%;bottom:-26px;transform:translateX(-50%);font:22px var(--font-display);letter-spacing:.08em;padding:4px 22px;background:var(--nameplate-bg);border:2px solid var(--accent);border-radius:4px;
+  background-image:linear-gradient(transparent,transparent);color:var(--sun-top);text-shadow:0 0 10px var(--sun-bottom)}
+/* Synthwave Horizon: latest */
+.stat:where(.src-synthwavehorizon,.src-synthwavehorizon *){padding:12px 16px;border-radius:6px;border-bottom:2px solid var(--accent);box-shadow:0 6px 18px #ff3fa433}
+.stat:where(.src-synthwavehorizon,.src-synthwavehorizon *) label{font:11px var(--font-display);letter-spacing:.18em;color:var(--chat-name);text-transform:uppercase}
+.stat:where(.src-synthwavehorizon,.src-synthwavehorizon *) strong{font-size:19px;font-weight:700}
+#goal-fill:where(.src-synthwavehorizon,.src-synthwavehorizon *){background:linear-gradient(90deg,var(--sun-top),var(--sun-bottom))}
+/* Synthwave Horizon: alert */
+.alert:where(.src-synthwavehorizon,.src-synthwavehorizon *){padding:20px 28px;border:2px solid var(--accent);border-radius:8px;overflow:hidden;box-shadow:0 0 24px var(--accent),inset 0 0 20px #ff3fa455}
+.floor:where(.src-synthwavehorizon,.src-synthwavehorizon *){position:absolute;left:-20%;right:-20%;bottom:-40px;height:90px;z-index:-1;
+  background:linear-gradient(90deg,var(--grid) 2px,transparent 2px) 0 0/40px 100%,linear-gradient(var(--grid) 2px,transparent 2px) 0 0/100% 18px;
+  transform:perspective(160px) rotateX(55deg);opacity:.5;animation:floor-src-synthwavehorizon 1.2s linear infinite}
+.alert-icon:where(.src-synthwavehorizon,.src-synthwavehorizon *){width:62px;height:62px;border-radius:50%;background:linear-gradient(var(--sun-top),var(--sun-bottom));font-size:28px;color:#1a0536}
+.alert-kind:where(.src-synthwavehorizon,.src-synthwavehorizon *){font:14px var(--font-display);letter-spacing:.24em;color:var(--chat-name)}
+.alert-name:where(.src-synthwavehorizon,.src-synthwavehorizon *){font:34px/1.2 var(--font-display);background:linear-gradient(180deg,#fff 30%,var(--sun-top) 55%,var(--sun-bottom));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 2px 0 #0008)}
+.alert-detail:where(.src-synthwavehorizon,.src-synthwavehorizon *){font-size:18px;font-weight:700}
+

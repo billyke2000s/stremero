@@ -140,3 +140,8 @@ button.download{border:0;cursor:pointer;font-family:inherit}button.download:focu
 .side-icon{width:48px;height:27px;border-radius:4px;object-fit:cover;object-position:center;background:repeating-conic-gradient(#d9d9d9 0 25%,#fff 0 50%) 0 0/6px 6px;flex:0 0 auto}
 .side-icon.fallback,.build-icon{background:#6441a5;font-size:13px}
 .b-actions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 4px}
+/* scene tabs above the player: Gameplay, Starting soon, Be right back, Ending, Just Chatting */
+.scene-tabs{display:flex;gap:6px;padding:10px 12px;background:#18181b;overflow-x:auto;scrollbar-width:thin}
+.scene-tab{flex:0 0 auto;border-radius:20px;background:#26262c;border:1px solid #3a3a42;padding:6px 14px;font-weight:650;font-size:13px;white-space:nowrap}
+.scene-tab:hover{background:#35353b}
+.scene-tab.on{background:#9146ff;border-color:#b98bff;color:#fff}

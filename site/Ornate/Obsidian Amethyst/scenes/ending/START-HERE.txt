@@ -1,0 +1,12 @@
+OBSIDIAN AMETHYST — ENDING SCENE (STREAMELEMENTS)
+
+This is the "Ending" scene of Obsidian Amethyst. Give it its own StreamElements overlay and its own OBS scene.
+
+INSTALL
+1. In StreamElements create a new 1920 x 1080 overlay for this scene.
+2. Add a Static/Custom > Custom Widget. Set it to 1920 x 1080 at X=0, Y=0.
+3. Open the widget's code editor. Replace the HTML, CSS, JS and FIELDS tabs with the four
+   boxes from the overlay site ("Copy to StreamElements"). Save.
+4. In OBS make a "Ending" scene and add the overlay URL as a Browser Source, 1920 x 1080,
+   placed ABOVE your other sources.
+5. Test with StreamElements "Emulate" (follow, sub, tip, cheer, raid) and a real chat message.
