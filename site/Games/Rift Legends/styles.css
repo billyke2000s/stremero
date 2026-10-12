@@ -1,0 +1,122 @@
+/* Rift Legends — paste ALL of this into the CSS tab of the same Custom Widget.
+   Unofficial, fan-made style inspired by League of Legends. Not affiliated with or endorsed by its makers.
+   Colours can be changed on the overlay site or in the Fields panel. These are the defaults. */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Barlow:wght@500;600;700&display=swap');
+:root{
+  --accent: #c8aa6e; /* @color Gold */
+  --text: #f0e6d2; /* @color Text */
+  --cam-border: #c8aa6e; /* @color Webcam border */
+  --nameplate-bg: #010a13f0; /* @color Name plate */
+  --alert-bg: #010a13f2; /* @color Alert box */
+  --chat-bg: #010a13d9; /* @color Chat messages */
+  --chat-name: #0ac8b9; /* @color Chat names (no Twitch colour) */
+  --stat-bg: #010a13e0; /* @color Latest boxes */
+  --goal-fill: #0ac8b9; /* @color Goal bar */
+  --magic: #0ac8b9; /* @color Magic glow */
+  --game-frame: #c8aa6e; /* @color Game window frame */
+  --font-body: 'Barlow',Arial,sans-serif;
+  --font-display: 'Cinzel',Georgia,serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent}
+.ov{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:top left;pointer-events:none;
+  font-family:var(--font-body);color:var(--text)}
+.cam,.alert,.chat,.latest,.socials{position:absolute}
+.box,.cam,.chat{isolation:isolate}
+.cam{--ring:14px}
+.cam-hole{position:absolute;inset:0}
+.nameplate{position:absolute;z-index:4;white-space:nowrap}
+/* Chat: hidden while empty, messages fade after chatSeconds */
+.chat{opacity:0;transition:opacity .35s;display:flex;flex-direction:column}
+.chat.active{opacity:1}
+.chat-title>span{position:relative}
+.chat-list{display:flex;flex-direction:column;justify-content:flex-end;gap:8px;overflow:hidden;min-height:0}
+.msg{flex-shrink:0;overflow-wrap:anywhere;animation:msgIn .35s ease-out both;background:var(--chat-bg)}
+.msg.leaving{opacity:0;transform:translateY(-6px);transition:opacity .5s,transform .5s}
+.msg-head{display:flex;align-items:center;gap:6px;min-width:0}
+.msg-user{color:var(--user-colour,var(--chat-name));font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.msg-badges img{height:18px;vertical-align:middle;margin-right:2px}
+.msg-role{font-size:.62em;font-weight:800;letter-spacing:.08em;padding:2px 5px;background:var(--accent);color:var(--on-accent,#fff);border-radius:3px}
+.msg-body{color:var(--text)}
+.msg-body img.emote{height:1.6em;vertical-align:middle}
+.msg.action .msg-body{font-style:italic}
+/* Alerts: hidden until .show */
+.alert{display:flex;align-items:center;gap:18px;opacity:0;background:var(--alert-bg);color:var(--text)}
+.alert.show{animation:alertIn .55s cubic-bezier(.2,1.2,.3,1) forwards}
+.alert.hide{animation:alertOut .5s ease forwards}
+.alert-icon{flex:0 0 auto;display:grid;place-items:center}
+.alert-copy{min-width:0;flex:1}
+.alert-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* Latest boxes */
+.stat{position:relative;min-width:0;background:var(--stat-bg);color:var(--text)}
+.stat label{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stat strong{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.goal-track{height:6px;background:var(--goal-track,#ffffff26);overflow:hidden;border-radius:6px;margin-top:8px}
+#goal-fill{height:100%;width:0;background:var(--goal-fill);border-radius:inherit;transition:width .6s}
+/* Extras (switched on in Show / hide, moved in the site's Edit mode) */
+.socials,.extra-text,.extra-clock{position:absolute}
+.extra-text{left:660px;top:24px;width:600px;text-align:center;padding:12px 20px;font-family:var(--font-display);font-size:30px;color:var(--text);background:var(--stat-bg)}
+.extra-clock{right:48px;top:24px;padding:10px 18px;font-family:var(--font-display);font-size:34px;font-variant-numeric:tabular-nums;color:var(--text);background:var(--stat-bg)}
+.socials.extra{left:48px;top:380px;width:360px;display:grid;gap:8px;padding:14px 16px;background:var(--stat-bg);color:var(--text)}
+.socials.extra .social{display:flex;justify-content:space-between;gap:12px;white-space:nowrap}
+.socials.extra em{font-style:normal;opacity:.75}
+.socials.extra span{font-weight:700;overflow:hidden;text-overflow:ellipsis}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes alertIn{from{opacity:0;transform:translateY(-24px) scale(.94)}to{opacity:1;transform:none}}
+@keyframes alertOut{from{opacity:1;transform:none}to{opacity:0;transform:translateY(-16px) scale(.97)}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01s!important;animation-iteration-count:1!important;transition:none!important}}
+/* ---- layout ---- */
+.cam{left:48px;top:48px;width:480px;height:300px}
+.alert{left:50%;top:48px;width:560px;margin-left:-280px}
+.chat{right:48px;bottom:176px;width:410px;max-height:600px}
+.latest{left:48px;right:48px;bottom:40px;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+
+/* ---- background image + game window (set in the Fields panel) ---- */
+.ov>.bg-layer{position:absolute;left:0;top:0;width:1920px;height:1080px;display:none;pointer-events:none;
+  background:center/cover no-repeat;-webkit-mask-size:1920px 1080px;mask-size:1920px 1080px;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.ov.has-bg>.bg-layer{display:block}
+.ov>.game-frame{position:absolute;left:0;top:0;width:1920px;height:1080px;display:none;pointer-events:none;
+  -webkit-mask-size:1920px 1080px;mask-size:1920px 1080px;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.ov>.game-frame>.game-box{position:absolute;box-shadow:0 0 0 3px var(--game-frame,#ffffff),0 0 0 4px #0009,0 12px 30px #000a}
+.ov.has-bg.frame-on>.game-frame{display:block}
+/* ---- show / hide switches ---- */
+.ov.hide-chat .chat{display:none!important}
+.ov.hide-alerts .alert{display:none!important}
+.ov.hide-latest .latest{display:none!important}
+.ov.hide-cam .cam{display:none!important}
+.ov.hide-socials .socials{display:none!important}
+.ov.hide-text .extra-text{display:none!important}
+.ov.hide-clock .extra-clock{display:none!important}
+/* ---- animations off (keeps alerts visible, just instant) ---- */
+.ov.no-anim *,.ov.no-anim *::before,.ov.no-anim *::after{animation-duration:1ms!important;animation-iteration-count:1!important;transition-duration:1ms!important}
+/* ---- chat text size ---- */
+.chat{zoom:var(--chat-zoom,1)}
+/* ---- theme ---- */
+
+.cam{--ring:6px;border:2px solid var(--cam-border);outline:1px solid #c8aa6e66;outline-offset:5px;box-shadow:0 0 0 1px #010a13,0 0 24px #0ac8b933,inset 0 0 0 1px #785a28}
+.rl-gem{position:absolute;width:16px;height:16px;transform:rotate(45deg);background:linear-gradient(135deg,#f0e6d2,#c8aa6e 45%,#785a28);border:2px solid #010a13;box-shadow:0 0 10px #0ac8b9aa;z-index:2}
+.rl-gem::after{content:"";position:absolute;inset:3px;background:var(--magic);box-shadow:0 0 6px var(--magic)}
+.rl-gem.tl{left:-10px;top:-10px}.rl-gem.tr{right:-10px;top:-10px}.rl-gem.bl{left:-10px;bottom:-10px}.rl-gem.br{right:-10px;bottom:-10px}
+.rl-crest{position:absolute;left:50%;top:-14px;width:120px;height:14px;margin-left:-60px;background:linear-gradient(90deg,transparent,#c8aa6e 30%,#f0e6d2 50%,#c8aa6e 70%,transparent);clip-path:polygon(0 100%,12% 0,88% 0,100% 100%)}
+.nameplate{left:50%;bottom:-36px;transform:translateX(-50%);font:700 17px var(--font-display);letter-spacing:.14em;text-transform:uppercase;color:var(--text);background:var(--nameplate-bg);padding:7px 26px;border:1px solid var(--accent);clip-path:polygon(12px 0,calc(100% - 12px) 0,100% 50%,calc(100% - 12px) 100%,12px 100%,0 50%);box-shadow:inset 0 0 12px #0ac8b933}
+
+.alert{padding:18px 30px;border:2px solid var(--accent);overflow:hidden;clip-path:polygon(18px 0,calc(100% - 18px) 0,100% 18px,100% calc(100% - 18px),calc(100% - 18px) 100%,18px 100%,0 calc(100% - 18px),0 18px);box-shadow:inset 0 0 0 4px #010a13,inset 0 0 0 5px #785a28,inset 0 0 40px #0ac8b922}
+.rl-sweep{position:absolute;top:0;bottom:0;width:120px;left:-140px;background:linear-gradient(100deg,transparent,#f0e6d24d,transparent);animation:riftlegends-sweep 2.6s ease-in-out infinite;pointer-events:none}
+.alert-icon{width:68px;height:68px;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);background:radial-gradient(circle,#0ac8b9 0 22%,#0a323c 50%,#c8aa6e 51% 56%,#010a13 57%);color:#f0e6d2;font-size:24px;text-shadow:0 0 8px #0ac8b9}
+.alert-kind{font:700 14px var(--font-display);letter-spacing:.28em;color:var(--magic)}
+.alert-name{font:900 34px var(--font-display);letter-spacing:.04em;background:linear-gradient(180deg,#f0e6d2,#c8aa6e 60%,#785a28);-webkit-background-clip:text;background-clip:text;color:transparent}
+.alert-detail{font:600 16px var(--font-body);color:#a09b8c}
+
+.chat-title{font:700 13px var(--font-display);letter-spacing:.32em;color:var(--accent);padding:0 0 8px;margin-bottom:8px;border-bottom:1px solid;border-image:linear-gradient(90deg,#c8aa6e,transparent) 1}
+.msg{padding:8px 14px;font-size:18px;border-left:2px solid var(--accent);box-shadow:inset 1px 0 0 #010a13}
+.msg-head{font:600 15px var(--font-body)}
+.msg-role{background:var(--accent);color:#010a13}
+
+.stat{padding:11px 16px;border:1px solid #c8aa6e88;box-shadow:inset 0 0 0 3px #010a13,inset 0 0 0 4px #785a2866}
+.stat::before{content:"";position:absolute;left:50%;top:-6px;width:10px;height:10px;margin-left:-5px;transform:rotate(45deg);background:var(--accent);border:2px solid #010a13}
+.stat label{font:700 11px var(--font-display);letter-spacing:.2em;color:var(--accent)}
+.stat strong{font:600 19px var(--font-body);margin-top:3px}
+.goal-track{height:7px;border-radius:0;background:#010a13;border:1px solid #785a28}
+#goal-fill{border-radius:0;box-shadow:0 0 10px var(--magic)}
+
+@keyframes riftlegends-sweep{0%{left:-140px}60%,100%{left:110%}}

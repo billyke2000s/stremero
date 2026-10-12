@@ -1,0 +1,122 @@
+/* Tactical Ops — paste ALL of this into the CSS tab of the same Custom Widget.
+   Unofficial, fan-made style inspired by Counter-Strike. Not affiliated with or endorsed by its makers.
+   Colours can be changed on the overlay site or in the Fields panel. These are the defaults. */
+@import url('https://fonts.googleapis.com/css2?family=Saira+Stencil+One&family=Saira+Condensed:wght@500;600;700;800&display=swap');
+:root{
+  --accent: #f0b429; /* @color Accent */
+  --text: #f1f1ee; /* @color Text */
+  --cam-border: #f0b429; /* @color Webcam border */
+  --nameplate-bg: #101318f0; /* @color Name plate */
+  --alert-bg: #101318f2; /* @color Alert box */
+  --chat-bg: #101318cc; /* @color Chat messages */
+  --chat-name: #8fb3ff; /* @color Chat names (no Twitch colour) */
+  --stat-bg: #101318d9; /* @color Latest boxes */
+  --goal-fill: #f0b429; /* @color Goal bar */
+  --team: #5d79ae; /* @color Team colour */
+  --game-frame: #f0b429; /* @color Game window frame */
+  --font-body: 'Saira Condensed',Arial,sans-serif;
+  --font-display: 'Saira Stencil One',Impact,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent}
+.ov{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:top left;pointer-events:none;
+  font-family:var(--font-body);color:var(--text)}
+.cam,.alert,.chat,.latest,.socials{position:absolute}
+.box,.cam,.chat{isolation:isolate}
+.cam{--ring:14px}
+.cam-hole{position:absolute;inset:0}
+.nameplate{position:absolute;z-index:4;white-space:nowrap}
+/* Chat: hidden while empty, messages fade after chatSeconds */
+.chat{opacity:0;transition:opacity .35s;display:flex;flex-direction:column}
+.chat.active{opacity:1}
+.chat-title>span{position:relative}
+.chat-list{display:flex;flex-direction:column;justify-content:flex-end;gap:8px;overflow:hidden;min-height:0}
+.msg{flex-shrink:0;overflow-wrap:anywhere;animation:msgIn .35s ease-out both;background:var(--chat-bg)}
+.msg.leaving{opacity:0;transform:translateY(-6px);transition:opacity .5s,transform .5s}
+.msg-head{display:flex;align-items:center;gap:6px;min-width:0}
+.msg-user{color:var(--user-colour,var(--chat-name));font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.msg-badges img{height:18px;vertical-align:middle;margin-right:2px}
+.msg-role{font-size:.62em;font-weight:800;letter-spacing:.08em;padding:2px 5px;background:var(--accent);color:var(--on-accent,#fff);border-radius:3px}
+.msg-body{color:var(--text)}
+.msg-body img.emote{height:1.6em;vertical-align:middle}
+.msg.action .msg-body{font-style:italic}
+/* Alerts: hidden until .show */
+.alert{display:flex;align-items:center;gap:18px;opacity:0;background:var(--alert-bg);color:var(--text)}
+.alert.show{animation:alertIn .55s cubic-bezier(.2,1.2,.3,1) forwards}
+.alert.hide{animation:alertOut .5s ease forwards}
+.alert-icon{flex:0 0 auto;display:grid;place-items:center}
+.alert-copy{min-width:0;flex:1}
+.alert-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* Latest boxes */
+.stat{position:relative;min-width:0;background:var(--stat-bg);color:var(--text)}
+.stat label{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stat strong{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.goal-track{height:6px;background:var(--goal-track,#ffffff26);overflow:hidden;border-radius:6px;margin-top:8px}
+#goal-fill{height:100%;width:0;background:var(--goal-fill);border-radius:inherit;transition:width .6s}
+/* Extras (switched on in Show / hide, moved in the site's Edit mode) */
+.socials,.extra-text,.extra-clock{position:absolute}
+.extra-text{left:660px;top:24px;width:600px;text-align:center;padding:12px 20px;font-family:var(--font-display);font-size:30px;color:var(--text);background:var(--stat-bg)}
+.extra-clock{right:48px;top:24px;padding:10px 18px;font-family:var(--font-display);font-size:34px;font-variant-numeric:tabular-nums;color:var(--text);background:var(--stat-bg)}
+.socials.extra{left:48px;top:380px;width:360px;display:grid;gap:8px;padding:14px 16px;background:var(--stat-bg);color:var(--text)}
+.socials.extra .social{display:flex;justify-content:space-between;gap:12px;white-space:nowrap}
+.socials.extra em{font-style:normal;opacity:.75}
+.socials.extra span{font-weight:700;overflow:hidden;text-overflow:ellipsis}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes alertIn{from{opacity:0;transform:translateY(-24px) scale(.94)}to{opacity:1;transform:none}}
+@keyframes alertOut{from{opacity:1;transform:none}to{opacity:0;transform:translateY(-16px) scale(.97)}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01s!important;animation-iteration-count:1!important;transition:none!important}}
+/* ---- layout ---- */
+.latest{left:48px;right:48px;top:32px;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+.cam{right:48px;bottom:48px;width:480px;height:300px}
+.chat{left:48px;bottom:48px;width:420px;max-height:640px}
+.alert{left:50%;top:168px;width:580px;margin-left:-290px}
+
+/* ---- background image + game window (set in the Fields panel) ---- */
+.ov>.bg-layer{position:absolute;left:0;top:0;width:1920px;height:1080px;display:none;pointer-events:none;
+  background:center/cover no-repeat;-webkit-mask-size:1920px 1080px;mask-size:1920px 1080px;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.ov.has-bg>.bg-layer{display:block}
+.ov>.game-frame{position:absolute;left:0;top:0;width:1920px;height:1080px;display:none;pointer-events:none;
+  -webkit-mask-size:1920px 1080px;mask-size:1920px 1080px;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.ov>.game-frame>.game-box{position:absolute;box-shadow:0 0 0 3px var(--game-frame,#ffffff),0 0 0 4px #0009,0 12px 30px #000a}
+.ov.has-bg.frame-on>.game-frame{display:block}
+/* ---- show / hide switches ---- */
+.ov.hide-chat .chat{display:none!important}
+.ov.hide-alerts .alert{display:none!important}
+.ov.hide-latest .latest{display:none!important}
+.ov.hide-cam .cam{display:none!important}
+.ov.hide-socials .socials{display:none!important}
+.ov.hide-text .extra-text{display:none!important}
+.ov.hide-clock .extra-clock{display:none!important}
+/* ---- animations off (keeps alerts visible, just instant) ---- */
+.ov.no-anim *,.ov.no-anim *::before,.ov.no-anim *::after{animation-duration:1ms!important;animation-iteration-count:1!important;transition-duration:1ms!important}
+/* ---- chat text size ---- */
+.chat{zoom:var(--chat-zoom,1)}
+/* ---- theme ---- */
+
+.cam{--ring:3px;border:2px solid #f1f1ee33;box-shadow:0 0 0 1px #000a}
+.to-cr{position:absolute;width:34px;height:34px;border:4px solid var(--cam-border);z-index:2}
+.to-cr.tl{left:-8px;top:-8px;border-right:0;border-bottom:0}.to-cr.tr{right:-8px;top:-8px;border-left:0;border-bottom:0}
+.to-cr.bl{left:-8px;bottom:-8px;border-right:0;border-top:0}.to-cr.br{right:-8px;bottom:-8px;border-left:0;border-top:0}
+.to-hz{position:absolute;left:44px;right:44px;bottom:-14px;height:8px;background:repeating-linear-gradient(-45deg,var(--accent) 0 10px,#101318 10px 20px);opacity:.9}
+.to-rec{position:absolute;right:0;top:-34px;font:700 14px var(--font-body);letter-spacing:.14em;color:#ff4d4d;font-style:normal;text-shadow:0 1px 2px #000;animation:tacticalops-blink 1.6s steps(1) infinite}
+.nameplate{left:-8px;top:-46px;font:20px var(--font-display);letter-spacing:.12em;text-transform:uppercase;color:#101318;background:var(--accent);padding:5px 16px 4px;clip-path:polygon(0 0,100% 0,calc(100% - 12px) 100%,0 100%)}
+
+.alert{padding:16px 26px;border-left:6px solid var(--accent);overflow:hidden;box-shadow:0 8px 24px #000a}
+.to-hz.a{left:0;right:0;top:0;bottom:auto;height:5px;opacity:1}
+.alert-icon{width:58px;height:58px;color:#101318;background:var(--accent);font-size:28px;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
+.alert-kind{font:700 15px var(--font-body);letter-spacing:.3em;color:var(--accent)}
+.alert-name{font:34px var(--font-display);letter-spacing:.06em;text-transform:uppercase}
+.alert-detail{font:600 17px var(--font-body);color:#b9bcc4;letter-spacing:.04em}
+
+.chat-title{font:16px var(--font-display);letter-spacing:.2em;color:var(--accent);margin-bottom:8px}
+.msg{padding:6px 12px;font:600 19px var(--font-body);border-left:3px solid var(--team)}
+.msg-head{font:700 16px var(--font-body);letter-spacing:.04em}
+.msg-role{background:var(--accent);color:#101318;border-radius:0}
+
+.stat{padding:8px 14px;border-bottom:3px solid var(--accent);clip-path:polygon(0 0,100% 0,100% 100%,10px 100%,0 calc(100% - 10px))}
+.stat label{font:700 12px var(--font-body);letter-spacing:.22em;text-transform:uppercase;color:var(--accent)}
+.stat strong{font:700 20px var(--font-body);letter-spacing:.02em}
+.goal-track{height:8px;border-radius:0;background:repeating-linear-gradient(90deg,#f1f1ee22 0 7px,transparent 7px 9px)}
+#goal-fill{border-radius:0;background:repeating-linear-gradient(90deg,var(--goal-fill) 0 7px,transparent 7px 9px)}
+
+@keyframes tacticalops-blink{0%{opacity:1}50%{opacity:.25}}
