@@ -1,0 +1,364 @@
+{
+  "widgetName": {
+    "type": "hidden",
+    "value": "Rift Legends"
+  },
+  "streamerName": {
+    "type": "text",
+    "label": "Your name",
+    "value": "Your cool name",
+    "group": "Your details"
+  },
+  "youtube": {
+    "type": "text",
+    "label": "YouTube handle",
+    "value": "@yourcoolname",
+    "group": "Your details"
+  },
+  "tiktok": {
+    "type": "text",
+    "label": "TikTok handle",
+    "value": "@yourcoolname",
+    "group": "Your details"
+  },
+  "twitch": {
+    "type": "text",
+    "label": "Twitch name",
+    "value": "yourcoolname",
+    "group": "Your details"
+  },
+  "bgImage": {
+    "type": "image-input",
+    "label": "Background image (1920x1080). Shows everywhere except the game window and webcam",
+    "value": "",
+    "group": "Background & game window"
+  },
+  "bgOpacity": {
+    "type": "slider",
+    "label": "Background opacity %",
+    "value": 100,
+    "min": 0,
+    "max": 100,
+    "step": 1,
+    "group": "Background & game window"
+  },
+  "gameX": {
+    "type": "number",
+    "label": "Game window X (px on 1920x1080)",
+    "value": 48,
+    "min": 0,
+    "max": 1920,
+    "group": "Background & game window"
+  },
+  "gameY": {
+    "type": "number",
+    "label": "Game window Y (px on 1920x1080)",
+    "value": 150,
+    "min": 0,
+    "max": 1080,
+    "group": "Background & game window"
+  },
+  "gameW": {
+    "type": "number",
+    "label": "Game window width (px on 1920x1080)",
+    "value": 1390,
+    "min": 0,
+    "max": 1920,
+    "group": "Background & game window"
+  },
+  "gameH": {
+    "type": "number",
+    "label": "Game window height (px on 1920x1080)",
+    "value": 782,
+    "min": 0,
+    "max": 1080,
+    "group": "Background & game window"
+  },
+  "gameRadius": {
+    "type": "number",
+    "label": "Game window corner rounding (px)",
+    "value": 0,
+    "min": 0,
+    "max": 80,
+    "group": "Background & game window"
+  },
+  "gameFrame": {
+    "type": "checkbox",
+    "label": "Frame around the game window",
+    "value": true,
+    "group": "Background & game window"
+  },
+  "cutCam": {
+    "type": "checkbox",
+    "label": "Cut the background out behind the webcam",
+    "value": true,
+    "group": "Background & game window"
+  },
+  "c_accent": {
+    "type": "colorpicker",
+    "label": "Gold",
+    "value": "#c8aa6e",
+    "group": "Colours"
+  },
+  "c_text": {
+    "type": "colorpicker",
+    "label": "Text",
+    "value": "#f0e6d2",
+    "group": "Colours"
+  },
+  "c_cam_border": {
+    "type": "colorpicker",
+    "label": "Webcam border",
+    "value": "#c8aa6e",
+    "group": "Colours"
+  },
+  "c_nameplate_bg": {
+    "type": "colorpicker",
+    "label": "Name plate",
+    "value": "#010a13f0",
+    "group": "Colours"
+  },
+  "c_alert_bg": {
+    "type": "colorpicker",
+    "label": "Alert box",
+    "value": "#010a13f2",
+    "group": "Colours"
+  },
+  "c_chat_bg": {
+    "type": "colorpicker",
+    "label": "Chat messages",
+    "value": "#010a13d9",
+    "group": "Colours"
+  },
+  "c_chat_name": {
+    "type": "colorpicker",
+    "label": "Chat names (no Twitch colour)",
+    "value": "#0ac8b9",
+    "group": "Colours"
+  },
+  "c_stat_bg": {
+    "type": "colorpicker",
+    "label": "Latest boxes",
+    "value": "#010a13e0",
+    "group": "Colours"
+  },
+  "c_goal_fill": {
+    "type": "colorpicker",
+    "label": "Goal bar",
+    "value": "#0ac8b9",
+    "group": "Colours"
+  },
+  "c_magic": {
+    "type": "colorpicker",
+    "label": "Magic glow",
+    "value": "#0ac8b9",
+    "group": "Colours"
+  },
+  "c_game_frame": {
+    "type": "colorpicker",
+    "label": "Game window frame",
+    "value": "#c8aa6e",
+    "group": "Colours"
+  },
+  "showChat": {
+    "type": "checkbox",
+    "label": "Show chat",
+    "value": true,
+    "group": "Show / hide"
+  },
+  "showAlerts": {
+    "type": "checkbox",
+    "label": "Show alerts",
+    "value": true,
+    "group": "Show / hide"
+  },
+  "showLatest": {
+    "type": "checkbox",
+    "label": "Show latest events",
+    "value": true,
+    "group": "Show / hide"
+  },
+  "showCam": {
+    "type": "checkbox",
+    "label": "Show webcam frame",
+    "value": true,
+    "group": "Show / hide"
+  },
+  "showSocials": {
+    "type": "checkbox",
+    "label": "Show socials (YouTube / TikTok / Twitch)",
+    "value": false,
+    "group": "Show / hide"
+  },
+  "showText": {
+    "type": "checkbox",
+    "label": "Show custom text",
+    "value": false,
+    "group": "Show / hide"
+  },
+  "showClock": {
+    "type": "checkbox",
+    "label": "Show clock",
+    "value": false,
+    "group": "Show / hide"
+  },
+  "customText": {
+    "type": "text",
+    "label": "Custom text (shown when 'Show custom text' is on)",
+    "value": "Your text here",
+    "group": "Show / hide"
+  },
+  "clock24": {
+    "type": "checkbox",
+    "label": "Clock uses 24-hour time",
+    "value": true,
+    "group": "Show / hide"
+  },
+  "animations": {
+    "type": "checkbox",
+    "label": "Animations (turn off for a calmer overlay)",
+    "value": true,
+    "group": "Show / hide"
+  },
+  "chatScale": {
+    "type": "slider",
+    "label": "Chat text size %",
+    "value": 100,
+    "min": 60,
+    "max": 200,
+    "step": 5,
+    "group": "Show / hide"
+  },
+  "chatSeconds": {
+    "type": "number",
+    "label": "Seconds each message stays",
+    "value": 10,
+    "min": 2,
+    "max": 600,
+    "group": "Chat"
+  },
+  "maxMessages": {
+    "type": "number",
+    "label": "Most messages on screen",
+    "value": 5,
+    "min": 1,
+    "max": 30,
+    "group": "Chat"
+  },
+  "useChatColours": {
+    "type": "checkbox",
+    "label": "Use chatters' Twitch name colours",
+    "value": true,
+    "group": "Chat"
+  },
+  "hideCommands": {
+    "type": "checkbox",
+    "label": "Hide !commands",
+    "value": true,
+    "group": "Chat"
+  },
+  "hideLinks": {
+    "type": "checkbox",
+    "label": "Hide messages with links",
+    "value": false,
+    "group": "Chat"
+  },
+  "hiddenUsers": {
+    "type": "text",
+    "label": "Hide these users (bots), comma separated",
+    "value": "streamelements, nightbot, moobot, fossabot, streamlabs",
+    "group": "Chat"
+  },
+  "alertSeconds": {
+    "type": "number",
+    "label": "Seconds each alert stays",
+    "value": 6,
+    "min": 2,
+    "max": 60,
+    "group": "Alerts"
+  },
+  "alertFollower": {
+    "type": "checkbox",
+    "label": "Follow alerts",
+    "value": true,
+    "group": "Alerts"
+  },
+  "alertSubscriber": {
+    "type": "checkbox",
+    "label": "Sub / resub alerts",
+    "value": true,
+    "group": "Alerts"
+  },
+  "alertGift": {
+    "type": "checkbox",
+    "label": "Gift sub alerts",
+    "value": true,
+    "group": "Alerts"
+  },
+  "alertCheer": {
+    "type": "checkbox",
+    "label": "Bits alerts",
+    "value": true,
+    "group": "Alerts"
+  },
+  "alertTip": {
+    "type": "checkbox",
+    "label": "Tip alerts",
+    "value": true,
+    "group": "Alerts"
+  },
+  "alertRaid": {
+    "type": "checkbox",
+    "label": "Raid alerts",
+    "value": true,
+    "group": "Alerts"
+  },
+  "minBits": {
+    "type": "number",
+    "label": "Minimum bits for an alert",
+    "value": 1,
+    "min": 1,
+    "group": "Alerts"
+  },
+  "minTip": {
+    "type": "number",
+    "label": "Minimum tip for an alert",
+    "value": 1,
+    "min": 0,
+    "group": "Alerts"
+  },
+  "minRaid": {
+    "type": "number",
+    "label": "Minimum raid size for an alert",
+    "value": 1,
+    "min": 1,
+    "group": "Alerts"
+  },
+  "alertSound": {
+    "type": "sound-input",
+    "label": "Alert sound (optional)",
+    "value": "",
+    "group": "Alerts"
+  },
+  "alertVolume": {
+    "type": "slider",
+    "label": "Alert sound volume %",
+    "value": 50,
+    "min": 0,
+    "max": 100,
+    "step": 1,
+    "group": "Alerts"
+  },
+  "followerGoal": {
+    "type": "number",
+    "label": "Follower goal",
+    "value": 100,
+    "min": 1,
+    "group": "Goal"
+  },
+  "layout": {
+    "type": "hidden",
+    "label": "Part positions (set on the overlay site)",
+    "value": "{}"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "css": "styles.css",
+  "cam": [
+    1432,
+    48,
+    440,
+    280
+  ],
+  "game": [
+    48,
+    48,
+    1360,
+    765
+  ],
+  "parts": {
+    "chat": true,
+    "alerts": true,
+    "latest": true,
+    "cam": true,
+    "socials": false,
+    "text": false,
+    "clock": false
+  },
+  "tags": "minecraft mc blocks pixel sandbox survival craft cube grass dirt",
+  "layout": "corner",
+  "editor": true
+}
