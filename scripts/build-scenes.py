@@ -33,6 +33,12 @@ INSTALL
 4. In OBS make a "{LABEL}" scene and add the overlay URL as a Browser Source, 1920 x 1080,
    placed ABOVE your other sources.
 {CAM}5. Test with StreamElements "Emulate" (follow, sub, tip, cheer, raid) and a real chat message.
+
+SCENE TRANSITION
+This scene plays a short transition in its overlay's style when it appears.
+In OBS: open this Browser Source's properties and tick "Refresh browser when scene
+becomes active". For the smoothest switch, set the OBS scene transition to "Fade"
+at about 300 ms. Turn it off with "Show scene transition" in the Fields panel.
 {UNOFFICIAL}"""
 
 async def main(only):

@@ -37,3 +37,10 @@ Built for Twitch events through StreamElements. Tips must go through StreamEleme
 Community gift bombs show one alert. Mod deletions, timeouts and bans remove chat.
 Tested with simulated StreamElements events, not a live account: test before going live.
 Fonts load from Google Fonts, so the browser source needs internet.
+
+SCENE TRANSITION
+This overlay plays a short transition in its own style when the scene appears.
+In OBS: open the overlay's Browser Source properties and tick
+"Refresh browser when scene becomes active". For the smoothest switch, set the
+OBS scene transition to "Fade" at about 300 ms. Turn it off with
+"Show scene transition" in the widget's Fields panel.

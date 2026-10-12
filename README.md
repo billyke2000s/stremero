@@ -45,3 +45,19 @@ Every overlay has extra scenes in `<overlay>/scenes/<scene>/`. The site shows th
 ## Game-style overlays
 
 The `Games` category is built from `scripts/game_themes.py` by `python3 scripts/build-game-overlays.py`. They are unofficial and style-only: no logos, characters or game art.
+
+## Scene transitions
+
+Every overlay and scene plays a short transition in its own style when it appears (curtains, light iris, pixel blocks, glitch strips, ink splats, shutter doors or diagonal bands). It is plain CSS inside the overlay, so it costs nothing: in OBS tick **Refresh browser when scene becomes active** on the Browser Source and use a ~300 ms Fade. Viewers can switch it off with **Show scene transition** in the Fields panel.
+
+Styles and which overlay uses which are in `scripts/transitions.py`.
+
+## Rebuilding everything (in this order)
+
+```
+python3 scripts/build-game-overlays.py      # Games category (if you changed scripts/game_themes.py)
+python3 scripts/add-transitions.py          # adds the transition to every overlay + the editor library
+python3 scripts/build-original-scenes.py    # scenes for the two Originals
+python3 scripts/build-scenes.py             # scenes for everything the editor knows
+node scripts/build-catalog.mjs
+```

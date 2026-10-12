@@ -1,7 +1,8 @@
 """Builds every theme in scripts/game_themes.py into site/Games/<Name>/ and adds/updates it in site/parts.json.
 Each overlay is made from a Fancy overlay with the same layout (same shared code, same positions), with only the
 theme parts swapped: colours, fonts, wording, decorations and the theme CSS. Run from the repo root:
-    python3 scripts/build-game-overlays.py && node scripts/build-catalog.mjs"""
+    python3 scripts/build-game-overlays.py && node scripts/build-catalog.mjs
+Afterwards run add-transitions.py and the scene builders (see README: "Rebuilding everything")."""
 import json, re, copy, shutil, os, sys
 sys.path.insert(0, os.path.dirname(__file__))
 from game_themes import THEMES

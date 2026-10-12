@@ -206,6 +206,23 @@ const EDITOR_CSS = `
 .title-card>.nameplate{position:relative!important;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;margin:0!important;transform:none!important;z-index:1}
 .title-card>.nameplate>span{max-width:none!important;overflow:visible!important}`;
 
+/* scene transition: the style of the overlay the scene is mostly made from, in that overlay's colours */
+function transitionFor(list, frameSrc, unified) {
+  if (!LIB.transitions) return { html: '', css: '' };
+  const count = {}; list.forEach(e => { if (e.src) count[e.src] = (count[e.src] || 0) + 1; });
+  const top = Object.keys(count).sort((a, b) => count[b] - count[a])[0];
+  const s = frameSrc || SRC[top] || LIB.sources[0];
+  const [style, a, b, c] = s.transition || ['bands', 'var(--accent)', 'var(--nameplate-bg)', 'var(--text)'];
+  const t = LIB.transitions[style] || LIB.transitions.bands;
+  let vars = `--sx-a:${a};--sx-b:${b};--sx-c:${c}`;
+  const e0 = list.find(e => e.src === s.id);
+  if (!unified) {   // colours live on each part, not the overlay: give the transition that overlay's own values
+    const val = x => { const m = /^var\((--[\w-]+)\)$/.exec(x); if (!m) return x; const v = s.vars.find(r => r[0] === m[1]); return v ? ((e0 && e0.colours[v[0]]) || v[2]) : x; };
+    vars = `--sx-a:${val(a)};--sx-b:${val(b)};--sx-c:${val(c)};--font-display:${s.fontDisplay}`;
+  }
+  return { html: `<div class="sx${!unified && e0 ? ' e-' + e0.id : ''}" aria-hidden="true" style="${esc(vars)}"><div class="sx-in">${t.html}</div></div>`,
+           css: '/* ---- scene transition (' + style + ') ---- */' + LIB.transitionBase + t.css };
+}
 function build(sc, forPreview, opts) {
   const list = sc.elements;
   const used = [...new Set(list.map(e => e.src).filter(Boolean))].map(id => SRC[id]);
@@ -224,11 +241,13 @@ function build(sc, forPreview, opts) {
     const vars = s.vars.map(([n, , v]) => n + ':' + ((e0 && e0.colours[n]) || v)).join(';');
     return `<div class="src-defs${e0 ? ' e-' + e0.id : ''}" style="position:absolute;width:0;height:0;overflow:hidden;${vars}">${swap(s.defs, '__SRC__', 'src-' + s.id)}</div>`;
   }).join('');
+  const sx = transitionFor(list, frameSrc, unified);
   const body = list.map((e, i) => `  <div class="el e-${e.id} k-${e.kind}${e.src ? ' src-' + e.src : ''}" data-el="${e.id}" style="${wrapStyle(e, i)}"><div class="el-in" style="${innerStyle(e)}">${pieceHTML(e, forPreview)}</div></div>`).join('\n');
   const html = `<!-- My overlay (made in the overlay editor) — paste ALL of this into the HTML tab of ONE StreamElements Custom Widget.
      The game window and the webcam hole are left completely empty (see-through). -->
 <div id="ov" class="ov"><div class="bg-layer" aria-hidden="true"></div><div class="game-frame" aria-hidden="true"><div class="game-box" data-game-hole></div></div>${defs}
 ${body}
+${sx.html}
 </div>
 `;
   // CSS: one colour block per part, so every part can have its own colours
@@ -273,12 +292,14 @@ ${body}
   const partsPresent = {};
   list.forEach(e => { const p = KINDS[e.kind].part; if (p) partsPresent[p] = true; });
   const PARTSEL = { chat: '#chat', alerts: '#alert', latest: '.latest', cam: '.cam', socials: '.socials', text: '.extra-text', clock: '.extra-clock' };
-  const lookParts = {}; Object.keys(partsPresent).forEach(k => { lookParts[k] = { sel: PARTSEL[k], on: true }; });
+  partsPresent.transition = true;
+  const PARTSEL_ALL = Object.assign({ transition: '.sx' }, PARTSEL);
+  const lookParts = {}; Object.keys(partsPresent).forEach(k => { lookParts[k] = { sel: PARTSEL_ALL[k], on: true }; });
   const hideCss = Object.keys(lookParts).map(k => `.ov.hide-${k} ${lookParts[k].sel}{display:none!important}`).join('\n');
   const css = [`/* My overlay (made in the overlay editor) — paste ALL of this into the CSS tab of the same Custom Widget. */`,
     ...fonts.map(f => `@import url('${f}');`), LIB.baseCss, swap(LIB.lookCss.replace(/\/\* ---- show \/ hide switches ---- \*\/[\s\S]*?(?=\/\* ---- animations off)/, '/* ---- show / hide switches ---- */\n' + hideCss + '\n'), '', ''),
     EDITOR_CSS, '/* ---- colours (one block per part) ---- */', varsCss.trim(), '/* ---- animations ---- */', ...used.map(s => swap(s.keyframes, '__SRC__', 'src-' + s.id)),
-    '/* ---- parts ---- */', pieceCss, frameSrc ? '/* ---- game window frame ---- */\n' + swap(frameSrc.css.game, '__SRC__', 'src-' + frameSrc.id) : ''].join('\n') + '\n';
+    '/* ---- parts ---- */', pieceCss, sx.css, frameSrc ? '/* ---- game window frame ---- */\n' + swap(frameSrc.css.game, '__SRC__', 'src-' + frameSrc.id) : ''].join('\n') + '\n';
   // JS
   const alertEl = list.find(e => e.kind === 'alert'), chatEl = list.find(e => e.kind === 'chat');
   const labels = Object.assign({}, LIB.labels, alertEl ? SRC[alertEl.src].labels : {});
@@ -322,7 +343,7 @@ function partLabel(e, i) {
 /* ------------------------------------------------------------------ the canvas (iframe) */
 const RUNTIME = `(function(){
   var root=document.getElementById('ov'); var st=document.createElement('style');
-  st.textContent='.stage-edit *,.stage-edit *::before,.stage-edit *::after{animation-delay:-60s!important;animation-play-state:paused!important}.stage-drag *,.stage-drag *::before,.stage-drag *::after{transition:none!important}.stage-edit .alert{opacity:1!important;animation:none!important}.stage-edit .chat{opacity:1!important}.stage-edit>.game-frame{display:block!important}.stage-edit .game-box{outline:2px dashed rgba(255,255,255,.75);outline-offset:-2px}.stage-edit:not(.has-bg):not(.frame-on) .game-box{box-shadow:none!important}.stage-edit .game-box::after{content:"YOUR GAME GOES HERE";position:absolute;inset:0;display:grid;place-items:center;font:700 30px Arial,sans-serif;letter-spacing:8px;color:rgba(0,0,0,.4);text-shadow:0 1px 0 rgba(255,255,255,.6)}';
+  st.textContent='.stage-edit .sx.sx-play *{animation-play-state:running!important;animation-delay:var(--d,0s)!important}.stage-edit .sx.sx-play .sx-in{animation-delay:1.7s!important}.stage-edit *,.stage-edit *::before,.stage-edit *::after{animation-delay:-60s!important;animation-play-state:paused!important}.stage-drag *,.stage-drag *::before,.stage-drag *::after{transition:none!important}.stage-edit .alert{opacity:1!important;animation:none!important}.stage-edit .chat{opacity:1!important}.stage-edit>.game-frame{display:block!important}.stage-edit .game-box{outline:2px dashed rgba(255,255,255,.75);outline-offset:-2px}.stage-edit:not(.has-bg):not(.frame-on) .game-box{box-shadow:none!important}.stage-edit .game-box::after{content:"YOUR GAME GOES HERE";position:absolute;inset:0;display:grid;place-items:center;font:700 30px Arial,sans-serif;letter-spacing:8px;color:rgba(0,0,0,.4);text-shadow:0 1px 0 rgba(255,255,255,.6)}';
   document.head.appendChild(st);
   function prime(){var a=document.getElementById('alert-name');if(a&&!a.textContent){a.textContent='NewFriend';var k=document.getElementById('alert-kind');if(k)k.textContent='NEW FOLLOWER';var d=document.getElementById('alert-detail');if(d)d.textContent='just followed!';var ic=document.getElementById('alert-icon');if(ic)ic.textContent='\\u2665';}}
   var pend={},raf=0;
@@ -342,6 +363,7 @@ const RUNTIME = `(function(){
       var we=d.id==='game'?document.querySelector('.game-box'):document.querySelector('[data-el="'+d.id+'"]');if(we){we.style.willChange='';we.style.translate='';}
       if(d.geom)geom(d.geom);if(d.geom&&d.geom.kind==='cam'&&window.__reload)window.__reload();}
     if(d.action==='vars'){var w2=document.querySelector('[data-el="'+d.id+'"]');if(w2)Object.keys(d.vars).forEach(function(k){if(/^--[\\w-]+$/.test(k))w2.style.setProperty(k,d.vars[k]);});}
+    if(d.action==='transition'){var o=document.querySelector('.sx');if(o){var n2=o.cloneNode(true);n2.classList.add('sx-play');o.parentNode.replaceChild(n2,o);}}
     if(d.action==='text'){var w3=document.querySelector('[data-el="'+d.id+'"] .ed-text');if(w3)w3.textContent=d.text;}
   });
 })();`;
@@ -356,13 +378,14 @@ function stageDoc() {
     '<\/script><script>' + RUNTIME + '<\/script></body></html>';
 }
 let DEMO = '';
+let playTransitionNext = false;   // play the scene transition when the canvas next loads (after switching scenes)
 function renderStage() {           // full redraw (adding, removing, re-styling parts)
   clearTimeout(stageTimer);
   stageTimer = setTimeout(() => {
     const old = $('stage'), f = document.createElement('iframe');
     ['id', 'title', 'sandbox'].forEach(k => f.setAttribute(k, old.getAttribute(k)));
     stageReady = false;
-    f.addEventListener('load', () => { stageReady = true; post({ action: 'edit', on: !playing }); pushFields(); });
+    f.addEventListener('load', () => { stageReady = true; post({ action: 'edit', on: !playing }); pushFields(); if (playTransitionNext) { playTransitionNext = false; post({ action: 'transition' }); } });
     f.srcdoc = stageDoc();
     old.replaceWith(f);
   }, 30);
@@ -1028,7 +1051,7 @@ function renderScenes() {
       closePicker();
       if (!design.scenes[id]) { const before = snapshot(); design.scenes[id] = sceneFromTemplate(id); design.scene = id; commit(before); toast(name + ' scene made from your gameplay style. Change anything you like.'); }
       else { design.scene = id; save(); }
-      selId = null; renderScenes(); renderStage(); renderSelection(); renderRight(); renderLayers();
+      selId = null; playTransitionNext = true; renderScenes(); renderStage(); renderSelection(); renderRight(); renderLayers();
     });
     return b;
   }));
@@ -1049,7 +1072,7 @@ function useOverlay(s) {   // picking a whole overlay: just this scene, or every
   modal('Use ' + s.name + '?',
     'Change just your “' + sceneName() + '” scene to ' + s.name + ', or change the whole overlay so every scene (Gameplay, Starting soon, Be right back, Ending and Just Chatting) uses ' + s.name + '. You can press Undo afterwards.',
     [['Cancel', 'ghost'], ['Only “' + sceneName() + '”', '', () => { only(); toast(sceneName() + ' now uses ' + s.name + '.'); }],
-     ['Whole overlay', 'primary', () => { all(); renderScenes(); toast('Every scene now uses ' + s.name + '.'); }]]);
+     ['Whole overlay', 'primary', () => { playTransitionNext = true; all(); renderScenes(); toast('Every scene now uses ' + s.name + '.'); }]]);
 }
 $('undo').addEventListener('click', undo); $('redo').addEventListener('click', redo);
 $('play').addEventListener('click', () => {

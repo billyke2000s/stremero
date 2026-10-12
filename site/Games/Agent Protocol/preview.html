@@ -117,6 +117,26 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent
 .stat strong{font:600 26px/1.1 var(--font-display);letter-spacing:.04em;text-transform:uppercase}
 .goal-track{height:6px;border-radius:0;background:#ece8e11f}
 #goal-fill{border-radius:0}
+/* >>> scene transition */
+/* ---- scene transition: plays once when the scene appears (switch it off with "Show scene transition") ---- */
+.sx{position:absolute;left:0;top:0;width:0;height:0;overflow:visible;z-index:2147480000;pointer-events:none}
+.sx-in{--d:1.7s;position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden;animation:sx-gone .01s linear 1.7s forwards}
+.sx .sx-in *{position:absolute;animation-delay:var(--d,0s)}
+.sx-name{left:0;right:0;top:50%;margin-top:-50px;height:100px;line-height:100px;text-align:center;white-space:nowrap;overflow:hidden;
+  font-family:var(--font-display,Impact,Arial,sans-serif);font-size:76px;letter-spacing:.06em;text-transform:uppercase;color:var(--sx-c);
+  text-shadow:0 4px 16px rgba(0,0,0,.45);animation:sx-name .9s ease forwards;z-index:5;--d:0s}
+.hide-transition .sx{display:none!important}
+@keyframes sx-gone{to{visibility:hidden}}
+@keyframes sx-name{0%,40%{opacity:1;transform:scale(1)}65%,100%{opacity:0;transform:scale(1.08)}}
+
+.sx-sh{left:0;width:1920px;height:541px;animation:sx-up .6s cubic-bezier(.7,0,.3,1) forwards;
+  background:repeating-linear-gradient(-45deg,rgba(0,0,0,.22) 0 22px,transparent 22px 44px),var(--sx-b)}
+.sx-sh.t{top:0;border-bottom:10px solid var(--sx-a)}
+.sx-sh.b{bottom:0;border-top:10px solid var(--sx-a);animation-name:sx-down}
+.sx-sh~.sx-name{margin-top:-180px}
+@keyframes sx-up{to{transform:translateY(-104%)}}
+@keyframes sx-down{to{transform:translateY(104%)}}
+/* <<< scene transition */
 </style></head><body><!-- Agent Protocol — paste ALL of this into the HTML tab of ONE StreamElements Custom Widget.
      The middle of the screen and the webcam hole are left completely empty (transparent). -->
 <div id="ov" class="ov"><div class="bg-layer" aria-hidden="true"></div><div class="game-frame" aria-hidden="true"><div class="game-box" data-game-hole></div></div>
@@ -158,6 +178,7 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent
   </section>
   <section class="extra-text box extra" aria-label="Custom text"><span data-field="customText">Your text here</span></section>
   <section class="extra-clock box extra" aria-label="Clock"><span class="clock-time">00:00</span></section>
+  <!-- scene-transition --><div class="sx" aria-hidden="true" style="--sx-a:var(--accent);--sx-b:#0f1923;--sx-c:var(--text)"><div class="sx-in"><i class="sx-sh t" style="--d:.5s"></i><i class="sx-sh b" style="--d:.5s"></i><b class="sx-name" data-field="name">Your cool name</b></div></div><!-- /scene-transition -->
 </div>
 <script>/* ===================================================================
    AURORA — StreamElements Custom Widget (JS tab)
@@ -380,7 +401,7 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent
    clock, animations and chat text size. All editable in the Fields panel without code. */
 (() => {
   'use strict';
-  const LOOK = {"root": "#ov", "colors": ["--accent", "--text", "--cam-border", "--nameplate-bg", "--alert-bg", "--chat-bg", "--chat-name", "--stat-bg", "--goal-fill", "--aurora-1", "--aurora-2", "--aurora-3", "--game-frame"], "parts": {"chat": {"sel": ".chat", "on": true}, "alerts": {"sel": ".alert", "on": true}, "latest": {"sel": ".latest", "on": true}, "cam": {"sel": ".cam", "on": true}, "socials": {"sel": ".socials", "on": false}, "text": {"sel": ".extra-text", "on": false}, "clock": {"sel": ".extra-clock", "on": false}}, "cam": [1432, 48, 440, 280, 8], "game": [48, 48, 1360, 765]};
+  const LOOK = {"root": "#ov", "colors": ["--accent", "--text", "--cam-border", "--nameplate-bg", "--alert-bg", "--chat-bg", "--chat-name", "--stat-bg", "--goal-fill", "--aurora-1", "--aurora-2", "--aurora-3", "--game-frame"], "parts": {"chat": {"sel": ".chat", "on": true}, "alerts": {"sel": ".alert", "on": true}, "latest": {"sel": ".latest", "on": true}, "cam": {"sel": ".cam", "on": true}, "socials": {"sel": ".socials", "on": false}, "text": {"sel": ".extra-text", "on": false}, "clock": {"sel": ".extra-clock", "on": false}, "transition": {"sel": ".sx", "on": true}}, "cam": [1432, 48, 440, 280, 8], "game": [48, 48, 1360, 765]};
   const root = document.querySelector(LOOK.root);
   if (!root) return;
   const colourOK = v => typeof v === 'string' && /^(#[0-9a-f]{3,8}|rgba?\([\d\s.,%]+\)|hsla?\([\d\s.,%deg]+\)|transparent)$/i.test(v.trim());

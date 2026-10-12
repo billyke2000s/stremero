@@ -111,3 +111,23 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent
 .stat strong{font:700 20px var(--font-display);text-transform:uppercase}
 .goal{background:linear-gradient(90deg,var(--stat-bg),var(--team-2))}
 .goal-track{border-radius:0}
+/* >>> scene transition */
+/* ---- scene transition: plays once when the scene appears (switch it off with "Show scene transition") ---- */
+.sx{position:absolute;left:0;top:0;width:0;height:0;overflow:visible;z-index:2147480000;pointer-events:none}
+.sx-in{--d:1.7s;position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden;animation:sx-gone .01s linear 1.7s forwards}
+.sx .sx-in *{position:absolute;animation-delay:var(--d,0s)}
+.sx-name{left:0;right:0;top:50%;margin-top:-50px;height:100px;line-height:100px;text-align:center;white-space:nowrap;overflow:hidden;
+  font-family:var(--font-display,Impact,Arial,sans-serif);font-size:76px;letter-spacing:.06em;text-transform:uppercase;color:var(--sx-c);
+  text-shadow:0 4px 16px rgba(0,0,0,.45);animation:sx-name .9s ease forwards;z-index:5;--d:0s}
+.hide-transition .sx{display:none!important}
+@keyframes sx-gone{to{visibility:hidden}}
+@keyframes sx-name{0%,40%{opacity:1;transform:scale(1)}65%,100%{opacity:0;transform:scale(1.08)}}
+
+.sx-sh{left:0;width:1920px;height:541px;animation:sx-up .6s cubic-bezier(.7,0,.3,1) forwards;
+  background:repeating-linear-gradient(-45deg,rgba(0,0,0,.22) 0 22px,transparent 22px 44px),var(--sx-b)}
+.sx-sh.t{top:0;border-bottom:10px solid var(--sx-a)}
+.sx-sh.b{bottom:0;border-top:10px solid var(--sx-a);animation-name:sx-down}
+.sx-sh~.sx-name{margin-top:-180px}
+@keyframes sx-up{to{transform:translateY(-104%)}}
+@keyframes sx-down{to{transform:translateY(104%)}}
+/* <<< scene transition */

@@ -20,3 +20,9 @@ A background image fills the screen EXCEPT the game window (and webcam hole), wh
 Default game window: X=60 Y=110 width=1350 height=759 on a 1920 x 1080 canvas.
 The background always sits underneath the overlay.
 
+SCENE TRANSITION
+This overlay plays a short transition in its own style when the scene appears.
+In OBS: open the overlay's Browser Source properties and tick
+"Refresh browser when scene becomes active". For the smoothest switch, set the
+OBS scene transition to "Fade" at about 300 ms. Turn it off with
+"Show scene transition" in the widget's Fields panel.

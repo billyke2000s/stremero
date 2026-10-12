@@ -219,7 +219,7 @@
    clock, animations and chat text size. All editable in the Fields panel without code. */
 (() => {
   'use strict';
-  const LOOK = {"root": "#ov", "colors": ["--metal", "--metal-hi", "--metal-lo", "--bead", "--jewel", "--jewel-hi", "--jewel-2", "--velvet", "--velvet-hi", "--text", "--accent", "--chat-bg", "--chat-name", "--goal-fill"], "parts": {"chat": {"sel": ".chat", "on": true}, "alerts": {"sel": ".alert", "on": true}, "latest": {"sel": ".latest", "on": true}, "cam": {"sel": ".cam", "on": true}, "socials": {"sel": ".socials", "on": true}, "text": {"sel": ".extra-text", "on": false}, "clock": {"sel": ".extra-clock", "on": false}}, "cam": [72, 92, 480, 300, 8], "game": [600, 180, 792, 446]};
+  const LOOK = {"root": "#ov", "colors": ["--metal", "--metal-hi", "--metal-lo", "--bead", "--jewel", "--jewel-hi", "--jewel-2", "--velvet", "--velvet-hi", "--text", "--accent", "--chat-bg", "--chat-name", "--goal-fill"], "parts": {"chat": {"sel": ".chat", "on": true}, "alerts": {"sel": ".alert", "on": true}, "latest": {"sel": ".latest", "on": true}, "cam": {"sel": ".cam", "on": true}, "socials": {"sel": ".socials", "on": true}, "text": {"sel": ".extra-text", "on": false}, "clock": {"sel": ".extra-clock", "on": false}, "transition": {"sel": ".sx", "on": true}}, "cam": [72, 92, 480, 300, 8], "game": [600, 180, 792, 446]};
   const root = document.querySelector(LOOK.root);
   if (!root) return;
   const colourOK = v => typeof v === 'string' && /^(#[0-9a-f]{3,8}|rgba?\([\d\s.,%]+\)|hsla?\([\d\s.,%deg]+\)|transparent)$/i.test(v.trim());

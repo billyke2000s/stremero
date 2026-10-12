@@ -155,3 +155,22 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent
 /* game window frame (only shown with a background image) */
 .ov>.game-frame>.game-box{box-shadow:0 0 0 2px var(--metal-lo),0 0 0 6px var(--metal),0 0 0 7px var(--metal-hi),0 0 0 9px var(--metal-lo),0 0 0 11px var(--jewel),0 14px 30px #000c;border-radius:6px}
 .alert-name{font:400 44px/1.1 'Great Vibes',cursive}
+/* >>> scene transition */
+/* ---- scene transition: plays once when the scene appears (switch it off with "Show scene transition") ---- */
+.sx{position:absolute;left:0;top:0;width:0;height:0;overflow:visible;z-index:2147480000;pointer-events:none}
+.sx-in{--d:1.7s;position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden;animation:sx-gone .01s linear 1.7s forwards}
+.sx .sx-in *{position:absolute;animation-delay:var(--d,0s)}
+.sx-name{left:0;right:0;top:50%;margin-top:-50px;height:100px;line-height:100px;text-align:center;white-space:nowrap;overflow:hidden;
+  font-family:var(--font-display,Impact,Arial,sans-serif);font-size:76px;letter-spacing:.06em;text-transform:uppercase;color:var(--sx-c);
+  text-shadow:0 4px 16px rgba(0,0,0,.45);animation:sx-name .9s ease forwards;z-index:5;--d:0s}
+.hide-transition .sx{display:none!important}
+@keyframes sx-gone{to{visibility:hidden}}
+@keyframes sx-name{0%,40%{opacity:1;transform:scale(1)}65%,100%{opacity:0;transform:scale(1.08)}}
+
+.sx-cur{top:0;bottom:0;width:51%;animation:sx-cur-l .85s cubic-bezier(.65,0,.35,1) forwards;
+  background:repeating-linear-gradient(90deg,rgba(255,255,255,.06) 0 22px,transparent 22px 48px,rgba(0,0,0,.35) 48px 74px,transparent 74px 96px),var(--sx-b)}
+.sx-cur.l{left:0;box-shadow:inset -12px 0 0 var(--sx-a),inset -16px 0 0 rgba(0,0,0,.5)}
+.sx-cur.r{right:0;animation-name:sx-cur-r;box-shadow:inset 12px 0 0 var(--sx-a),inset 16px 0 0 rgba(0,0,0,.5)}
+@keyframes sx-cur-l{to{transform:translateX(-104%)}}
+@keyframes sx-cur-r{to{transform:translateX(104%)}}
+/* <<< scene transition */

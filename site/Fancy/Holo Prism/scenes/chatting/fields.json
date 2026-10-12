@@ -138,6 +138,12 @@
     "value": true,
     "group": "Show / hide"
   },
+  "showTransition": {
+    "type": "checkbox",
+    "label": "Show scene transition (plays when the scene appears)",
+    "value": true,
+    "group": "Show / hide"
+  },
   "clock24": {
     "type": "checkbox",
     "label": "Clock uses 24-hour time",

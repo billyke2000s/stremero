@@ -104,6 +104,22 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent
 .stat label{font-size:12px;font-weight:900;color:var(--accent);text-transform:uppercase;letter-spacing:.08em}
 .stat strong{font-size:18px;font-weight:900}
 .goal-track{--goal-track:#4a3b5222;height:10px}
+/* >>> scene transition */
+/* ---- scene transition: plays once when the scene appears (switch it off with "Show scene transition") ---- */
+.sx{position:absolute;left:0;top:0;width:0;height:0;overflow:visible;z-index:2147480000;pointer-events:none}
+.sx-in{--d:1.7s;position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden;animation:sx-gone .01s linear 1.7s forwards}
+.sx .sx-in *{position:absolute;animation-delay:var(--d,0s)}
+.sx-name{left:0;right:0;top:50%;margin-top:-50px;height:100px;line-height:100px;text-align:center;white-space:nowrap;overflow:hidden;
+  font-family:var(--font-display,Impact,Arial,sans-serif);font-size:76px;letter-spacing:.06em;text-transform:uppercase;color:var(--sx-c);
+  text-shadow:0 4px 16px rgba(0,0,0,.45);animation:sx-name .9s ease forwards;z-index:5;--d:0s}
+.hide-transition .sx{display:none!important}
+@keyframes sx-gone{to{visibility:hidden}}
+@keyframes sx-name{0%,40%{opacity:1;transform:scale(1)}65%,100%{opacity:0;transform:scale(1.08)}}
+
+.sx-iris{left:50%;top:50%;width:0;height:0;border-radius:50%;
+  box-shadow:0 0 0 6px var(--sx-a),0 0 40px 18px var(--sx-a),0 0 0 2600px var(--sx-b);animation:sx-iris .85s cubic-bezier(.6,0,.4,1) forwards}
+@keyframes sx-iris{to{width:2400px;height:2400px;margin:-1200px 0 0 -1200px}}
+/* <<< scene transition */
 </style></head><body><!-- Soft Pastel — paste ALL of this into the HTML tab of ONE StreamElements Custom Widget.
      The middle of the screen and the webcam hole are left completely empty (transparent). -->
 <div id="ov" class="ov"><div class="bg-layer" aria-hidden="true"></div><div class="game-frame" aria-hidden="true"><div class="game-box" data-game-hole></div></div>
@@ -145,6 +161,7 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent
   </section>
   <section class="extra-text box extra" aria-label="Custom text"><span data-field="customText">Your text here</span></section>
   <section class="extra-clock box extra" aria-label="Clock"><span class="clock-time">00:00</span></section>
+  <!-- scene-transition --><div class="sx" aria-hidden="true" style="--sx-a:var(--accent);--sx-b:#fdeff6;--sx-c:var(--accent)"><div class="sx-in"><i class="sx-iris" style="--d:.45s"></i><b class="sx-name" data-field="name">Your cool name</b></div></div><!-- /scene-transition -->
 </div>
 <script>/* ===================================================================
    SOFT PASTEL — StreamElements Custom Widget (JS tab)
@@ -367,7 +384,7 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent
    clock, animations and chat text size. All editable in the Fields panel without code. */
 (() => {
   'use strict';
-  const LOOK = {"root": "#ov", "colors": ["--accent", "--text", "--cam-border", "--nameplate-bg", "--alert-bg", "--chat-bg", "--chat-name", "--stat-bg", "--goal-fill", "--pastel-2", "--game-frame"], "parts": {"chat": {"sel": ".chat", "on": true}, "alerts": {"sel": ".alert", "on": true}, "latest": {"sel": ".latest", "on": true}, "cam": {"sel": ".cam", "on": true}, "socials": {"sel": ".socials", "on": false}, "text": {"sel": ".extra-text", "on": false}, "clock": {"sel": ".extra-clock", "on": false}}, "cam": [48, 742, 460, 290, 8], "game": [492, 243, 1056, 594]};
+  const LOOK = {"root": "#ov", "colors": ["--accent", "--text", "--cam-border", "--nameplate-bg", "--alert-bg", "--chat-bg", "--chat-name", "--stat-bg", "--goal-fill", "--pastel-2", "--game-frame"], "parts": {"chat": {"sel": ".chat", "on": true}, "alerts": {"sel": ".alert", "on": true}, "latest": {"sel": ".latest", "on": true}, "cam": {"sel": ".cam", "on": true}, "socials": {"sel": ".socials", "on": false}, "text": {"sel": ".extra-text", "on": false}, "clock": {"sel": ".extra-clock", "on": false}, "transition": {"sel": ".sx", "on": true}}, "cam": [48, 742, 460, 290, 8], "game": [492, 243, 1056, 594]};
   const root = document.querySelector(LOOK.root);
   if (!root) return;
   const colourOK = v => typeof v === 'string' && /^(#[0-9a-f]{3,8}|rgba?\([\d\s.,%]+\)|hsla?\([\d\s.,%deg]+\)|transparent)$/i.test(v.trim());

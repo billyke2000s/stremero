@@ -219,7 +219,7 @@
    clock, animations and chat text size. All editable in the Fields panel without code. */
 (() => {
   'use strict';
-  const LOOK = {"root":"#ov","colors":[".ov|--game-frame","--accent","--text","--cam-border","--nameplate-bg","--alert-bg","--chat-bg","--chat-name","--stat-bg","--goal-fill"],"parts":{"cam":{"sel":".cam","on":true},"latest":{"sel":".latest","on":true},"chat":{"sel":"#chat","on":true},"alerts":{"sel":"#alert","on":true}},"cam":"auto","game":null};
+  const LOOK = {"root":"#ov","colors":[".ov|--game-frame","--accent","--text","--cam-border","--nameplate-bg","--alert-bg","--chat-bg","--chat-name","--stat-bg","--goal-fill"],"parts":{"cam":{"sel":".cam","on":true},"latest":{"sel":".latest","on":true},"chat":{"sel":"#chat","on":true},"alerts":{"sel":"#alert","on":true},"transition":{"sel":".sx","on":true}},"cam":"auto","game":null};
   const root = document.querySelector(LOOK.root);
   if (!root) return;
   const colourOK = v => typeof v === 'string' && /^(#[0-9a-f]{3,8}|rgba?\([\d\s.,%]+\)|hsla?\([\d\s.,%deg]+\)|transparent)$/i.test(v.trim());

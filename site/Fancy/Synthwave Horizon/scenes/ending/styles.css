@@ -61,6 +61,7 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent
 .ov.hide-socials .socials{display:none!important}
 .ov.hide-latest .latest{display:none!important}
 .ov.hide-alerts #alert{display:none!important}
+.ov.hide-transition .sx{display:none!important}
 /* ---- animations off (keeps alerts visible, just instant) ---- */
 .ov.no-anim *,.ov.no-anim *::before,.ov.no-anim *::after{animation-duration:1ms!important;animation-iteration-count:1!important;transition-duration:1ms!important}
 /* ---- chat text size ---- */
@@ -132,4 +133,22 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent
 .alert-kind:where(.src-synthwavehorizon,.src-synthwavehorizon *){font:14px var(--font-display);letter-spacing:.24em;color:var(--chat-name)}
 .alert-name:where(.src-synthwavehorizon,.src-synthwavehorizon *){font:34px/1.2 var(--font-display);background:linear-gradient(180deg,#fff 30%,var(--sun-top) 55%,var(--sun-bottom));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 2px 0 #0008)}
 .alert-detail:where(.src-synthwavehorizon,.src-synthwavehorizon *){font-size:18px;font-weight:700}
+/* ---- scene transition (bands) ---- */
+/* ---- scene transition: plays once when the scene appears (switch it off with "Show scene transition") ---- */
+.sx{position:absolute;left:0;top:0;width:0;height:0;overflow:visible;z-index:2147480000;pointer-events:none}
+.sx-in{--d:1.7s;position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden;animation:sx-gone .01s linear 1.7s forwards}
+.sx .sx-in *{position:absolute;animation-delay:var(--d,0s)}
+.sx-name{left:0;right:0;top:50%;margin-top:-50px;height:100px;line-height:100px;text-align:center;white-space:nowrap;overflow:hidden;
+  font-family:var(--font-display,Impact,Arial,sans-serif);font-size:76px;letter-spacing:.06em;text-transform:uppercase;color:var(--sx-c);
+  text-shadow:0 4px 16px rgba(0,0,0,.45);animation:sx-name .9s ease forwards;z-index:5;--d:0s}
+.hide-transition .sx{display:none!important}
+@keyframes sx-gone{to{visibility:hidden}}
+@keyframes sx-name{0%,40%{opacity:1;transform:scale(1)}65%,100%{opacity:0;transform:scale(1.08)}}
+
+.sx-band{top:-12%;bottom:-12%;transform:skewX(-14deg);animation:sx-band .7s cubic-bezier(.7,0,.3,1) forwards}
+.sx-band.b1{left:-12%;width:52%;background:var(--sx-b)}
+.sx-band.b2{left:36%;width:30%;background:var(--sx-a)}
+.sx-band.b3{left:62%;width:60%;background:var(--sx-b)}
+@keyframes sx-band{to{transform:skewX(-14deg) translateX(240%)}}
+
 

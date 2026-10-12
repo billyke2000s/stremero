@@ -76,6 +76,25 @@ footer{position:absolute;left:48px;right:48px;bottom:35px}
 #overlay.no-anim *,#overlay.no-anim *::before,#overlay.no-anim *::after{animation-duration:1ms!important;animation-iteration-count:1!important;transition-duration:1ms!important}
 /* ---- chat text size ---- */
 #chat{zoom:var(--chat-zoom,1)}
+/* >>> scene transition */
+/* ---- scene transition: plays once when the scene appears (switch it off with "Show scene transition") ---- */
+.sx{position:absolute;left:0;top:0;width:0;height:0;overflow:visible;z-index:2147480000;pointer-events:none}
+.sx-in{--d:1.7s;position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden;animation:sx-gone .01s linear 1.7s forwards}
+.sx .sx-in *{position:absolute;animation-delay:var(--d,0s)}
+.sx-name{left:0;right:0;top:50%;margin-top:-50px;height:100px;line-height:100px;text-align:center;white-space:nowrap;overflow:hidden;
+  font-family:var(--font-display,Impact,Arial,sans-serif);font-size:76px;letter-spacing:.06em;text-transform:uppercase;color:var(--sx-c);
+  text-shadow:0 4px 16px rgba(0,0,0,.45);animation:sx-name .9s ease forwards;z-index:5;--d:0s}
+.hide-transition .sx{display:none!important}
+@keyframes sx-gone{to{visibility:hidden}}
+@keyframes sx-name{0%,40%{opacity:1;transform:scale(1)}65%,100%{opacity:0;transform:scale(1.08)}}
+
+.sx-gl{left:0;width:1920px;height:91px;background:var(--sx-b);box-shadow:inset 0 -3px 0 var(--sx-a);animation:sx-gl-l .38s steps(4) forwards}
+.sx-gl.r{animation-name:sx-gl-r}
+.sx-scan{left:0;top:0;width:1920px;height:1080px;background:repeating-linear-gradient(0deg,rgba(255,255,255,.08) 0 2px,transparent 2px 5px);animation:sx-fade .2s linear forwards;--d:.6s}
+@keyframes sx-gl-l{40%{transform:translateX(-3%)}100%{transform:translateX(-106%)}}
+@keyframes sx-gl-r{40%{transform:translateX(3%)}100%{transform:translateX(106%)}}
+@keyframes sx-fade{to{opacity:0}}
+/* <<< scene transition */
 </style></head><body><!-- Paste into the HTML tab of ONE StreamElements Custom Widget. -->
 <main id="overlay">
   <header class="identity panel"><div class="eyebrow"><i class="dot"></i> BODYCAM // LIVE FEED</div><h1><i class="nm" data-field="name">Your cool name</i><span>®</span></h1><div class="subline">OPERATOR 001 <b>•</b> SIGNAL ESTABLISHED</div></header>
@@ -91,6 +110,7 @@ footer{position:absolute;left:48px;right:48px;bottom:35px}
     <article class="panel stat"><span class="index">05</span><label>LATEST RAID</label><strong id="raid">AWAITING SIGNAL</strong><small>REINFORCEMENTS</small></article>
     <article class="panel stat goal"><label>FOLLOWER OBJECTIVE</label><strong id="goal-count">— / 100</strong><div class="goal-track"><div id="goal-fill"></div></div></article>
   </div></footer>
+  <!-- scene-transition --><div class="sx" aria-hidden="true" style="--sx-a:var(--red);--sx-b:#0c0a0a;--sx-c:var(--white)"><div class="sx-in"><i class="sx-gl r" style="top:0px;--d:0.51s"></i><i class="sx-gl l" style="top:90px;--d:0.48s"></i><i class="sx-gl r" style="top:180px;--d:0.55s"></i><i class="sx-gl l" style="top:270px;--d:0.49s"></i><i class="sx-gl r" style="top:360px;--d:0.47s"></i><i class="sx-gl l" style="top:450px;--d:0.55s"></i><i class="sx-gl r" style="top:540px;--d:0.68s"></i><i class="sx-gl l" style="top:630px;--d:0.65s"></i><i class="sx-gl r" style="top:720px;--d:0.64s"></i><i class="sx-gl l" style="top:810px;--d:0.51s"></i><i class="sx-gl r" style="top:900px;--d:0.58s"></i><i class="sx-gl l" style="top:990px;--d:0.52s"></i><i class="sx-scan"></i><b class="sx-name" data-field="name">Your cool name</b></div></div><!-- /scene-transition -->
 </main>
 <script>/* Paste into JS. No API key, external libraries or separate chat widget needed. */
 (() => {
@@ -218,7 +238,7 @@ footer{position:absolute;left:48px;right:48px;bottom:35px}
    clock, animations and chat text size. All editable in the Fields panel without code. */
 (() => {
   'use strict';
-  const LOOK = {"root": "#overlay", "colors": ["--red", "--white", "--alert-bg", "--chat-head", "--chat-bg", "--stat-bg", "--goal-bg", "--game-frame"], "parts": {"chat": {"sel": "#chat", "on": true}, "alerts": {"sel": "#alert", "on": true}, "latest": {"sel": "#overlay>footer", "on": true}}, "cam": null, "game": [48, 110, 1452, 817]};
+  const LOOK = {"root": "#overlay", "colors": ["--red", "--white", "--alert-bg", "--chat-head", "--chat-bg", "--stat-bg", "--goal-bg", "--game-frame"], "parts": {"chat": {"sel": "#chat", "on": true}, "alerts": {"sel": "#alert", "on": true}, "latest": {"sel": "#overlay>footer", "on": true}, "transition": {"sel": ".sx", "on": true}}, "cam": null, "game": [48, 110, 1452, 817]};
   const root = document.querySelector(LOOK.root);
   if (!root) return;
   const colourOK = v => typeof v === 'string' && /^(#[0-9a-f]{3,8}|rgba?\([\d\s.,%]+\)|hsla?\([\d\s.,%deg]+\)|transparent)$/i.test(v.trim());

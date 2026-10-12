@@ -303,7 +303,7 @@ fitOverlay();
    clock, animations and chat text size. All editable in the Fields panel without code. */
 (() => {
   'use strict';
-  const LOOK = {"root": "#cv-overlay", "colors": ["--stage-deep", "--stage-mid", "--panel", "--gold", "--gold-hot", "--magenta", "--cyan", "--text", "--text-soft", "--game-frame"], "parts": {"chat": {"sel": "#chat-wrap", "on": true}, "alerts": {"sel": "#alert-box", "on": true}, "cam": {"sel": "#cam-slot", "on": true}}, "cam": [60, 70, 480, 340, 8], "game": [60, 110, 1350, 759]};
+  const LOOK = {"root": "#cv-overlay", "colors": ["--stage-deep", "--stage-mid", "--panel", "--gold", "--gold-hot", "--magenta", "--cyan", "--text", "--text-soft", "--game-frame"], "parts": {"chat": {"sel": "#chat-wrap", "on": true}, "alerts": {"sel": "#alert-box", "on": true}, "cam": {"sel": "#cam-slot", "on": true}, "transition": {"sel": ".sx", "on": true}}, "cam": [60, 70, 480, 340, 8], "game": [60, 110, 1350, 759]};
   const root = document.querySelector(LOOK.root);
   if (!root) return;
   const colourOK = v => typeof v === 'string' && /^(#[0-9a-f]{3,8}|rgba?\([\d\s.,%]+\)|hsla?\([\d\s.,%deg]+\)|transparent)$/i.test(v.trim());

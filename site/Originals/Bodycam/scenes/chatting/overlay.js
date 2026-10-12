@@ -124,7 +124,7 @@
    clock, animations and chat text size. All editable in the Fields panel without code. */
 (() => {
   'use strict';
-  const LOOK = {"root": "#overlay", "colors": ["--red", "--white", "--alert-bg", "--chat-head", "--chat-bg", "--stat-bg", "--goal-bg", "--game-frame"], "parts": {"chat": {"sel": "#chat", "on": true}, "alerts": {"sel": "#alert", "on": true}, "latest": {"sel": "#overlay>footer", "on": true}}, "cam": [48, 176, 1216, 684], "game": null};
+  const LOOK = {"root": "#overlay", "colors": ["--red", "--white", "--alert-bg", "--chat-head", "--chat-bg", "--stat-bg", "--goal-bg", "--game-frame"], "parts": {"chat": {"sel": "#chat", "on": true}, "alerts": {"sel": "#alert", "on": true}, "latest": {"sel": "#overlay>footer", "on": true}, "transition": {"sel": ".sx", "on": true}}, "cam": [48, 176, 1216, 684], "game": null};
   const root = document.querySelector(LOOK.root);
   if (!root) return;
   const colourOK = v => typeof v === 'string' && /^(#[0-9a-f]{3,8}|rgba?\([\d\s.,%]+\)|hsla?\([\d\s.,%deg]+\)|transparent)$/i.test(v.trim());
