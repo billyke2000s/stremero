@@ -414,7 +414,7 @@ function buildCustomise() {
     });
     fl.append(el('div', { className: 'field shared' }, el('label', { htmlFor: id, textContent: fieldDefs[k].label }, el('span', { className: 'shared-tag', textContent: 'all overlays' })), input));
   });
-  fl.append(el('p', { className: 'small', textContent: 'Your streamer name is set by clicking your name under the player. Your name, socials, chat, alert and goal settings are shared: set them once and every overlay uses them. Colours, the game window and positions are saved per overlay.' }));
+  $('fields-block').hidden = !fl.children.length;   // overlays without socials (the Originals)
 
   // colours
   const cl = $('colour-list'); cl.replaceChildren();
