@@ -564,7 +564,7 @@ async function openOverlay(item) {
   if ($('code-dialog').open) $('code-dialog').close();
   document.querySelectorAll('.side-link').forEach(a => { const on = a.title === item.name; a.classList.toggle('selected', on); if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
   $('gallery').hidden = true; $('watch').hidden = false; $('brand').textContent = item.name; document.title = item.name + ' — Stremero';
-  $('stream-title').textContent = item.name + (item.sceneLabel ? ' · ' + item.sceneLabel : '') + ' | Your stream, your style'; $('category').textContent = item.category + ' overlay';
+  $('stream-title').textContent = item.name + (item.sceneLabel ? ' · ' + item.sceneLabel : '') + '';
   renderSceneTabs(item); renderKit(item);
   let loaded;
   try { [loaded] = await Promise.all([loadFiles(item), loadSavedBackground()]); }
@@ -601,20 +601,16 @@ function renderKit(item) {
 }
 function setName(name, quiet) {
   streamerName = name; store.set('overlay-name', name);
-  $('edit-name').replaceChildren(document.createTextNode(name + ' '), el('span', { textContent: '✎' }));
-  $('about-name').textContent = name; $('avatar').textContent = name[0].toUpperCase();
-  if (!quiet) { pushFields(); notify('Name updated in the preview and code.'); }
+  if (document.activeElement !== $('name-input')) $('name-input').value = name;
+  if (!quiet) pushFields();
 }
-$('edit-name').addEventListener('click', () => { $('edit-name').hidden = true; $('name-form').hidden = false; $('name-input').value = streamerName; $('name-input').focus(); $('name-input').select(); });
-function closeName() { $('edit-name').hidden = false; $('name-form').hidden = true; }
-$('cancel-name').addEventListener('click', closeName);
-$('name-input').addEventListener('keydown', e => { if (e.key === 'Escape') closeName(); });
-$('name-input').addEventListener('input', () => $('name-input').setCustomValidity(''));
-$('name-form').addEventListener('submit', e => {
-  e.preventDefault(); const name = $('name-input').value.trim();
-  if (!sanitiseName(name)) { $('name-input').setCustomValidity('Use 1–32 letters, numbers, spaces, underscores or hyphens.'); $('name-input').reportValidity(); return; }
-  closeName(); setName(name);
+$('name-input').addEventListener('input', () => {
+  const v = $('name-input').value.trim();
+  if (!v) return;                                   // keep the last good name while the box is empty
+  if (!sanitiseName(v)) { $('name-input').setCustomValidity('Use 1–32 letters, numbers, spaces, underscores or hyphens.'); $('name-input').reportValidity(); return; }
+  $('name-input').setCustomValidity(''); setName(v);
 });
+$('name-input').addEventListener('blur', () => { $('name-input').value = streamerName; $('name-input').setCustomValidity(''); });
 $('restart').addEventListener('click', () => renderPreview());
 const BACKDROPS = ['grid', 'game', 'dark'];
 $('backdrop').addEventListener('click', () => {
@@ -627,26 +623,10 @@ $('fullscreen').addEventListener('click', async () => {
   catch (e) { notify('Your browser could not enter fullscreen.'); }
 });
 
-/* demo chat panel */
-function chat(name, message) {
-  const line = el('div', { className: 'chat-line' }, el('span', { className: 'time', textContent: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }),
-    el('b', { textContent: name + ': ' }), document.createTextNode(message));
-  $('chat-messages').append(line);
-  while ($('chat-messages').children.length > 60) $('chat-messages').firstElementChild.remove();
-  $('chat-messages').scrollTop = $('chat-messages').scrollHeight;
-}
-$('chat-form').addEventListener('submit', e => {
-  e.preventDefault(); const message = $('chat-input').value.trim();
-  if (!message) return;
-  chat(streamerName, message);
-  try { $('preview').contentWindow.postMessage({ scope: 'overlay-demo', action: 'chat-line', name: streamerName, text: message }, '*'); } catch (err) { /* ignore */ }
-  $('chat-input').value = '';
-});
 
 /* ------------------------------------------------------------------ copy dialog */
 $('use-overlay').addEventListener('click', () => {
   if (!selected || !files) return;
-  if (!$('name-form').hidden) { notify('Save your streamer name before opening the code.'); $('name-input').focus(); return; }
   closePicker();
   const code = [['HTML', 'HTML tab', personalise(files.html)], ['CSS', 'CSS tab', buildCSS()], ['JavaScript', 'JS tab', files.js], ['Fields', 'FIELDS tab', buildFields()]];
   $('code-title').textContent = 'Use ' + selected.name + (selected.sceneLabel ? ' · ' + selected.sceneLabel : '');
@@ -678,20 +658,13 @@ $('use-overlay').addEventListener('click', () => {
 $('close-code').addEventListener('click', () => $('code-dialog').close());
 
 /* ------------------------------------------------------------------ navigation (no page reloads) */
-let demoChatStarted = false;
-function startDemoChat() {
-  if (demoChatStarted) return; demoChatStarted = true;
-  chat('modbot', 'Welcome! This chat is a preview, not a live channel.');
-  const chats = [['pixelpal', 'Okay this looks clean'], ['nightowl', 'Love the colours!'], ['modbot', 'Demo chat: add a background image under the stream.'], ['cosycrew', 'The alerts 👀'], ['frontrow', 'Ready for the next stream']];
-  let i = 0; setInterval(() => chat(...chats[i++ % chats.length]), 4800);
-}
 function route(push) {
   const params = new URLSearchParams(location.search), name = params.get('overlay');
   if (params.get('custom')) { location.replace('editor.html'); return; }
   const item = overlays.find(o => o.path.replace(/\/$/, '') === name) || overlays.find(o => o.name === name) || null;   // old links used just the name
   if (item) {
     const fromGallery = !$('watch').hidden ? false : true;
-    openOverlay(sceneItem(item, params.get('scene'))); startDemoChat();
+    openOverlay(sceneItem(item, params.get('scene')));
     if (fromGallery) scrollTo(0, 0);        // opening from the gallery starts at the player; switching overlays keeps your place
   } else {
     selected = null; $('watch').hidden = true; $('gallery').hidden = false; $('brand').textContent = 'Stremero'; document.title = 'Stremero: free stream overlays';

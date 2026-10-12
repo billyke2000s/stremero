@@ -166,3 +166,28 @@ button.download{border:0;cursor:pointer;font-family:inherit}button.download:focu
  .top-avatar,.demo-badge{display:none}
 }
 @media (max-width:360px){.topbar .editor-link{display:none}}
+/* ---- simple overlay page: preview, name, colours, copy; the rest folds away ---- */
+#watch,#watch[hidden]{grid-template-columns:none}
+#watch:not([hidden]){display:block}
+#watch .stream-column{max-width:1180px}
+.simple{background:#18181b;margin:12px 22px 0;padding:20px 24px;border-radius:6px;display:flex;flex-direction:column;gap:14px}
+.simple h1{font-size:20px;letter-spacing:0;margin:0}
+.simple-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.simple-row.top{align-items:flex-start}
+.simple-row>label,.simple-row>.label{width:90px;flex:0 0 auto;font-weight:700;color:#d6d6de}
+.simple-row.top>.label{padding-top:8px}
+.simple-row input{flex:1 1 220px;max-width:340px}
+.simple-row .colour-list{flex:1 1 300px}
+.simple-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.simple-actions .download{font-size:15px}
+.more{background:#18181b;margin:12px 22px 0;padding:0 24px;border-radius:6px}
+.more:last-child{margin-bottom:40px}
+.more>summary{cursor:pointer;padding:16px 0;font-weight:750;font-size:16px;list-style-position:inside}
+.more>summary small{font-weight:500;color:var(--muted);font-size:12px;margin-left:8px}
+.more[open]{padding-bottom:18px}
+.more #reset-all{margin-left:8px;padding:4px 10px;font-size:12px}
+@media (max-width:700px){.simple,.more{margin:10px 12px 0;padding-left:14px;padding-right:14px}.simple-row>label,.simple-row>.label{width:100%}.simple-row.top>.label{padding-top:0}}
+.simple .colour-list{display:flex;flex-wrap:wrap;gap:6px}
+.simple .colour-row{width:auto;padding:4px 12px 4px 4px;gap:7px;border-radius:20px;font-size:12px;min-height:0}
+.simple .colour-row code{display:none}
+.simple .colour-row .swatch{width:24px;height:24px}

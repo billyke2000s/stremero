@@ -1,7 +1,7 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Stremero: free stream overlays</title><meta name="description" content="Free stream overlays for Twitch and YouTube: 40+ designs, each with Gameplay, Starting soon, Be right back, Ending and Just Chatting scenes and a scene transition. Customise colours and copy into StreamElements."><meta property="og:type" content="website"><meta property="og:site_name" content="Stremero"><meta property="og:title" content="Stremero: free stream overlays"><meta property="og:description" content="40+ free overlays with every scene and a scene transition. Customise, then copy into StreamElements."><meta property="og:image" content="https://stremero.pages.dev/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="theme-color" content="#9146ff"><link rel="stylesheet" href="site.css?v=b64c47d289"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%239146ff'/%3E%3Cpath d='M8 10h16v12H8z' fill='none' stroke='white' stroke-width='3'/%3E%3C/svg%3E"></head>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Stremero: free stream overlays</title><meta name="description" content="Free stream overlays for Twitch and YouTube: 40+ designs, each with Gameplay, Starting soon, Be right back, Ending and Just Chatting scenes and a scene transition. Customise colours and copy into StreamElements."><meta property="og:type" content="website"><meta property="og:site_name" content="Stremero"><meta property="og:title" content="Stremero: free stream overlays"><meta property="og:description" content="40+ free overlays with every scene and a scene transition. Customise, then copy into StreamElements."><meta property="og:image" content="https://stremero.pages.dev/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="theme-color" content="#9146ff"><link rel="stylesheet" href="site.css?v=7bbfe0b2aa"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%239146ff'/%3E%3Cpath d='M8 10h16v12H8z' fill='none' stroke='white' stroke-width='3'/%3E%3C/svg%3E"></head>
 <body>
-<header class="topbar"><a class="brand" id="brand" href="index.html">Stremero</a><a href="index.html" class="browse">Browse</a><a href="editor.html" class="browse editor-link">✎ Editor</a><span class="demo-badge">OVERLAY PREVIEW</span><span class="top-avatar" aria-hidden="true">Y</span></header>
+<header class="topbar"><a class="brand" id="brand" href="index.html">Stremero</a><a href="index.html" class="browse">Browse</a><a href="editor.html" class="browse editor-link">✎ Editor</a></header>
 <aside class="sidebar"><div class="sidebar-title">OVERLAY COLLECTION</div><nav id="side-links" aria-label="Overlays"></nav><div class="sidebar-note">Community-made overlays.<br>Try a look. Make it yours.</div></aside>
 <main id="gallery"><p class="eyebrow">YOUR NEXT STREAM STARTS HERE</p><h1>Free stream overlays</h1><p class="intro">Pick an overlay. Preview it. Change the colours, add your name, then copy it into StreamElements.</p>
  <div class="gallery-tools">
@@ -16,18 +16,21 @@
  <div id="grid" class="grid"></div><p id="empty" hidden>No overlays yet.</p></main>
 <main id="watch" hidden>
  <div class="stream-column">
-  
   <nav class="scene-tabs" id="scene-tabs" aria-label="Scenes" hidden></nav>
   <div class="player" id="player" data-backdrop="grid"><iframe id="preview" title="Overlay preview" sandbox="allow-scripts" allow="fullscreen"></iframe><span class="live-badge">DEMO</span>
    <div class="player-controls"><span class="sample-label">Sample stream · 1080p</span>
     <button id="backdrop" title="Switch preview background" aria-label="Switch preview background">▦</button>
     <button id="restart" title="Restart preview" aria-label="Restart preview">↻</button><button id="fullscreen" title="Fullscreen" aria-label="Fullscreen player">⛶</button></div></div>
-  <section class="channel"><div class="avatar" id="avatar">Y</div><div class="channel-copy"><button class="editable-name" id="edit-name" title="Click to change your streamer name">Your cool name <span>✎</span></button><form id="name-form" hidden><label for="name-input" class="sr-only">Your streamer name</label><input id="name-input" maxlength="32" value="Your cool name" required autocomplete="off"><button type="submit">Save</button><button type="button" id="cancel-name">Cancel</button></form><h1 id="stream-title"></h1><p class="category"><span id="category"></span> <span class="pill">English</span> <span class="pill">Overlay demo</span></p></div><div class="channel-actions"><a id="open-editor" class="edit-btn" href="editor.html">✎ Open in editor</a><button type="button" id="use-overlay" class="download">⧉ Copy to StreamElements</button><span id="download-note">HTML, CSS, JS + Fields (your settings)</span></div></section>
-
-    <section class="customise" id="customise" aria-labelledby="custom-title">
-   <div class="custom-head"><h2 id="custom-title">Customise</h2><button type="button" id="reset-all" class="ghost">Reset settings</button></div>
-   <p class="small">Every setting here is also in the StreamElements <strong>Fields</strong> panel after you paste the 4th box, so you can change it later without code.</p>
-   <div class="custom-block" id="fields-block"><h3>Your details</h3><div id="field-list" class="field-list"></div></div>
+  <section class="simple" aria-labelledby="stream-title">
+   <h1 id="stream-title"></h1>
+   <div class="simple-row"><label for="name-input">Your name</label><input id="name-input" maxlength="32" autocomplete="off" spellcheck="false" placeholder="Your cool name"></div>
+   <div class="simple-row top"><span class="label">Colours</span><div id="colour-list" class="colour-list"></div></div>
+   <div class="simple-actions"><button type="button" id="use-overlay" class="download">⧉ Copy to StreamElements</button><a id="open-editor" class="edit-btn" href="editor.html">✎ Open in editor</a></div>
+  </section>
+  <details class="more" id="more">
+   <summary>More settings <small>socials, background, game window, chat, alerts, goal…</small></summary>
+   <p class="small">You can also change all of these later in StreamElements (the widget’s <strong>Fields</strong> panel). <button type="button" id="reset-all" class="ghost">Reset this overlay</button></p>
+   <div class="custom-block" id="fields-block"><h3>Your socials</h3><div id="field-list" class="field-list"></div></div>
    <div class="custom-block"><h3>Background &amp; game window <small>The background fills the screen except the game window and webcam, which stay see-through (the grid).</small></h3>
     <div class="bg-row"><span id="bg-thumb" class="bg-thumb" aria-hidden="true"></span>
      <input type="file" id="bg-file" class="sr-only" accept="image/png,image/jpeg,image/webp">
@@ -38,11 +41,10 @@
      <label class="field-check inline"><input type="checkbox" id="lock169" checked> Keep 16:9</label></div>
     <div id="game-list" class="field-list"></div>
     <p id="game-info" class="game-info"></p></div>
-   <div class="custom-block"><h3>Colours <small>Tap a circle to open the colour wheel, or type a hex code.</small></h3><div id="colour-list" class="colour-list"></div></div>
    <div id="group-list"></div>
-  </section>
-
-  <section class="kit" id="kit" hidden aria-labelledby="kit-title"><h2 id="kit-title">Twitch kit <small>free, matches this overlay</small></h2>
+  </details>
+  <details class="more kit" id="kit" hidden>
+   <summary>Twitch kit <small>matching panels and offline screen, free</small></summary>
    <p class="small">Panel headers (320 × 100) for your Twitch “About” page and a screen for when you’re offline. Tap one to download it.</p>
    <div class="kit-panels" id="kit-panels"></div>
    <div class="kit-offline" id="kit-offline"></div>
@@ -50,10 +52,8 @@
     <li><b>Panels:</b> on your Twitch channel page, scroll below the stream and turn on <b>Edit Panels</b>. Add a panel, upload the image, write your text under it and press Submit.</li>
     <li><b>Offline screen:</b> in Twitch, open <b>Creator Dashboard › Settings › Channel › Brand</b> and upload it under <b>Video Player Banner</b> (Twitch’s menus move sometimes, so search for “Video Player Banner” if it’s not there).</li>
     <li>The images have generic labels (About me, Schedule…). Put your own details in the panel text under them.</li></ol></details>
-  </section>
-  <section class="about"><h2>About <span id="about-name">Your cool name</span></h2><p>See how this overlay sits inside a stream. The middle of the screen and the webcam hole are see-through. The grid shows what is see-through. Press ▦ on the player to switch to a sample game.</p><div class="about-detail"><span>✦ Free to copy</span><span>▣ StreamElements</span><span>◐ Colour wheel + hex</span><span>▭ Background image</span><span>⧉ Your name included</span></div><p class="small">This is an independent preview gallery, not Twitch. Chat, audience activity and stream content shown here are demonstrations.</p></section>
+  </details>
  </div>
- <aside class="chat-panel"><header>STREAM CHAT <span title="Demo chat">◇</span></header><div class="chat-notice">Welcome to the demo chat!</div><div id="chat-messages" role="log" aria-label="Demo stream chat"></div><form id="chat-form"><label for="chat-input" class="sr-only">Send a demo message</label><input id="chat-input" placeholder="Send a message" maxlength="300" autocomplete="off"><div class="chat-bottom"><span>✧ Demo chat only</span><button type="submit">Chat</button></div></form></aside>
 </main>
 
 <div id="picker" class="picker" role="dialog" aria-modal="false" aria-labelledby="picker-title" hidden>
@@ -74,5 +74,5 @@
 <details><summary>Overlay setup instructions</summary><pre id="overlay-instructions"></pre></details>
 </dialog>
 <div id="status" role="status" class="status" hidden></div>
-<script src="catalog.js"></script><script src="app.js?v=c9d17cd958"></script>
+<script src="catalog.js"></script><script src="app.js?v=17fe5af659"></script>
 </body></html>
