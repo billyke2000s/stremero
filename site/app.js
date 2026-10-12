@@ -172,29 +172,26 @@ function buildGallery() {
   renderGrid();
   updateBgBar();
 }
-/* gallery cards flick through the overlay's scenes: on hover with a mouse, by themselves on phones (while on screen) */
-const NO_HOVER = matchMedia('(hover: none)').matches, CALM = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const cardWatch = 'IntersectionObserver' in window ? new IntersectionObserver(entries => entries.forEach(en => {
-  const c = en.target; if (!c.__scenes) return;
-  if (en.isIntersecting) { c.__wait = setTimeout(c.__scenes.start, 300 + Math.random() * 1500); } else { clearTimeout(c.__wait); c.__scenes.stop(); }
-}), { threshold: 0.6 }) : null;
+/* gallery cards: ‹ › arrows step through the overlay's scenes (only when tapped; the card itself still opens the overlay) */
 function scenePreview(card, item) {
   const box = card.querySelector('.thumbnail'), img = box && box.querySelector('img');
-  const shots = (item.scenes || []).filter(s => s.thumb).map(s => ({ src: basePath(item) + 'scenes/' + encodeURIComponent(s.id) + '/' + s.thumb, label: s.label }));
+  const shots = (item.scenes || []).filter(s => s.thumb).map(s => ({ src: basePath(item) + 'scenes/' + encodeURIComponent(s.id) + '/' + s.thumb, label: s.label, id: s.id }));
   if (!img || !shots.length) return;
-  const all = [{ src: img.src, label: 'Gameplay' }].concat(shots);
-  const chip = el('span', { className: 'scene-chip', textContent: 'Gameplay' }); chip.hidden = true; box.append(chip);
-  let i = 0, timer = null, loaded = false;
-  const show = k => { i = k % all.length; img.src = all[i].src; chip.textContent = all[i].label + ' · ' + (i + 1) + '/' + all.length; };
-  const start = () => {
-    if (timer) return;
-    if (!loaded) { all.forEach(a => { const p = new Image(); p.src = a.src; }); loaded = true; }
-    chip.hidden = false; show(1); timer = setInterval(() => show(i + 1), NO_HOVER ? 1800 : 950);
+  const all = [{ src: img.src, label: 'Gameplay', id: 'main' }].concat(shots);
+  let i = 0;
+  const chip = el('span', { className: 'scene-chip', textContent: 'Gameplay · 1/' + all.length });
+  const show = k => {
+    i = (k + all.length) % all.length; img.src = all[i].src;
+    chip.textContent = all[i].label + ' · ' + (i + 1) + '/' + all.length;
+    card.href = linkTo(item, all[i].id);   // opening the card goes to the scene you're looking at
   };
-  const stop = () => { clearInterval(timer); timer = null; chip.hidden = true; show(0); };
-  card.__scenes = { start, stop };
-  if (NO_HOVER) { if (cardWatch && !CALM) cardWatch.observe(card); }
-  else { card.addEventListener('pointerenter', start); card.addEventListener('pointerleave', stop); card.addEventListener('focus', start); card.addEventListener('blur', stop); }
+  const arrow = (cls, label, step) => {
+    const b = el('button', { type: 'button', className: 'scene-arrow ' + cls, textContent: cls === 'prev' ? '‹' : '›' });
+    b.setAttribute('aria-label', label + ' scene of ' + item.name);
+    b.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); show(i + step); });
+    return b;
+  };
+  box.append(chip, arrow('prev', 'Previous', -1), arrow('next', 'Next', 1));
 }
 function updateBgBar() {
   $('gallery-bg-thumb').style.backgroundImage = bgURL ? 'url("' + bgURL + '")' : '';
