@@ -169,8 +169,8 @@ button.download{border:0;cursor:pointer;font-family:inherit}button.download:focu
 @media (max-width:700px){.guide{padding:28px 16px 60px;font-size:15px}.guide h1{font-size:26px}}
 /* gallery: scene name while a card flicks through its scenes */
 .scene-chip{position:absolute;z-index:3;top:9px;right:9px;font-size:11px;font-weight:700;background:#000c;color:#fff;padding:3px 8px;border-radius:3px;pointer-events:none}
-.scene-arrow{position:absolute;z-index:3;top:50%;margin-top:-20px;width:40px;height:40px;padding:0;border-radius:50%;background:#000b;color:#fff;font-size:26px;line-height:38px;text-align:center;border:1px solid #ffffff40}
-.scene-arrow:hover{background:#9146ff}.scene-arrow.prev{left:8px}.scene-arrow.next{right:8px}
+.scene-arrow{position:absolute;z-index:3;top:50%;margin-top:-13px;width:26px;height:26px;padding:0;border-radius:50%;background:#000a;color:#fff;font-size:17px;line-height:24px;text-align:center;border:1px solid #ffffff33}
+.scene-arrow:hover{background:#9146ff}.scene-arrow.prev{left:6px}.scene-arrow.next{right:6px}
 /* ---- Twitch kit on the overlay page ---- */
 .kit{background:#18181b;margin:10px 22px 0;padding:24px;border-radius:5px}
 .kit h2{font-size:19px;margin:0 0 6px}.kit h2 small{font-size:12px;color:var(--muted);font-weight:500;margin-left:6px}
