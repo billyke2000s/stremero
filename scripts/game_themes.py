@@ -5,6 +5,27 @@ pseudo-classes, no @media, and prefix keyframe names with the theme id so they n
 
 GF = 'https://fonts.googleapis.com/css2?family='
 
+# ------------------------------------------------------------------ ink splat shapes (for Ink Turf)
+import math as _m, random as _r
+def _splat(seed, cx, cy, r, fill, cls, away=None):
+    """an organic ink splat: a wobbly blob plus a few droplets, as an inline SVG path"""
+    _r.seed(seed); n = 14; pts = []
+    for i in range(n):
+        a = 2 * _m.pi * i / n; rr = r * (0.72 + _r.random() * 0.5) * (1.35 if i % 4 == 0 else 1)
+        pts.append((cx + _m.cos(a) * rr, cy + _m.sin(a) * rr))
+    d = 'M%.1f,%.1f ' % ((pts[0][0] + pts[-1][0]) / 2, (pts[0][1] + pts[-1][1]) / 2)
+    for i in range(n):
+        p0, p1 = pts[i], pts[(i + 1) % n]
+        d += 'Q%.1f,%.1f %.1f,%.1f ' % (p0[0], p0[1], (p0[0] + p1[0]) / 2, (p0[1] + p1[1]) / 2)
+    d += 'Z'
+    for k in range(5):
+        a = _r.random() * 2 * _m.pi if away is None else _m.radians(away + (_r.random() - .5) * 80)   # droplets fly away from the webcam
+        dist = r * (1.25 + _r.random() * 0.6); dr = r * (0.06 + _r.random() * 0.1)
+        x, y = cx + _m.cos(a) * dist, cy + _m.sin(a) * dist
+        d += ' M%.1f,%.1f a%.1f,%.1f 0 1,0 %.1f,0 a%.1f,%.1f 0 1,0 %.1f,0' % (x - dr, y, dr, dr, dr * 2, dr, dr, -dr * 2)
+    return '<svg class="%s" viewBox="0 0 200 200" aria-hidden="true"><path d="%s" style="fill:%s"/></svg>' % (cls, d, fill)
+
+
 THEMES = [
 # --------------------------------------------------------------------------------------------- League of Legends
 dict(
@@ -287,5 +308,59 @@ dict(
 #goal-fill{border-radius:0;background:repeating-linear-gradient(90deg,var(--goal-fill) 0 18px,#4ca010 18px 20px);box-shadow:inset 0 2px 0 #c6ff8f}
 """},
   keyframes='',
+),
+# --------------------------------------------------------------------------------------------- Splatoon
+dict(
+  id='inkturf', name='Ink Turf', forGame='Splatoon', layout='classic',
+  tags='splatoon splat ink turf paint neon pink green shooter nintendo fun colourful',
+  font=GF + 'Lilita+One&family=Rubik:wght@500;700;800&display=swap',
+  fontBody="'Rubik',Arial,sans-serif", fontDisplay="'Lilita One',Impact,sans-serif",
+  vars=[['--accent', 'Ink A (pink)', '#ff2ea6'], ['--ink-b', 'Ink B (green)', '#2bff6b'], ['--text', 'Text', '#ffffff'],
+        ['--cam-border', 'Webcam border', '#ffffff'], ['--nameplate-bg', 'Name plate', '#1b0a2e'], ['--alert-bg', 'Alert box', '#1b0a2ef0'],
+        ['--chat-bg', 'Chat messages', '#1b0a2ee0'], ['--chat-name', 'Chat names (no Twitch colour)', '#ffe234'],
+        ['--stat-bg', 'Latest boxes', '#1b0a2ee6'], ['--goal-fill', 'Goal bar', '#2bff6b'], ['--game-frame', 'Game window frame', '#ff2ea6']],
+  labels={'follower': 'NEW FRESH RECRUIT!', 'subscriber': 'SO FRESH!', 'gift': 'GIFT INKOMING!', 'cheer': 'BOOYAH!',
+          'tip': 'CASH SPLASH!', 'raid': 'TURF INVASION!'},
+  chatTitle='SQUAD CHAT',
+  decor={'cam': _splat(3, 100, 100, 62, 'var(--accent)', 'it-splat a', 225) + _splat(8, 100, 100, 62, 'var(--ink-b)', 'it-splat b', 45) +
+                _splat(12, 100, 100, 58, 'var(--ink-b)', 'it-splat c', 315) + '<i class="it-drip"></i>',
+         'alert': _splat(5, 100, 100, 66, 'var(--accent)', 'it-burst') + '<i class="it-stripe"></i>', 'chat': ''},
+  css={
+'cam': """
+.cam{--ring:7px;border:7px solid var(--cam-border);border-radius:26px;box-shadow:0 0 0 5px var(--nameplate-bg),0 8px 0 5px #0006}
+.it-splat{position:absolute;width:124px;height:124px;pointer-events:none;filter:drop-shadow(0 4px 0 #0005)}
+.it-splat.a{left:-106px;top:-102px}
+.it-splat.b{right:-102px;bottom:-98px}
+.it-splat.c{right:-66px;top:-64px;width:84px;height:84px}
+.it-drip{position:absolute;left:34px;bottom:-30px;width:150px;height:30px;
+  background:radial-gradient(circle at 12px 26px,var(--accent) 9px,transparent 10px),radial-gradient(circle at 48px 30px,var(--accent) 7px,transparent 8px),
+  radial-gradient(circle at 96px 24px,var(--accent) 10px,transparent 11px),linear-gradient(90deg,var(--accent) 0 22px,transparent 22px 40px,var(--accent) 40px 56px,transparent 56px 86px,var(--accent) 86px 106px,transparent 106px);
+  background-size:auto,auto,auto,100% 22px;background-repeat:no-repeat}
+.nameplate{left:50%;bottom:-50px;transform:translateX(-50%) rotate(-2deg);font:30px/1 var(--font-display);color:#fff;background:var(--accent);padding:8px 26px 10px;border-radius:40px 34px 42px 30px;box-shadow:0 0 0 4px var(--nameplate-bg),0 6px 0 4px #0006;text-shadow:0 3px 0 #0005}
+""",
+'alert': """
+.alert{padding:16px 30px 16px 22px;border-radius:30px 40px 26px 44px;overflow:visible;box-shadow:0 0 0 5px var(--accent),0 10px 0 5px #0007}
+.it-burst{position:absolute;left:-40px;top:50%;width:150px;height:150px;margin-top:-75px;pointer-events:none;animation:inkturf-pop .5s cubic-bezier(.2,1.6,.4,1) both}
+.it-stripe{position:absolute;left:30px;right:30px;bottom:-12px;height:10px;border-radius:10px;background:repeating-linear-gradient(-45deg,var(--ink-b) 0 14px,var(--accent) 14px 28px)}
+.alert-icon{position:relative;width:64px;height:64px;border-radius:50%;background:var(--ink-b);color:var(--nameplate-bg);font-size:32px;box-shadow:0 0 0 4px #fff}
+.alert-kind{font:24px/1 var(--font-display);color:var(--ink-b);letter-spacing:.03em;transform:rotate(-2deg);text-shadow:0 3px 0 #0006}
+.alert-name{font:44px/1.1 var(--font-display);color:#fff;text-shadow:0 4px 0 #0007}
+.alert-detail{font:700 17px var(--font-body);color:#ffe234}
+""",
+'chat': """
+.chat-title{font:26px/1 var(--font-display);color:var(--ink-b);margin-bottom:10px;transform:rotate(-2deg);text-shadow:0 3px 0 #0006}
+.msg{padding:9px 16px;font:700 18px var(--font-body);border-radius:18px 22px 20px 6px;border-left:6px solid var(--accent)}
+.msg-head{font:800 15px var(--font-body)}
+.msg-role{background:var(--ink-b);color:var(--nameplate-bg);border-radius:10px}
+""",
+'latest': """
+.stat{padding:10px 16px;border-radius:20px 26px 18px 24px;box-shadow:0 0 0 3px var(--accent)}
+.stat:nth-child(even){box-shadow:0 0 0 3px var(--ink-b)}
+.stat label{font:20px/1 var(--font-display);color:var(--ink-b);letter-spacing:.02em}
+.stat strong{font:800 19px var(--font-body);margin-top:4px}
+.goal-track{height:12px;border-radius:12px;background:#ffffff22}
+#goal-fill{border-radius:12px;background:repeating-linear-gradient(-45deg,var(--goal-fill) 0 12px,#1fd65a 12px 24px)}
+"""},
+  keyframes='@keyframes inkturf-pop{from{transform:scale(.2) rotate(-40deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}',
 ),
 ]

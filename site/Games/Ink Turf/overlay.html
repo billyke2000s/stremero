@@ -1,0 +1,42 @@
+<!-- Ink Turf — paste ALL of this into the HTML tab of ONE StreamElements Custom Widget.
+     The middle of the screen and the webcam hole are left completely empty (transparent). -->
+<div id="ov" class="ov"><div class="bg-layer" aria-hidden="true"></div><div class="game-frame" aria-hidden="true"><div class="game-box" data-game-hole></div></div>
+  <section id="cam" class="cam" aria-label="Webcam frame">
+    <svg class="it-splat a" viewBox="0 0 200 200" aria-hidden="true"><path d="M161.9,87.1 Q170.2,100.0 162.8,113.3 Q155.4,126.7 145.2,135.3 Q135.0,143.9 124.5,152.8 Q114.1,161.8 97.4,173.0 Q80.8,184.3 75.8,160.4 Q70.9,136.5 65.2,128.0 Q59.4,119.5 44.4,109.8 Q29.4,100.0 32.7,84.6 Q35.9,69.1 51.8,64.3 Q67.6,59.4 75.4,42.9 Q83.2,26.4 98.2,34.3 Q113.2,42.3 136.3,33.9 Q159.4,25.5 156.5,49.9 Q153.5,74.2 161.9,87.1 Z M46.0,31.0 a7.7,7.7 0 1,0 15.3,0 a7.7,7.7 0 1,0 -15.3,0 M65.7,6.6 a8.3,8.3 0 1,0 16.6,0 a8.3,8.3 0 1,0 -16.6,0 M50.1,31.7 a8.4,8.4 0 1,0 16.8,0 a8.4,8.4 0 1,0 -16.8,0 M41.8,29.8 a3.9,3.9 0 1,0 7.8,0 a3.9,3.9 0 1,0 -7.8,0 M66.0,8.5 a8.2,8.2 0 1,0 16.4,0 a8.2,8.2 0 1,0 -16.4,0" style="fill:var(--accent)"/></svg><svg class="it-splat b" viewBox="0 0 200 200" aria-hidden="true"><path d="M166.6,84.7 Q169.8,100.0 168.4,116.2 Q167.1,132.3 148.7,135.1 Q130.3,138.0 122.5,151.4 Q114.8,164.8 100.3,163.5 Q85.8,162.2 76.6,151.6 Q67.4,140.9 49.6,136.9 Q31.9,132.8 40.4,116.4 Q48.9,100.0 35.2,81.1 Q21.5,62.2 42.4,58.1 Q63.3,54.0 75.1,48.4 Q86.9,42.8 100.1,42.2 Q113.3,41.5 128.0,44.1 Q142.6,46.6 153.0,58.0 Q163.4,69.5 166.6,84.7 Z M180.4,118.2 a3.8,3.8 0 1,0 7.7,0 a3.8,3.8 0 1,0 -7.7,0 M173.7,141.1 a9.3,9.3 0 1,0 18.6,0 a9.3,9.3 0 1,0 -18.6,0 M161.4,147.3 a5.3,5.3 0 1,0 10.6,0 a5.3,5.3 0 1,0 -10.6,0 M100.3,179.5 a7.6,7.6 0 1,0 15.1,0 a7.6,7.6 0 1,0 -15.1,0 M177.6,158.8 a5.8,5.8 0 1,0 11.6,0 a5.8,5.8 0 1,0 -11.6,0" style="fill:var(--ink-b)"/></svg><svg class="it-splat c" viewBox="0 0 200 200" aria-hidden="true"><path d="M162.0,88.2 Q175.0,100.0 164.9,113.2 Q154.8,126.4 146.4,137.1 Q138.1,147.8 124.1,146.3 Q110.2,144.7 98.8,150.1 Q87.4,155.4 77.3,148.3 Q67.2,141.1 61.2,131.4 Q55.2,121.6 45.0,110.8 Q34.7,100.0 29.8,81.9 Q24.8,63.8 44.0,58.8 Q63.1,53.7 75.1,48.6 Q87.1,43.5 100.3,42.0 Q113.6,40.6 126.1,46.0 Q138.7,51.5 143.9,63.9 Q149.1,76.3 162.0,88.2 Z M128.3,1.1 a3.8,3.8 0 1,0 7.6,0 a3.8,3.8 0 1,0 -7.6,0 M163.3,74.9 a7.5,7.5 0 1,0 14.9,0 a7.5,7.5 0 1,0 -14.9,0 M137.5,26.5 a8.4,8.4 0 1,0 16.7,0 a8.4,8.4 0 1,0 -16.7,0 M99.6,25.9 a8.8,8.8 0 1,0 17.6,0 a8.8,8.8 0 1,0 -17.6,0 M145.0,47.2 a9.2,9.2 0 1,0 18.4,0 a9.2,9.2 0 1,0 -18.4,0" style="fill:var(--ink-b)"/></svg><i class="it-drip"></i>
+    <div class="cam-hole" data-cam-hole></div>
+    <div class="nameplate"><span data-field="name">Your cool name</span></div>
+  </section>
+
+  <section id="alert" class="alert box" aria-live="polite">
+    <svg class="it-burst" viewBox="0 0 200 200" aria-hidden="true"><path d="M171.0,87.9 Q191.9,100.0 178.4,115.6 Q164.9,131.2 155.4,144.5 Q146.0,157.7 131.7,167.2 Q117.5,176.6 97.9,185.7 Q78.4,194.7 64.9,177.8 Q51.4,160.9 53.9,141.0 Q56.3,121.0 46.7,110.5 Q37.1,100.0 20.7,77.0 Q4.3,53.9 30.7,50.0 Q57.0,46.1 69.9,35.4 Q82.8,24.7 97.1,37.4 Q111.4,50.0 132.2,41.8 Q153.0,33.5 151.6,54.7 Q150.1,75.9 171.0,87.9 Z M-5.3,71.4 a4.0,4.0 0 1,0 8.1,0 a4.0,4.0 0 1,0 -8.1,0 M109.4,191.5 a10.0,10.0 0 1,0 20.0,0 a10.0,10.0 0 1,0 -20.0,0 M99.5,11.6 a9.2,9.2 0 1,0 18.4,0 a9.2,9.2 0 1,0 -18.4,0 M164.0,181.9 a4.8,4.8 0 1,0 9.6,0 a4.8,4.8 0 1,0 -9.6,0 M211.7,101.3 a5.3,5.3 0 1,0 10.7,0 a5.3,5.3 0 1,0 -10.7,0" style="fill:var(--accent)"/></svg><i class="it-stripe"></i>
+    <div class="alert-icon" id="alert-icon"></div>
+    <div class="alert-copy">
+      <div class="alert-kind" id="alert-kind"></div>
+      <div class="alert-name" id="alert-name"></div>
+      <div class="alert-detail" id="alert-detail"></div>
+    </div>
+  </section>
+
+  <section id="chat" class="chat" aria-label="Chat">
+    
+    <div class="chat-title"><span>SQUAD CHAT</span></div>
+    <div id="chat-list" class="chat-list"></div>
+  </section>
+
+  <section class="latest">
+    <div class="stat box"><label>Latest follower</label><strong data-latest="follower">—</strong></div>
+    <div class="stat box"><label>Latest sub</label><strong data-latest="subscriber">—</strong></div>
+    <div class="stat box"><label>Latest tip</label><strong data-latest="tip">—</strong></div>
+    <div class="stat box"><label>Latest cheer</label><strong data-latest="cheer">—</strong></div>
+    <div class="stat box"><label>Latest raid</label><strong data-latest="raid">—</strong></div>
+    <div class="stat goal box"><label>Follower goal</label><strong id="goal-count">0 / 100</strong><div class="goal-track"><div id="goal-fill"></div></div></div>
+  </section>
+  <section class="socials box extra" aria-label="Socials">
+    
+    <div class="social"><em>YouTube</em><span data-field="youtube">@yourcoolname</span></div>
+    <div class="social"><em>TikTok</em><span data-field="tiktok">@yourcoolname</span></div>
+    <div class="social"><em>Twitch</em><span data-field="twitch">yourcoolname</span></div>
+  </section>
+  <section class="extra-text box extra" aria-label="Custom text"><span data-field="customText">Your text here</span></section>
+  <section class="extra-clock box extra" aria-label="Clock"><span class="clock-time">00:00</span></section>
+</div>
