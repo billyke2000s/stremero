@@ -48,6 +48,12 @@ The `Games` category is built from `scripts/game_themes.py` by `python3 scripts/
 
 ## Scene transitions
 
+The top-menu **Transitions** gallery is at `site/transitions.html`. Its categories are **Movies** and **And the rest**. Click a card to open `site/preview.html`; **Play wipe** previews it with audio, and **Copy link to OBS** copies the clean autoplay URL. The first entry is Bat spin (2.1 seconds), using the supplied original audio embedded in its HTML.
+
+The clean transition files live in `site/_transitions/`, which is excluded from the overlay catalog generator. In OBS, use the copied URL as a Browser Source, enable **Refresh browser when scene becomes active**, and enable **Control audio via OBS**. The normal website preview waits for Play; the clean OBS endpoint autoplays on loading. Audible autoplay in ordinary browsers remains subject to their autoplay policy.
+
+Run `python scripts/check-transitions.py` to check the gallery, category filters, audio preview, copied link, final transparency, and mobile layout. This is also checked in GitHub Actions.
+
 Every overlay and scene plays a short transition in its own style when it appears (curtains, light iris, pixel blocks, glitch strips, ink splats, shutter doors or diagonal bands). It is plain CSS inside the overlay, so it costs nothing: in OBS tick **Refresh browser when scene becomes active** on the Browser Source and use a ~300 ms Fade. Viewers can switch it off with **Show scene transition** in the Fields panel.
 
 Styles and which overlay uses which are in `scripts/transitions.py`.
@@ -67,3 +73,4 @@ node scripts/build-catalog.mjs
 - `python3 scripts/build-kits.py` and `python3 scripts/build-original-kits.py` make each overlay's Twitch panel headers and offline screen (`<overlay>/kit/`).
 - `python3 scripts/build-scene-thumbs.py` makes the small scene pictures the gallery flicks through. Run it last, after any scene changes.
 - `python3 scripts/check-site.py` checks everything. GitHub also runs it on every push: a red ✗ next to a commit means something broke.
+

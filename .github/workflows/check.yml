@@ -25,3 +25,6 @@ jobs:
         run: node scripts/build-catalog.mjs
       - name: Check every overlay, scene and the editor
         run: python scripts/check-site.py
+      - name: Check Transitions gallery and audio preview
+        run: python scripts/check-transitions.py
+
