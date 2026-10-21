@@ -1,0 +1,4 @@
+Widow Silk — Ending
+
+Create a 1920 x 1080 Custom Widget in StreamElements. Paste the HTML, CSS, JS and Fields from Stremero into their corresponding tabs. Add the resulting overlay URL as an OBS Browser Source.
+No webcam in this scene.

@@ -96,74 +96,68 @@
   },
   "c_accent": {
     "type": "colorpicker",
-    "label": "HUD yellow",
-    "value": "#f0b429",
+    "label": "T-side gold",
+    "value": "#c7a45c",
     "group": "Colours"
   },
   "c_text": {
     "type": "colorpicker",
     "label": "Text",
-    "value": "#f1f1ee",
+    "value": "#eeeeea",
     "group": "Colours"
   },
   "c_cam_border": {
     "type": "colorpicker",
-    "label": "Webcam border",
-    "value": "#f0b429",
+    "label": "CT-side blue",
+    "value": "#6e9dc5",
     "group": "Colours"
   },
   "c_nameplate_bg": {
     "type": "colorpicker",
     "label": "Name plate",
-    "value": "#101318f0",
+    "value": "#161b21f2",
     "group": "Colours"
   },
   "c_alert_bg": {
     "type": "colorpicker",
     "label": "Alert box",
-    "value": "#101318e6",
+    "value": "#161b21ee",
     "group": "Colours"
   },
   "c_chat_bg": {
     "type": "colorpicker",
     "label": "Chat messages",
-    "value": "#101318cc",
+    "value": "#161b21cc",
     "group": "Colours"
   },
   "c_chat_name": {
     "type": "colorpicker",
-    "label": "Chat names (no Twitch colour)",
-    "value": "#8fb3ff",
+    "label": "Chat names",
+    "value": "#8db8da",
     "group": "Colours"
   },
   "c_stat_bg": {
     "type": "colorpicker",
     "label": "Latest boxes",
-    "value": "#101318d9",
+    "value": "#161b21e8",
     "group": "Colours"
   },
   "c_goal_fill": {
     "type": "colorpicker",
     "label": "Goal bar",
-    "value": "#f0b429",
+    "value": "#c7a45c",
     "group": "Colours"
   },
   "c_team": {
     "type": "colorpicker",
-    "label": "Team colour",
-    "value": "#5d79ae",
-    "group": "Colours"
-  },
-  "c_steel": {
-    "type": "colorpicker",
-    "label": "Steel plates",
-    "value": "#3b424c",
+    "label": "CT-side blue",
+    "value": "#6e9dc5",
     "group": "Colours"
   },
   "c_game_frame": {
     "type": "colorpicker",
-    "label": "Game window frame",
-    "value": "#f0b429",
+    "label": "Game frame",
+    "value": "#6e9dc5",
     "group": "Colours"
   },
   "showChat": {

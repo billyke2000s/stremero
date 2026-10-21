@@ -6,6 +6,9 @@ Afterwards run add-transitions.py and the scene builders (see README: "Rebuildin
 import json, re, copy, shutil, os, sys
 sys.path.insert(0, os.path.dirname(__file__))
 from game_themes import THEMES
+from seasonal_themes import THEMES as SEASONAL
+THEMES += SEASONAL
+only = set(sys.argv[1:])
 
 SITE, CATEGORY = 'site/', 'Games'
 BASE_FOR_LAYOUT = {'classic': 'Fancy/Starship HUD', 'topbar': 'Fancy/Liquid Chrome', 'rail': 'Fancy/Mecha Armor', 'corner': 'Fancy/Aurora'}
@@ -43,16 +46,19 @@ def section_swap(html, open_re, end_marker, new_inner):
 
 built = []
 for t in THEMES:
+    if only and t["name"] not in only: continue
+    category = t.get("category", CATEGORY)
     base_dir = SITE + BASE_FOR_LAYOUT[t['layout']] + '/'
     base_name = BASE_FOR_LAYOUT[t['layout']].split('/')[1]
     base = SRC[base_name]
-    out = SITE + CATEGORY + '/' + t['name'] + '/'
+    out = SITE + category + '/' + t['name'] + '/'
     old_icon = open(out + 'icon.png', 'rb').read() if os.path.exists(out + 'icon.png') else None   # keep its thumbnail
     old_scenes = out + 'scenes'
     keep_scenes = os.path.isdir(old_scenes)
     if keep_scenes: shutil.move(old_scenes, out.rstrip('/') + '.scenes-tmp')
     if os.path.exists(out): shutil.rmtree(out)
     shutil.copytree(base_dir, out)
+    if category == 'Halloween' and os.path.isdir(out + 'kit'): shutil.rmtree(out + 'kit')
     if os.path.isdir(out + 'scenes'): shutil.rmtree(out + 'scenes')      # the base's scenes are not this overlay's
     if keep_scenes: shutil.move(out.rstrip('/') + '.scenes-tmp', old_scenes)
     rd = lambda f: open(base_dir + f, encoding='utf-8').read()
@@ -138,7 +144,7 @@ for t in THEMES:
 
     # ---- editor entry
     s = copy.deepcopy(base)
-    s.update(id=t['id'], name=t['name'], category=CATEGORY, path=CATEGORY + '/' + t['name'] + '/', tags=t['tags'],
+    s.update(id=t['id'], name=t['name'], category=category, path=category + '/' + t['name'] + '/', tags=t['tags'],
              forGame=t['forGame'], layout=t['layout'], font=t['font'], fontBody=t['fontBody'], fontDisplay=t['fontDisplay'],
              vars=[list(v) for v in t['vars']], root='', labels=dict(t['labels']), chatTitle=t['chatTitle'],
              plate='', head='', screen=t.get('screen', ''), defs='', nativeSocials=False,

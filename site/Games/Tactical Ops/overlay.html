@@ -1,14 +1,14 @@
 <!-- Tactical Ops — paste ALL of this into the HTML tab of ONE StreamElements Custom Widget.
      The middle of the screen and the webcam hole are left completely empty (transparent). -->
-<div id="ov" class="ov"><div class="bg-layer" aria-hidden="true"></div><div class="game-frame" aria-hidden="true"><div class="game-box" data-game-hole></div></div><div class="decor-screen" aria-hidden="true"><div class="to-radar"><svg viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="96" fill="#0f1a12cc" stroke="#f0b42999" stroke-width="2"/><circle cx="100" cy="100" r="64" fill="none" stroke="#f0b42944" stroke-width="1.5"/><circle cx="100" cy="100" r="32" fill="none" stroke="#f0b42944" stroke-width="1.5"/><path d="M100 4 V196 M4 100 H196" stroke="#f0b42933" stroke-width="1.5"/><path d="M40 60 h40 v30 h-40z M120 120 h44 v26 h-44z M118 40 h30 v50 h-30z" fill="#f0b42918" stroke="#f0b42955"/><circle cx="132" cy="70" r="4" fill="#5d79ae"/><circle cx="70" cy="132" r="4" fill="#5d79ae"/><circle cx="150" cy="140" r="4" fill="#e04848"/><path d="M100 92 L106 108 L100 104 L94 108 Z" fill="#fff"/></svg><i class="to-sweep"></i><b>RADAR</b></div></div>
+<div id="ov" class="ov"><div class="bg-layer" aria-hidden="true"></div><div class="game-frame" aria-hidden="true"><div class="game-box" data-game-hole></div></div>
   <section id="cam" class="cam" aria-label="Webcam frame">
-    <i class="to-cr tl"></i><i class="to-cr tr"></i><i class="to-cr bl"></i><i class="to-cr br"></i><div class="to-plate l"><i class="to-screw" style="top:10px"></i><i class="to-screw" style="top:calc(100% - 22px)"></i><b>CAM-01</b></div><div class="to-plate r"><i class="to-screw" style="top:10px"></i><i class="to-screw" style="top:calc(100% - 22px)"></i><em></em><em></em><em></em><em></em></div><div class="to-heading"><span>NW</span><span>330</span><span>345</span><span>N</span><span>15</span><span>30</span><span>NE</span><span>60</span><span>75</span><span>E</span></div><i class="to-rec">● REC</i><i class="to-tick t"></i><i class="to-tick b"></i><i class="to-tick l"></i><i class="to-tick r"></i>
+    <i class="to-edge"></i>
     <div class="cam-hole" data-cam-hole></div>
     <div class="nameplate"><span data-field="name">Your cool name</span></div>
   </section>
 
   <section id="alert" class="alert box" aria-live="polite">
-    <svg class="to-reticle" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="22" fill="none" style="stroke:var(--accent)" stroke-width="3"/><path d="M32 2 V18 M32 46 V62 M2 32 H18 M46 32 H62" style="stroke:var(--accent)" stroke-width="3"/><circle cx="32" cy="32" r="3" fill="#ff4d4d"/></svg><i class="to-hz"></i><i class="to-kill"></i>
+    <i class="to-feed"></i>
     <div class="alert-icon" id="alert-icon"></div>
     <div class="alert-copy">
       <div class="alert-kind" id="alert-kind"></div>
@@ -19,17 +19,17 @@
 
   <section id="chat" class="chat" aria-label="Chat">
     
-    <div class="chat-title"><span>TEAM CHAT</span></div>
+    <div class="chat-title"><span>TEAM COMMUNICATIONS</span></div>
     <div id="chat-list" class="chat-list"></div>
   </section>
 
   <section class="latest">
-    <div class="stat box"><i class="to-ammo"></i><label>Latest follower</label><strong data-latest="follower">—</strong></div>
-    <div class="stat box"><i class="to-ammo"></i><label>Latest sub</label><strong data-latest="subscriber">—</strong></div>
-    <div class="stat box"><i class="to-ammo"></i><label>Latest tip</label><strong data-latest="tip">—</strong></div>
-    <div class="stat box"><i class="to-ammo"></i><label>Latest cheer</label><strong data-latest="cheer">—</strong></div>
-    <div class="stat box"><i class="to-ammo"></i><label>Latest raid</label><strong data-latest="raid">—</strong></div>
-    <div class="stat goal box"><i class="to-ammo"></i><label>Follower goal</label><strong id="goal-count">0 / 100</strong><div class="goal-track"><div id="goal-fill"></div></div></div>
+    <div class="stat box"><label>Latest follower</label><strong data-latest="follower">—</strong></div>
+    <div class="stat box"><label>Latest sub</label><strong data-latest="subscriber">—</strong></div>
+    <div class="stat box"><label>Latest tip</label><strong data-latest="tip">—</strong></div>
+    <div class="stat box"><label>Latest cheer</label><strong data-latest="cheer">—</strong></div>
+    <div class="stat box"><label>Latest raid</label><strong data-latest="raid">—</strong></div>
+    <div class="stat goal box"><label>Follower goal</label><strong id="goal-count">0 / 100</strong><div class="goal-track"><div id="goal-fill"></div></div></div>
   </section>
   <section class="socials box extra" aria-label="Socials">
     

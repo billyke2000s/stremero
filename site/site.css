@@ -202,3 +202,14 @@ button.download{border:0;cursor:pointer;font-family:inherit}button.download:focu
 .res-picker{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;background:#1f1a2b;border-left:3px solid #9146ff;border-radius:4px;padding:10px 14px;margin:10px 0}
 .res-picker label{font-weight:700}.res-picker select{background:#242428;color:#fff;border:1px solid #676773;border-radius:4px;padding:6px 8px;font:inherit}
 .res-note{flex-basis:100%;margin:0;font-size:13px;color:#d6d6de}
+
+/* Seasonal collection keeps the normal gallery and customisation workflow. */
+.topbar .halloween-link{color:#ffb66c}
+.topbar .halloween-link::before{content:"✦ ";color:#ff923e}
+.topbar a[aria-current="page"]{box-shadow:inset 0 -2px currentColor}
+.halloween-season{background:radial-gradient(ellipse at 80% 5%,#4c215233,transparent 55%),#101014}
+.halloween-season .eyebrow{color:#ffb66c}
+.halloween-season #gallery h1{max-width:850px}
+.halloween-season .card{border-color:#73503c}
+.halloween-season .tag{background:#37233e;color:#ffd3a2}
+@media(max-width:600px){.topbar{gap:12px;overflow-x:auto}.topbar .brand{flex-shrink:0;max-width:25vw}.topbar .browse{font-size:13px;flex-shrink:0}}

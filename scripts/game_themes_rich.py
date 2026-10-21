@@ -98,96 +98,40 @@ RIFT = dict(
             '@keyframes riftlegends-run{to{left:100%}}@keyframes riftlegends-rise{0%{transform:translateY(0);opacity:0}15%{opacity:.9}100%{transform:translateY(-700px);opacity:0}}',
 )
 
-# ============================================================================================ Tactical Ops (Counter-Strike)
-TO_RADAR = ('<div class="to-radar"><svg viewBox="0 0 200 200" aria-hidden="true">'
-            '<circle cx="100" cy="100" r="96" fill="#0f1a12cc" stroke="#f0b42999" stroke-width="2"/>'
-            '<circle cx="100" cy="100" r="64" fill="none" stroke="#f0b42944" stroke-width="1.5"/><circle cx="100" cy="100" r="32" fill="none" stroke="#f0b42944" stroke-width="1.5"/>'
-            '<path d="M100 4 V196 M4 100 H196" stroke="#f0b42933" stroke-width="1.5"/>'
-            '<path d="M40 60 h40 v30 h-40z M120 120 h44 v26 h-44z M118 40 h30 v50 h-30z" fill="#f0b42918" stroke="#f0b42955"/>'
-            '<circle cx="132" cy="70" r="4" fill="#5d79ae"/><circle cx="70" cy="132" r="4" fill="#5d79ae"/><circle cx="150" cy="140" r="4" fill="#e04848"/>'
-            '<path d="M100 92 L106 108 L100 104 L94 108 Z" fill="#fff"/></svg><i class="to-sweep"></i><b>RADAR</b></div>')
-TO_SCREW = '<i class="to-screw" style="top:{t}"></i>'
-TO_HEADING = ('<div class="to-heading">' + ''.join(f'<span>{x}</span>' for x in ['NW', '330', '345', 'N', '15', '30', 'NE', '60', '75', 'E']) + '</div>')
-TO_RETICLE = ('<svg class="to-reticle" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="22" fill="none" style="stroke:var(--accent)" stroke-width="3"/>'
-              '<path d="M32 2 V18 M32 46 V62 M2 32 H18 M46 32 H62" style="stroke:var(--accent)" stroke-width="3"/><circle cx="32" cy="32" r="3" fill="#ff4d4d"/></svg>')
+# Tactical Ops: restrained CS:GO spectator-panel styling, without invented match telemetry.
 TACTICAL = dict(
-  id='tacticalops', name='Tactical Ops', forGame='Counter-Strike', layout='topbar',
-  tags='counter-strike counter strike cs cs2 csgo fps tactical shooter military esports hud radar',
-  font=GF + 'Saira+Stencil+One&family=Saira+Condensed:wght@500;600;700;800&display=swap',
-  fontBody="'Saira Condensed',Arial,sans-serif", fontDisplay="'Saira Stencil One',Impact,sans-serif",
-  vars=[['--accent', 'HUD yellow', '#f0b429'], ['--text', 'Text', '#f1f1ee'], ['--cam-border', 'Webcam border', '#f0b429'],
-        ['--nameplate-bg', 'Name plate', '#101318f0'], ['--alert-bg', 'Alert box', '#101318e6'], ['--chat-bg', 'Chat messages', '#101318cc'],
-        ['--chat-name', 'Chat names (no Twitch colour)', '#8fb3ff'], ['--stat-bg', 'Latest boxes', '#101318d9'],
-        ['--goal-fill', 'Goal bar', '#f0b429'], ['--team', 'Team colour', '#5d79ae'], ['--steel', 'Steel plates', '#3b424c'], ['--game-frame', 'Game window frame', '#f0b429']],
-  labels={'follower': 'NEW RECRUIT', 'subscriber': 'SQUAD MEMBER', 'gift': 'GEAR DROPPED', 'cheer': 'HEADSHOT!', 'tip': 'BOUNTY PAID', 'raid': 'SQUAD INCOMING'},
-  chatTitle='TEAM CHAT',
-  screen=TO_RADAR,
-  decor={'cam': ('<i class="to-cr tl"></i><i class="to-cr tr"></i><i class="to-cr bl"></i><i class="to-cr br"></i>'
-                 '<div class="to-plate l">' + ''.join(TO_SCREW.format(t=t) for t in ('10px', 'calc(100% - 22px)')) + '<b>CAM-01</b></div>'
-                 '<div class="to-plate r">' + ''.join(TO_SCREW.format(t=t) for t in ('10px', 'calc(100% - 22px)')) + '<em></em><em></em><em></em><em></em></div>'
-                 + TO_HEADING + '<i class="to-rec">● REC</i><i class="to-tick t"></i><i class="to-tick b"></i><i class="to-tick l"></i><i class="to-tick r"></i>'),
-         'alert': TO_RETICLE + '<i class="to-hz"></i><i class="to-kill"></i>', 'chat': '', 'stat': '<i class="to-ammo"></i>'},
-  css={
-'screen': """
-.to-radar{position:absolute;left:48px;top:140px;width:220px;height:220px}
-.to-radar svg{position:absolute;inset:0;width:100%;height:100%}
-.to-sweep{position:absolute;left:50%;top:50%;width:106px;height:106px;transform-origin:0 0;border-radius:0 0 106px 0;
-  background:conic-gradient(from 90deg at 0 0,#f0b42955,transparent 70deg);animation:tacticalops-sweep 3.6s linear infinite}
-.to-radar b{position:absolute;left:0;right:0;bottom:-24px;text-align:center;font:700 13px var(--font-body);letter-spacing:.3em;color:var(--accent)}
+ id='tacticalops', name='Tactical Ops', forGame='Counter-Strike: Global Offensive', layout='topbar',
+ tags='counter-strike counter strike cs csgo global offensive fps esports blue gold charcoal hud',
+ font=GF+'Roboto+Condensed:wght@400;500;700&display=swap',
+ fontBody="'Roboto Condensed',Arial,sans-serif", fontDisplay="'Roboto Condensed',Arial,sans-serif",
+ vars=[['--accent','T-side gold','#c7a45c'],['--text','Text','#eeeeea'],['--cam-border','CT-side blue','#6e9dc5'],
+ ['--nameplate-bg','Name plate','#161b21f2'],['--alert-bg','Alert box','#161b21ee'],['--chat-bg','Chat messages','#161b21cc'],
+ ['--chat-name','Chat names','#8db8da'],['--stat-bg','Latest boxes','#161b21e8'],['--goal-fill','Goal bar','#c7a45c'],
+ ['--team','CT-side blue','#6e9dc5'],['--game-frame','Game frame','#6e9dc5']],
+ labels={'follower':'NEW FOLLOWER','subscriber':'NEW SUBSCRIBER','gift':'GIFT SUBS','cheer':'CHEERS','tip':'TIP RECEIVED','raid':'RAID INCOMING'},
+ chatTitle='TEAM COMMUNICATIONS', screen='',
+ decor={'cam':'<i class="to-edge"></i>','alert':'<i class="to-feed"></i>','chat':'','stat':''},
+ css={
+ 'cam':"""
+.cam{--ring:2px;border:1px solid var(--cam-border);border-radius:0;box-shadow:0 4px 18px #0008}
+.to-edge{position:absolute;left:-1px;right:-1px;bottom:-3px;height:3px;background:linear-gradient(90deg,var(--team) 0 50%,var(--accent) 50%)}
+.nameplate{left:-1px;right:-1px;top:auto;bottom:-38px;height:36px;box-sizing:border-box;padding:8px 14px;background:var(--nameplate-bg);border-left:3px solid var(--team);font:700 19px/20px var(--font-display);color:var(--text);letter-spacing:.04em;text-transform:uppercase;transform:none;clip-path:none}
 """,
-'cam': """
-.cam{--ring:3px;border:2px solid #f1f1ee33;box-shadow:0 0 0 1px #000a,0 10px 30px #0009}
-.to-cr{position:absolute;width:38px;height:38px;border:5px solid var(--cam-border);z-index:2}
-.to-cr.tl{left:-9px;top:-9px;border-right:0;border-bottom:0}.to-cr.tr{right:-9px;top:-9px;border-left:0;border-bottom:0}
-.to-cr.bl{left:-9px;bottom:-9px;border-right:0;border-top:0}.to-cr.br{right:-9px;bottom:-9px;border-left:0;border-top:0}
-.to-tick{position:absolute;background:var(--cam-border);opacity:.85}
-.to-tick.t{left:50%;top:-12px;width:3px;height:16px;margin-left:-1px}.to-tick.b{left:50%;bottom:-12px;width:3px;height:16px;margin-left:-1px}
-.to-tick.l{top:50%;left:-12px;height:3px;width:16px;margin-top:-1px}.to-tick.r{top:50%;right:-12px;height:3px;width:16px;margin-top:-1px}
-.to-plate{position:absolute;top:24px;bottom:24px;width:26px;background:linear-gradient(90deg,#596270,var(--steel) 40%,#22272e);border:1px solid #000;box-shadow:inset 0 1px 0 #ffffff33}
-.to-plate.l{left:-40px}.to-plate.r{right:-40px}
-.to-screw{position:absolute;left:6px;width:12px;height:12px;margin-top:-6px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#d9dde3,#6b7480 60%,#2a2f36);box-shadow:0 1px 1px #000}
-.to-screw::after{content:"";position:absolute;left:2px;right:2px;top:5px;height:2px;background:#2a2f36;transform:rotate(-35deg)}
-.to-screw:first-child{margin-top:0}
-.to-plate b{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-90deg);font:12px var(--font-display);letter-spacing:.24em;color:var(--accent);white-space:nowrap}
-.to-plate em{display:block;width:12px;height:8px;margin:0 auto 5px;background:var(--accent);opacity:.25}
-.to-plate em:nth-of-type(1){margin-top:56px;opacity:.95}.to-plate em:nth-of-type(2){opacity:.8}.to-plate em:nth-of-type(3){opacity:.55}
-.to-heading{position:absolute;left:60px;right:60px;bottom:-38px;height:24px;display:flex;justify-content:space-between;align-items:flex-end;
-  font:600 13px/1 var(--font-body);color:#f1f1eebb;background:repeating-linear-gradient(90deg,#f1f1ee66 0 1px,transparent 1px 12px) bottom/100% 6px no-repeat}
-.to-heading span{padding-bottom:9px}.to-heading span:nth-child(4){color:var(--accent);font-weight:800}
-.to-rec{position:absolute;right:0;top:-32px;font:700 15px var(--font-body);letter-spacing:.14em;color:#ff4d4d;font-style:normal;text-shadow:0 1px 2px #000;animation:tacticalops-blink 1.6s steps(1) infinite}
-.nameplate{left:-9px;top:-48px;font:20px var(--font-display);letter-spacing:.12em;text-transform:uppercase;color:#101318;background:var(--accent);padding:5px 18px 4px;clip-path:polygon(0 0,100% 0,calc(100% - 12px) 100%,0 100%)}
+ 'alert':"""
+.alert{padding:16px 24px;border:1px solid #ffffff25;border-right:4px solid var(--accent);border-radius:0;box-shadow:0 4px 16px #0006}
+.alert-icon{display:none}.alert-kind{font:700 14px var(--font-body);letter-spacing:.12em;color:var(--accent)}
+.alert-name{font:700 32px var(--font-display);color:var(--text)}.alert-detail{font:400 17px var(--font-body);color:var(--team)}
 """,
-'alert': """
-.alert{padding:14px 26px 14px 92px;border-left:6px solid #ff4d4d;overflow:hidden;box-shadow:0 8px 24px #000a;
-  background-image:linear-gradient(90deg,#ff4d4d22,transparent 40%)}
-.to-reticle{position:absolute;left:20px;top:50%;width:56px;height:56px;margin-top:-28px;animation:tacticalops-aim 2.4s ease-in-out infinite}
-.to-hz{position:absolute;left:0;right:0;top:0;height:5px;background:repeating-linear-gradient(-45deg,var(--accent) 0 10px,#101318 10px 20px)}
-.to-kill{position:absolute;right:16px;top:50%;width:34px;height:34px;margin-top:-17px;border:3px solid #ff4d4d;border-radius:50%;opacity:.8}
-.to-kill::before,.to-kill::after{content:"";position:absolute;left:50%;top:50%;width:22px;height:3px;margin:-1.5px 0 0 -11px;background:#ff4d4d;transform:rotate(45deg)}
-.to-kill::after{transform:rotate(-45deg)}
-.alert-icon{display:none}
-.alert-kind{font:700 15px var(--font-body);letter-spacing:.3em;color:#ff4d4d}
-.alert-name{font:34px var(--font-display);letter-spacing:.06em;text-transform:uppercase}
-.alert-detail{font:700 17px var(--font-body);color:#7ee07e;letter-spacing:.04em}
+ 'chat':"""
+.chat-title{padding:8px 12px;border-left:3px solid var(--team);background:var(--nameplate-bg);font:700 14px var(--font-body);letter-spacing:.08em;color:var(--text)}
+.msg{padding:7px 12px;border-left:2px solid var(--team);border-radius:0;font:400 19px var(--font-body)}
+.msg-user::before{content:"(TEAM) ";color:var(--team);font-size:14px}.msg-head{font:700 16px var(--font-body)}.msg-role{border-radius:0;background:var(--team);color:#111820}
 """,
-'chat': """
-.chat-title{font:16px var(--font-display);letter-spacing:.2em;color:var(--accent);margin-bottom:8px}
-.msg{padding:6px 12px;font:600 19px var(--font-body);border-left:3px solid var(--team);background-image:linear-gradient(90deg,#5d79ae22,transparent 60%)}
-.msg-user::before{content:"(Team) ";color:var(--team);font-weight:600}
-.msg-head{font:700 16px var(--font-body);letter-spacing:.04em}
-.msg-role{background:var(--accent);color:#101318;border-radius:0}
-""",
-'latest': """
-.stat{padding:8px 14px 9px;border-bottom:3px solid var(--accent);clip-path:polygon(0 0,100% 0,100% 100%,10px 100%,0 calc(100% - 10px));
-  background-image:linear-gradient(180deg,#ffffff0d,transparent)}
-.to-ammo{position:absolute;right:10px;top:10px;width:30px;height:10px;background:repeating-linear-gradient(90deg,var(--accent) 0 3px,transparent 3px 6px);opacity:.6}
-.stat label{font:700 12px var(--font-body);letter-spacing:.22em;text-transform:uppercase;color:var(--accent)}
-.stat strong{font:700 20px var(--font-body);letter-spacing:.02em}
-.goal-track{height:8px;border-radius:0;background:repeating-linear-gradient(90deg,#f1f1ee22 0 7px,transparent 7px 9px)}
-#goal-fill{border-radius:0;background:repeating-linear-gradient(90deg,var(--goal-fill) 0 7px,transparent 7px 9px)}
-"""},
-  keyframes='@keyframes tacticalops-blink{0%{opacity:1}50%{opacity:.25}}@keyframes tacticalops-sweep{to{transform:rotate(360deg)}}'
-            '@keyframes tacticalops-aim{0%,100%{transform:rotate(0) scale(1)}50%{transform:rotate(45deg) scale(.86)}}',
+ 'latest':"""
+.stat{padding:10px 14px;border-radius:0;border-top:2px solid var(--team);box-shadow:0 3px 12px #0005}
+.stat label{font:700 12px var(--font-body);color:var(--accent);letter-spacing:.1em;text-transform:uppercase}
+.stat strong{font:700 21px var(--font-body);color:var(--text)}.goal-track{height:4px;border-radius:0;background:#ffffff22}#goal-fill{border-radius:0;background:var(--goal-fill)}
+"""}, keyframes='',
 )
 
 # ============================================================================================ Sunset Heist (GTA V)

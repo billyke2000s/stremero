@@ -1,0 +1,4 @@
+Midnight Coven — Just Chatting
+
+Create a 1920 x 1080 Custom Widget in StreamElements. Paste the HTML, CSS, JS and Fields from Stremero into their corresponding tabs. Add the resulting overlay URL as an OBS Browser Source.
+Webcam: 48, 176, 1216, 760

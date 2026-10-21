@@ -1,0 +1,43 @@
+<!-- Pumpkin Hour — paste ALL of this into the HTML tab of ONE StreamElements Custom Widget.
+     The middle of the screen and the webcam hole are left completely empty (transparent). -->
+<div id="ov" class="ov"><div class="bg-layer" aria-hidden="true"></div><div class="game-frame" aria-hidden="true"><div class="game-box" data-game-hole></div></div><div class="decor-screen" aria-hidden="true"><div class="hw-scene-mark"><svg viewBox="0 0 160 120" aria-hidden="true"><path d="M82 28Q70 4 99 5L91 31" fill="#577b3a"/><path d="M80 30C8 0-18 115 59 113Q80 124 101 113C178 115 152 0 80 30Z" fill="#d86b1a" stroke="#ffad43" stroke-width="3"/><path d="M78 32Q40 65 64 111M85 32Q120 65 96 111" fill="none" stroke="#8a3c15" stroke-width="3"/><path d="M30 63L60 48L57 73ZM101 48L133 63L104 73ZM39 86L58 91L68 84L80 96L94 84L104 91L121 85L107 103L54 103Z" fill="#ffe497"/></svg></div></div>
+  <section id="cam" class="cam" aria-label="Webcam frame">
+    <div class="hw-motif pumpkin"><svg viewBox="0 0 160 120" aria-hidden="true"><path d="M82 28Q70 4 99 5L91 31" fill="#577b3a"/><path d="M80 30C8 0-18 115 59 113Q80 124 101 113C178 115 152 0 80 30Z" fill="#d86b1a" stroke="#ffad43" stroke-width="3"/><path d="M78 32Q40 65 64 111M85 32Q120 65 96 111" fill="none" stroke="#8a3c15" stroke-width="3"/><path d="M30 63L60 48L57 73ZM101 48L133 63L104 73ZM39 86L58 91L68 84L80 96L94 84L104 91L121 85L107 103L54 103Z" fill="#ffe497"/></svg></div>
+    <div class="cam-hole" data-cam-hole></div>
+    <div class="nameplate"><span data-field="name">Your cool name</span></div>
+  </section>
+
+  <section id="alert" class="alert box" aria-live="polite">
+    
+    <div class="alert-icon" id="alert-icon"></div>
+    <div class="alert-copy">
+      <div class="alert-kind" id="alert-kind"></div>
+      <div class="alert-name" id="alert-name"></div>
+      <div class="alert-detail" id="alert-detail"></div>
+    </div>
+  </section>
+
+  <section id="chat" class="chat" aria-label="Chat">
+    
+    <div class="chat-title"><span>AFTER DARK</span></div>
+    <div id="chat-list" class="chat-list"></div>
+  </section>
+
+  <section class="latest">
+    <div class="stat box"><label>Latest follower</label><strong data-latest="follower">—</strong></div>
+    <div class="stat box"><label>Latest sub</label><strong data-latest="subscriber">—</strong></div>
+    <div class="stat box"><label>Latest tip</label><strong data-latest="tip">—</strong></div>
+    <div class="stat box"><label>Latest cheer</label><strong data-latest="cheer">—</strong></div>
+    <div class="stat box"><label>Latest raid</label><strong data-latest="raid">—</strong></div>
+    <div class="stat goal box"><label>Follower goal</label><strong id="goal-count">0 / 100</strong><div class="goal-track"><div id="goal-fill"></div></div></div>
+  </section>
+  <section class="socials box extra" aria-label="Socials">
+    
+    <div class="social"><em>YouTube</em><span data-field="youtube">@yourcoolname</span></div>
+    <div class="social"><em>TikTok</em><span data-field="tiktok">@yourcoolname</span></div>
+    <div class="social"><em>Twitch</em><span data-field="twitch">yourcoolname</span></div>
+  </section>
+  <section class="extra-text box extra" aria-label="Custom text"><span data-field="customText">Your text here</span></section>
+  <section class="extra-clock box extra" aria-label="Clock"><span class="clock-time">00:00</span></section>
+  <!-- scene-transition --><div class="sx" aria-hidden="true" style="--sx-a:var(--accent);--sx-b:var(--nameplate-bg);--sx-c:var(--text)"><div class="sx-in"><i class="sx-band b1" style="--d:.45s"></i><i class="sx-band b2" style="--d:.52s"></i><i class="sx-band b3" style="--d:.59s"></i><b class="sx-name" data-field="name">Your cool name</b></div></div><!-- /scene-transition -->
+</div>

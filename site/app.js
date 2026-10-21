@@ -128,10 +128,11 @@ function buildGallery() {
   overlays.forEach(o => { (groups[o.category] = groups[o.category] || []).push(o); });
   const saved = store.get('overlay-filter');
   let active = CATEGORIES.includes(saved) ? saved : 'All', query = '';
+  let seasonal = false;
   const renderGrid = () => {
     $('grid').replaceChildren();
-    const list = overlays.filter(o => (active === 'All' || o.category === active) && matches(o, query));
-    if (active === 'All' && !query) {
+    const list = overlays.filter(o => (!seasonal || o.category === 'Halloween') && (active === 'All' || o.category === active) && matches(o, query));
+    if (!seasonal && active === 'All' && !query) {
       $('grid').append(el('a', { className: 'card build-card', href: 'editor.html' },
         el('div', { className: 'thumbnail build-thumb' }, el('span', { textContent: '✚' }), el('strong', { textContent: 'Open the editor' })),
         el('h2', { textContent: 'Build your own in the editor' }), el('p', { textContent: 'Drag parts from any overlay onto your canvas, move, resize and recolour them' })));
@@ -158,6 +159,18 @@ function buildGallery() {
   });
   $('search').oninput = () => { query = $('search').value.trim(); renderGrid(); };
   buildGallery.render = renderGrid;
+  buildGallery.collection = halloween => {
+    seasonal = halloween;
+    active = halloween ? 'Halloween' : (CATEGORIES.includes(store.get('overlay-filter')) ? store.get('overlay-filter') : 'All');
+    query = ''; $('search').value = '';
+    document.body.classList.toggle('halloween-season', halloween);
+    $('gallery').querySelector('.eyebrow').textContent = halloween ? 'THE HALLOWEEN COLLECTION' : 'YOUR NEXT STREAM STARTS HERE';
+    $('gallery').querySelector('h1').textContent = halloween ? 'Dress your stream for the dark' : 'Free stream overlays';
+    $('gallery').querySelector('.intro').textContent = halloween ? 'Pumpkin glow, midnight magic and a little arachnophobia. Free Halloween overlays with five matching scenes, ready to customise.' : 'Pick an overlay. Preview it. Change the colours, add your name, then copy it into StreamElements.';
+    $('filters').hidden = halloween;
+    document.querySelectorAll('.topbar a').forEach(a => { const current = halloween ? a.classList.contains('halloween-link') : a.getAttribute('href') === 'index.html' && !a.classList.contains('brand'); if (current) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+    renderGrid();
+  };
   renderGrid();
   updateBgBar();
 }
@@ -658,7 +671,8 @@ function route(push) {
     if (fromGallery) scrollTo(0, 0);        // opening from the gallery starts at the player; switching overlays keeps your place
   } else {
     selected = null; $('watch').hidden = true; $('gallery').hidden = false; $('brand').textContent = 'Stremero'; document.title = 'Stremero: free stream overlays';
-    if (buildGallery.render) buildGallery.render();
+    if (buildGallery.collection) buildGallery.collection(params.get('collection') === 'halloween');
+    if (params.get('collection') === 'halloween') document.title = 'Halloween overlays — Stremero';
     document.querySelectorAll('.side-link').forEach(a => { a.classList.remove('selected'); a.removeAttribute('aria-current'); });
     if (name) notify('That overlay was not found. Choose one from the collection.');
   }

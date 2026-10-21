@@ -46,6 +46,10 @@ Every overlay has extra scenes in `<overlay>/scenes/<scene>/`. The site shows th
 
 The `Games` category is built from `scripts/game_themes.py` by `python3 scripts/build-game-overlays.py`. They are unofficial and style-only: no logos, characters or game art.
 
+## Halloween collection
+
+The Halloween link beside Browse opens `index.html?collection=halloween`. Its original themes are defined in `scripts/seasonal_themes.py` and built into `site/Halloween/`. Build individual themes with `python3 scripts/build-game-overlays.py "Pumpkin Hour" "Midnight Coven" "Widow Silk"`, then run `python3 scripts/add-transitions.py`, `node scripts/build-scenes-headless.mjs "Pumpkin Hour" "Midnight Coven" "Widow Silk"` and `node scripts/build-catalog.mjs`. The headless scene builder runs the editor’s same pure export engine in Node, so it needs no browser installation.
+
 ## Scene transitions
 
 The top-menu **Transitions** gallery is at `site/transitions.html`. Its categories are **Movies** and **And the rest**. Click a card to open `site/preview.html`; **Play wipe** previews it with audio, and **Copy link to OBS** copies the clean autoplay URL. The first entry is Bat spin (2.1 seconds), using the supplied original audio embedded in its HTML.

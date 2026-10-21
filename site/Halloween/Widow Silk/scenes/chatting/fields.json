@@ -1,0 +1,283 @@
+{
+  "widgetName": {
+    "type": "hidden",
+    "value": "Widow Silk (Just Chatting)"
+  },
+  "streamerName": {
+    "type": "text",
+    "label": "Your name",
+    "value": "Your cool name",
+    "group": "Your details"
+  },
+  "youtube": {
+    "type": "text",
+    "label": "YouTube handle",
+    "value": "@yourcoolname",
+    "group": "Your details"
+  },
+  "tiktok": {
+    "type": "text",
+    "label": "TikTok handle",
+    "value": "@yourcoolname",
+    "group": "Your details"
+  },
+  "twitch": {
+    "type": "text",
+    "label": "Twitch name",
+    "value": "yourcoolname",
+    "group": "Your details"
+  },
+  "bgImage": {
+    "type": "image-input",
+    "label": "Background image (1920x1080). Shows everywhere except the game window and webcam",
+    "value": "",
+    "group": "Background & game window"
+  },
+  "bgOpacity": {
+    "type": "slider",
+    "label": "Background opacity %",
+    "value": 100,
+    "min": 0,
+    "max": 100,
+    "step": 1,
+    "group": "Background & game window"
+  },
+  "c_accent": {
+    "type": "colorpicker",
+    "label": "Magic glow",
+    "value": "#ded4e9",
+    "group": "Colours"
+  },
+  "c_text": {
+    "type": "colorpicker",
+    "label": "Text",
+    "value": "#eeeeea",
+    "group": "Colours"
+  },
+  "c_cam_border": {
+    "type": "colorpicker",
+    "label": "Webcam border",
+    "value": "#ded4e9",
+    "group": "Colours"
+  },
+  "c_nameplate_bg": {
+    "type": "colorpicker",
+    "label": "Name plate",
+    "value": "#1b1424ed",
+    "group": "Colours"
+  },
+  "c_alert_bg": {
+    "type": "colorpicker",
+    "label": "Alert box",
+    "value": "#1b1424ed",
+    "group": "Colours"
+  },
+  "c_chat_bg": {
+    "type": "colorpicker",
+    "label": "Chat messages",
+    "value": "#1b1424ed",
+    "group": "Colours"
+  },
+  "c_chat_name": {
+    "type": "colorpicker",
+    "label": "Chat names",
+    "value": "#c84455",
+    "group": "Colours"
+  },
+  "c_stat_bg": {
+    "type": "colorpicker",
+    "label": "Latest boxes",
+    "value": "#1b1424ed",
+    "group": "Colours"
+  },
+  "c_goal_fill": {
+    "type": "colorpicker",
+    "label": "Goal bar",
+    "value": "#ded4e9",
+    "group": "Colours"
+  },
+  "c_team": {
+    "type": "colorpicker",
+    "label": "Secondary accent",
+    "value": "#c84455",
+    "group": "Colours"
+  },
+  "showChat": {
+    "type": "checkbox",
+    "label": "Show chat",
+    "value": true,
+    "group": "Show / hide"
+  },
+  "showAlerts": {
+    "type": "checkbox",
+    "label": "Show alerts",
+    "value": true,
+    "group": "Show / hide"
+  },
+  "showLatest": {
+    "type": "checkbox",
+    "label": "Show latest events",
+    "value": true,
+    "group": "Show / hide"
+  },
+  "showCam": {
+    "type": "checkbox",
+    "label": "Show webcam frame",
+    "value": true,
+    "group": "Show / hide"
+  },
+  "showTransition": {
+    "type": "checkbox",
+    "label": "Show scene transition (plays when the scene appears)",
+    "value": true,
+    "group": "Show / hide"
+  },
+  "clock24": {
+    "type": "checkbox",
+    "label": "Clock uses 24-hour time",
+    "value": true,
+    "group": "Show / hide"
+  },
+  "animations": {
+    "type": "checkbox",
+    "label": "Animations (turn off for a calmer overlay)",
+    "value": true,
+    "group": "Show / hide"
+  },
+  "chatScale": {
+    "type": "slider",
+    "label": "Chat text size %",
+    "value": 100,
+    "min": 60,
+    "max": 200,
+    "step": 5,
+    "group": "Show / hide"
+  },
+  "chatSeconds": {
+    "type": "number",
+    "label": "Seconds each message stays",
+    "value": 10,
+    "min": 2,
+    "max": 600,
+    "group": "Chat"
+  },
+  "maxMessages": {
+    "type": "number",
+    "label": "Most messages on screen",
+    "value": 5,
+    "min": 1,
+    "max": 30,
+    "group": "Chat"
+  },
+  "useChatColours": {
+    "type": "checkbox",
+    "label": "Use chatters' Twitch name colours",
+    "value": true,
+    "group": "Chat"
+  },
+  "hideCommands": {
+    "type": "checkbox",
+    "label": "Hide !commands",
+    "value": true,
+    "group": "Chat"
+  },
+  "hideLinks": {
+    "type": "checkbox",
+    "label": "Hide messages with links",
+    "value": false,
+    "group": "Chat"
+  },
+  "hiddenUsers": {
+    "type": "text",
+    "label": "Hide these users (bots), comma separated",
+    "value": "streamelements, nightbot, moobot, fossabot, streamlabs",
+    "group": "Chat"
+  },
+  "alertSeconds": {
+    "type": "number",
+    "label": "Seconds each alert stays",
+    "value": 6,
+    "min": 2,
+    "max": 60,
+    "group": "Alerts"
+  },
+  "alertFollower": {
+    "type": "checkbox",
+    "label": "Follow alerts",
+    "value": true,
+    "group": "Alerts"
+  },
+  "alertSubscriber": {
+    "type": "checkbox",
+    "label": "Sub / resub alerts",
+    "value": true,
+    "group": "Alerts"
+  },
+  "alertGift": {
+    "type": "checkbox",
+    "label": "Gift sub alerts",
+    "value": true,
+    "group": "Alerts"
+  },
+  "alertCheer": {
+    "type": "checkbox",
+    "label": "Bits alerts",
+    "value": true,
+    "group": "Alerts"
+  },
+  "alertTip": {
+    "type": "checkbox",
+    "label": "Tip alerts",
+    "value": true,
+    "group": "Alerts"
+  },
+  "alertRaid": {
+    "type": "checkbox",
+    "label": "Raid alerts",
+    "value": true,
+    "group": "Alerts"
+  },
+  "minBits": {
+    "type": "number",
+    "label": "Minimum bits for an alert",
+    "value": 1,
+    "min": 1,
+    "group": "Alerts"
+  },
+  "minTip": {
+    "type": "number",
+    "label": "Minimum tip for an alert",
+    "value": 1,
+    "min": 0,
+    "group": "Alerts"
+  },
+  "minRaid": {
+    "type": "number",
+    "label": "Minimum raid size for an alert",
+    "value": 1,
+    "min": 1,
+    "group": "Alerts"
+  },
+  "alertSound": {
+    "type": "sound-input",
+    "label": "Alert sound (optional)",
+    "value": "",
+    "group": "Alerts"
+  },
+  "alertVolume": {
+    "type": "slider",
+    "label": "Alert sound volume %",
+    "value": 50,
+    "min": 0,
+    "max": 100,
+    "step": 1,
+    "group": "Alerts"
+  },
+  "followerGoal": {
+    "type": "number",
+    "label": "Follower goal",
+    "value": 100,
+    "min": 1,
+    "group": "Goal"
+  }
+}
