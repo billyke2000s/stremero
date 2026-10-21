@@ -7,6 +7,7 @@
 // build output directory: site). You can also run it yourself: node scripts/build-catalog.mjs
 // No packages needed. Folders starting with "." or "_" are ignored.
 import fs from 'fs';
+import { createHash } from 'node:crypto';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -68,5 +69,18 @@ for (const category of categories) {
   }
 }
 fs.writeFileSync(path.join(root, 'catalog.js'), '// Made by scripts/build-catalog.mjs from the folders in site/. Do not edit by hand.\nwindow.OVERLAYS=' + JSON.stringify(list) + ';\n');
+// A page from the new deployment must never load a browser's older catalogue or styles.
+// Generate these URLs from the built contents, including new folder categories.
+for (const page of ['index.html', 'editor.html', 'transitions.html']) {
+  const file = path.join(root, page);
+  if (!fs.existsSync(file)) continue;
+  let html = fs.readFileSync(file, 'utf8');
+  for (const asset of ['catalog.js', 'site.css']) {
+    const digest = createHash('sha256').update(fs.readFileSync(path.join(root, asset))).digest('hex').slice(0, 12);
+    const escaped = asset.replace('.', '\\.');
+    html = html.replace(new RegExp('(["\'])' + escaped + '(?:\\?v=[a-zA-Z0-9_-]+)?(?=["\'])', 'g'), '$1' + asset + '?v=' + digest);
+  }
+  fs.writeFileSync(file, html);
+}
 console.log(`catalog.js: ${list.length} overlays in ${categories.length} categories (${categories.join(', ')})`);
 warn.forEach(w => console.warn('warning: ' + w));

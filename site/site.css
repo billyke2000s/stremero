@@ -205,7 +205,6 @@ button.download{border:0;cursor:pointer;font-family:inherit}button.download:focu
 
 /* Seasonal collection keeps the normal gallery and customisation workflow. */
 .topbar .halloween-link{color:#ffb66c}
-.topbar .halloween-link::before{content:"✦ ";color:#ff923e}
 .topbar a[aria-current="page"]{box-shadow:inset 0 -2px currentColor}
 .halloween-season{background:radial-gradient(ellipse at 80% 5%,#4c215233,transparent 55%),#101014}
 .halloween-season .eyebrow{color:#ffb66c}
