@@ -3,16 +3,16 @@
    Colours can be changed on the overlay site or in the Fields panel. These are the defaults. */
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Barlow:wght@400;600;700&display=swap');
 :root{
-  --accent: #ffad43; /* @color Magic glow */
+  --accent: #dc8a42; /* @color Magic glow */
   --text: #eeeeea; /* @color Text */
-  --cam-border: #ffad43; /* @color Webcam border */
-  --nameplate-bg: #1b1424ed; /* @color Name plate */
-  --alert-bg: #1b1424ed; /* @color Alert box */
-  --chat-bg: #1b1424ed; /* @color Chat messages */
-  --chat-name: #b6cf75; /* @color Chat names */
-  --stat-bg: #1b1424ed; /* @color Latest boxes */
-  --goal-fill: #ffad43; /* @color Goal bar */
-  --team: #b6cf75; /* @color Secondary accent */
+  --cam-border: #dc8a42; /* @color Webcam border */
+  --nameplate-bg: #15130fee; /* @color Name plate */
+  --alert-bg: #15130fee; /* @color Alert box */
+  --chat-bg: #15130fee; /* @color Chat messages */
+  --chat-name: #9a9b6b; /* @color Chat names */
+  --stat-bg: #15130fee; /* @color Latest boxes */
+  --goal-fill: #dc8a42; /* @color Goal bar */
+  --team: #9a9b6b; /* @color Secondary accent */
   --game-frame: #6e9dc5; /* @color Game frame */
   --font-body: 'Barlow',Arial,sans-serif;
   --font-display: 'Cinzel',Georgia,serif;
@@ -93,13 +93,17 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent
 .chat{zoom:var(--chat-zoom,1)}
 /* ---- theme ---- */
 .decor-screen{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden;pointer-events:none}
-.hw-scene-mark{position:absolute;left:28px;top:150px;width:200px;height:150px;opacity:.8}.hw-scene-mark svg{width:100%;height:100%}
+.hw-scene-mark{position:absolute;left:28px;top:150px;width:200px;height:150px;opacity:.8}.hw-scene-mark svg{width:100%;height:100%}.hw-scene-mark{left:22px;top:142px;width:220px;height:179px;opacity:1;filter:drop-shadow(0 12px 18px #0009)}
 .cam{--ring:3px;border:2px solid var(--cam-border);border-radius:8px;box-shadow:0 0 24px #0008}
 .hw-motif{position:absolute;right:-30px;top:-78px;width:156px;height:118px;pointer-events:none;z-index:3}
 .hw-motif svg{width:100%;height:100%}.hw-motif.web{right:auto;left:-2px;top:-2px;width:100px;height:100px;transform:translate(-75%,-75%)}
 .nameplate{left:12px;right:12px;top:auto;bottom:-42px;padding:10px 18px;text-align:center;background:var(--nameplate-bg);border-bottom:2px solid var(--accent);border-radius:0 0 16px 16px;font:700 18px var(--font-display);color:var(--text);transform:none;letter-spacing:.06em}
 
-.cam{border-radius:18px;box-shadow:0 0 28px #ff9d2425}.nameplate{border-radius:0 0 20px 20px}
+.cam{--ring:2px;border:1px solid #765034;border-radius:2px;box-shadow:0 0 0 4px #15130f,0 0 0 5px #3c3024,0 8px 26px #000a}
+.hw-motif.pumpkin{right:-16px;top:-58px;width:145px;height:118px;filter:drop-shadow(0 5px 8px #000b)}
+.ph-vines{position:absolute;left:-18px;top:-26px;width:calc(100% + 36px);height:62px;pointer-events:none;z-index:2}
+.ph-fire{filter:drop-shadow(0 0 5px #ed7017)}
+.nameplate{left:-5px;right:-5px;bottom:-43px;border:1px solid #5b3b25;border-top:2px solid var(--accent);border-radius:1px;background:linear-gradient(90deg,#17130f,#282016,#17130f);font:600 17px var(--font-display);letter-spacing:.11em;color:#ead6bb;box-shadow:0 8px 20px #0007}
 
 .alert{padding:16px 24px;border:1px solid #ffffff25;border-right:4px solid var(--accent);border-radius:0;box-shadow:0 4px 16px #0006}
 .alert-icon{display:none}.alert-kind{font:700 14px var(--font-body);letter-spacing:.12em;color:var(--accent)}
@@ -107,15 +111,22 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent
 
 .alert{border-radius:16px 3px 16px 3px;box-shadow:0 0 24px #0008}.alert-name{font:700 28px var(--font-display)}
 
+.alert{border:1px solid #785032;border-left:3px solid var(--accent);border-right:1px solid #785032;border-radius:1px;background-image:radial-gradient(ellipse at 0 50%,#b65a1720,transparent 70%);box-shadow:0 6px 24px #0009}
+.alert-kind{color:var(--accent);letter-spacing:.2em}.alert-name{color:#ead6bb}
+
 .chat-title{padding:8px 12px;border-left:3px solid var(--team);background:var(--nameplate-bg);font:700 14px var(--font-body);letter-spacing:.08em;color:var(--text)}
 .msg{padding:7px 12px;border-left:2px solid var(--team);border-radius:0;font:400 19px var(--font-body)}
 .msg-user::before{content:"(TEAM) ";color:var(--team);font-size:14px}.msg-head{font:700 16px var(--font-body)}.msg-role{border-radius:0;background:var(--team);color:#111820}
 
 .msg-user::before{content:""}.chat-title{font-family:var(--font-display)}.msg{border-radius:0 12px 12px 0}
 
+.msg{border-left:1px solid #69492e;border-radius:1px;background-image:linear-gradient(90deg,#70431e12,transparent)}.chat-title{background:#18150fee;border-left:2px solid var(--accent);color:#d6b185;font-size:12px;letter-spacing:.14em}
+
 .stat{padding:10px 14px;border-radius:0;border-top:2px solid var(--team);box-shadow:0 3px 12px #0005}
 .stat label{font:700 12px var(--font-body);color:var(--accent);letter-spacing:.1em;text-transform:uppercase}
 .stat strong{font:700 21px var(--font-body);color:var(--text)}.goal-track{height:4px;border-radius:0;background:#ffffff22}#goal-fill{border-radius:0;background:var(--goal-fill)}
+
+.stat{border-top:1px solid #65472e;border-bottom:1px solid #332a20;background-image:linear-gradient(180deg,#70431e15,transparent);box-shadow:0 4px 14px #0008}.stat label{color:#bb9868}.stat strong{color:#e2d5c1}
 /* >>> scene transition */
 /* ---- scene transition: plays once when the scene appears (switch it off with "Show scene transition") ---- */
 .sx{position:absolute;left:0;top:0;width:0;height:0;overflow:visible;z-index:2147480000;pointer-events:none}

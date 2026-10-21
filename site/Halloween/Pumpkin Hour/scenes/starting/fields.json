@@ -45,7 +45,7 @@
   "c_accent": {
     "type": "colorpicker",
     "label": "Magic glow",
-    "value": "#ffad43",
+    "value": "#dc8a42",
     "group": "Colours"
   },
   "c_text": {
@@ -57,49 +57,49 @@
   "c_cam_border": {
     "type": "colorpicker",
     "label": "Webcam border",
-    "value": "#ffad43",
+    "value": "#dc8a42",
     "group": "Colours"
   },
   "c_nameplate_bg": {
     "type": "colorpicker",
     "label": "Name plate",
-    "value": "#1b1424ed",
+    "value": "#15130fee",
     "group": "Colours"
   },
   "c_alert_bg": {
     "type": "colorpicker",
     "label": "Alert box",
-    "value": "#1b1424ed",
+    "value": "#15130fee",
     "group": "Colours"
   },
   "c_chat_bg": {
     "type": "colorpicker",
     "label": "Chat messages",
-    "value": "#1b1424ed",
+    "value": "#15130fee",
     "group": "Colours"
   },
   "c_chat_name": {
     "type": "colorpicker",
     "label": "Chat names",
-    "value": "#b6cf75",
+    "value": "#9a9b6b",
     "group": "Colours"
   },
   "c_stat_bg": {
     "type": "colorpicker",
     "label": "Latest boxes",
-    "value": "#1b1424ed",
+    "value": "#15130fee",
     "group": "Colours"
   },
   "c_goal_fill": {
     "type": "colorpicker",
     "label": "Goal bar",
-    "value": "#ffad43",
+    "value": "#dc8a42",
     "group": "Colours"
   },
   "c_team": {
     "type": "colorpicker",
     "label": "Secondary accent",
-    "value": "#b6cf75",
+    "value": "#9a9b6b",
     "group": "Colours"
   },
   "showChat": {

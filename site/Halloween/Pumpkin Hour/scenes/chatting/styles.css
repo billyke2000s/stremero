@@ -85,16 +85,16 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent
 .title-card>.nameplate>span{max-width:none!important;overflow:visible!important}
 /* ---- colours (one block per part) ---- */
 .ov{
-  --accent: #ffad43; /* @color Magic glow */
+  --accent: #dc8a42; /* @color Magic glow */
   --text: #eeeeea; /* @color Text */
-  --cam-border: #ffad43; /* @color Webcam border */
-  --nameplate-bg: #1b1424ed; /* @color Name plate */
-  --alert-bg: #1b1424ed; /* @color Alert box */
-  --chat-bg: #1b1424ed; /* @color Chat messages */
-  --chat-name: #b6cf75; /* @color Chat names */
-  --stat-bg: #1b1424ed; /* @color Latest boxes */
-  --goal-fill: #ffad43; /* @color Goal bar */
-  --team: #b6cf75; /* @color Secondary accent */
+  --cam-border: #dc8a42; /* @color Webcam border */
+  --nameplate-bg: #15130fee; /* @color Name plate */
+  --alert-bg: #15130fee; /* @color Alert box */
+  --chat-bg: #15130fee; /* @color Chat messages */
+  --chat-name: #9a9b6b; /* @color Chat names */
+  --stat-bg: #15130fee; /* @color Latest boxes */
+  --goal-fill: #dc8a42; /* @color Goal bar */
+  --team: #9a9b6b; /* @color Secondary accent */
   --font-body: 'Barlow',Arial,sans-serif;
   --font-display: 'Cinzel',Georgia,serif;
 }
@@ -110,6 +110,7 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent
 
 .hw-scene-mark:where(.src-pumpkinhour,.src-pumpkinhour *){position:absolute;left:28px;top:150px;width:200px;height:150px;opacity:.8}
 .hw-scene-mark:where(.src-pumpkinhour,.src-pumpkinhour *) svg{width:100%;height:100%}
+.hw-scene-mark:where(.src-pumpkinhour,.src-pumpkinhour *){left:22px;top:142px;width:220px;height:179px;opacity:1;filter:drop-shadow(0 12px 18px #0009)}
 
 /* Pumpkin Hour: cam */
 
@@ -118,8 +119,11 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent
 .hw-motif:where(.src-pumpkinhour,.src-pumpkinhour *) svg{width:100%;height:100%}
 .hw-motif.web:where(.src-pumpkinhour,.src-pumpkinhour *){right:auto;left:-2px;top:-2px;width:100px;height:100px;transform:translate(-75%,-75%)}
 .nameplate:where(.src-pumpkinhour,.src-pumpkinhour *){left:12px;right:12px;top:auto;bottom:-42px;padding:10px 18px;text-align:center;background:var(--nameplate-bg);border-bottom:2px solid var(--accent);border-radius:0 0 16px 16px;font:700 18px var(--font-display);color:var(--text);transform:none;letter-spacing:.06em}
-.cam:where(.src-pumpkinhour,.src-pumpkinhour *){border-radius:18px;box-shadow:0 0 28px #ff9d2425}
-.nameplate:where(.src-pumpkinhour,.src-pumpkinhour *){border-radius:0 0 20px 20px}
+.cam:where(.src-pumpkinhour,.src-pumpkinhour *){--ring:2px;border:1px solid #765034;border-radius:2px;box-shadow:0 0 0 4px #15130f,0 0 0 5px #3c3024,0 8px 26px #000a}
+.hw-motif.pumpkin:where(.src-pumpkinhour,.src-pumpkinhour *){right:-16px;top:-58px;width:145px;height:118px;filter:drop-shadow(0 5px 8px #000b)}
+.ph-vines:where(.src-pumpkinhour,.src-pumpkinhour *){position:absolute;left:-18px;top:-26px;width:calc(100% + 36px);height:62px;pointer-events:none;z-index:2}
+.ph-fire:where(.src-pumpkinhour,.src-pumpkinhour *){filter:drop-shadow(0 0 5px #ed7017)}
+.nameplate:where(.src-pumpkinhour,.src-pumpkinhour *){left:-5px;right:-5px;bottom:-43px;border:1px solid #5b3b25;border-top:2px solid var(--accent);border-radius:1px;background:linear-gradient(90deg,#17130f,#282016,#17130f);font:600 17px var(--font-display);letter-spacing:.11em;color:#ead6bb;box-shadow:0 8px 20px #0007}
 
 /* Pumpkin Hour: latest */
 
@@ -128,6 +132,9 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent
 .stat:where(.src-pumpkinhour,.src-pumpkinhour *) strong{font:700 21px var(--font-body);color:var(--text)}
 .goal-track:where(.src-pumpkinhour,.src-pumpkinhour *){height:4px;border-radius:0;background:#ffffff22}
 #goal-fill:where(.src-pumpkinhour,.src-pumpkinhour *){border-radius:0;background:var(--goal-fill)}
+.stat:where(.src-pumpkinhour,.src-pumpkinhour *){border-top:1px solid #65472e;border-bottom:1px solid #332a20;background-image:linear-gradient(180deg,#70431e15,transparent);box-shadow:0 4px 14px #0008}
+.stat:where(.src-pumpkinhour,.src-pumpkinhour *) label{color:#bb9868}
+.stat:where(.src-pumpkinhour,.src-pumpkinhour *) strong{color:#e2d5c1}
 
 /* Pumpkin Hour: chat */
 
@@ -139,6 +146,8 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent
 .msg-user:where(.src-pumpkinhour,.src-pumpkinhour *)::before{content:""}
 .chat-title:where(.src-pumpkinhour,.src-pumpkinhour *){font-family:var(--font-display)}
 .msg:where(.src-pumpkinhour,.src-pumpkinhour *){border-radius:0 12px 12px 0}
+.msg:where(.src-pumpkinhour,.src-pumpkinhour *){border-left:1px solid #69492e;border-radius:1px;background-image:linear-gradient(90deg,#70431e12,transparent)}
+.chat-title:where(.src-pumpkinhour,.src-pumpkinhour *){background:#18150fee;border-left:2px solid var(--accent);color:#d6b185;font-size:12px;letter-spacing:.14em}
 
 /* Pumpkin Hour: alert */
 
@@ -149,6 +158,9 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent
 .alert-detail:where(.src-pumpkinhour,.src-pumpkinhour *){font:400 17px var(--font-body);color:var(--team)}
 .alert:where(.src-pumpkinhour,.src-pumpkinhour *){border-radius:16px 3px 16px 3px;box-shadow:0 0 24px #0008}
 .alert-name:where(.src-pumpkinhour,.src-pumpkinhour *){font:700 28px var(--font-display)}
+.alert:where(.src-pumpkinhour,.src-pumpkinhour *){border:1px solid #785032;border-left:3px solid var(--accent);border-right:1px solid #785032;border-radius:1px;background-image:radial-gradient(ellipse at 0 50%,#b65a1720,transparent 70%);box-shadow:0 6px 24px #0009}
+.alert-kind:where(.src-pumpkinhour,.src-pumpkinhour *){color:var(--accent);letter-spacing:.2em}
+.alert-name:where(.src-pumpkinhour,.src-pumpkinhour *){color:#ead6bb}
 
 /* ---- scene transition (bands) ---- */
 /* ---- scene transition: plays once when the scene appears (switch it off with "Show scene transition") ---- */
