@@ -75,17 +75,16 @@
       recorder.ondataavailable=e=>{if(e.data.size)chunks.push(e.data);};
       recorder.onerror=e=>{clean();reject(e.error||new Error('Video export failed.'));};
       recorder.onstop=()=>{clean();if(cancelled)reject(new DOMException('Export cancelled.','AbortError'));else resolve({blob:new Blob(chunks,{type:mimeType}),extension:mimeType.startsWith('video/mp4')?'mp4':'webm'});};
-      recorder.onstart=()=>{
-        if(cancelled)return;
-        audio.start(settings.audioOffset,settings.volume,destination);
-        started=performance.now();
-        const frame=now=>{
-          const t=Math.min(duration,(now-started)/1000);renderer.draw(t);onProgress(t/duration);
-          if(t>=duration){recorder.stop();}else raf=requestAnimationFrame(frame);
-        };
-        raf=requestAnimationFrame(frame);
-      };
+      // Some encoders emit `start` only after their first media frame. Starting
+      // the canvas and audio from that event would leave them waiting on each other.
       recorder.start(100);
+      audio.start(settings.audioOffset,settings.volume,destination);
+      started=performance.now();renderer.draw(0);
+      const frame=now=>{
+        const t=Math.min(duration,(now-started)/1000);renderer.draw(t);onProgress(t/duration);
+        if(t>=duration){recorder.stop();}else raf=requestAnimationFrame(frame);
+      };
+      raf=requestAnimationFrame(frame);
     });
   }
   function download(blob,name) {
