@@ -31,7 +31,7 @@
       if(settings.sound){await audio.prepare(assets.audio);if(generation!==playGeneration)return;audio.start(settings.audioOffset+cursor,settings.volume);}
       epoch=performance.now()-cursor*1000;playing=true;$('pause-intro').disabled=false;$('play-intro').textContent='▶ Playing';
       const tick=now=>{
-        if(!playing)return;cursor=Math.min(I.duration(settings),(now-epoch)/1000);draw();
+        if(!playing)return;cursor=Math.max(0,Math.min(I.duration(settings),(now-epoch)/1000));draw();
         if(cursor>=I.duration(settings)){pause();if(settings.loop)play(0);}else raf=requestAnimationFrame(tick);
       };
       raf=requestAnimationFrame(tick);

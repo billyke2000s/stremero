@@ -81,7 +81,7 @@
       audio.start(settings.audioOffset,settings.volume,destination);
       started=performance.now();renderer.draw(0);
       const frame=now=>{
-        const t=Math.min(duration,(now-started)/1000);renderer.draw(t);onProgress(t/duration);
+        const t=Math.max(0,Math.min(duration,(now-started)/1000));renderer.draw(t);onProgress(t/duration);
         if(t>=duration){recorder.stop();}else raf=requestAnimationFrame(frame);
       };
       raf=requestAnimationFrame(frame);
