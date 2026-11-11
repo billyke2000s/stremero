@@ -60,7 +60,7 @@ Change the channel name, box lettering, subtitle and recording label; choose a f
 - **Export video:** real-time capture with audio at 1080p / 720p and 50 / 30 fps. The browser chooses MP4 when supported, otherwise WebM. Keep the tab visible while recording. Transparent video is flattened onto the selected background colour; HTML and PNG retain transparency.
 - **Save frame:** the currently displayed frame as PNG, including timeline scrubbing.
 
-`intro-renderer.js` owns the deterministic canvas timeline and validated defaults; `intro-export.js` handles assets, audio and exports; `intros.js` connects the editor controls. Assets in `site/_intros/` are excluded from the overlay catalog. No server, dependency install or external font service is needed. Run `python3 scripts/check-intros.py` for browser checks; GitHub runs them before the existing overlay checks.
+`intro-renderer.js` owns the deterministic canvas timeline and validated defaults; `intro-export.js` handles assets, audio and exports; `intros.js` connects the editor controls. Assets in `site/_intros/` are excluded from the overlay catalog. No server, dependency install or external font service is needed. Run `python3 scripts/check-intros.py` for browser checks; GitHub runs these in a separate job alongside the existing overlay checks.
 
 ## Scene transitions
 
