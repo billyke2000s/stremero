@@ -6,6 +6,20 @@ on:
   pull_request:
   workflow_dispatch:
 jobs:
+  intros:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install intro checker
+        run: pip install playwright==1.47.0
+      - name: Check intro editor, offline HTML and video export
+        run: |
+          export CHROMIUM_EXECUTABLE="$(command -v google-chrome)"
+          python scripts/check-intros.py
   check:
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -23,8 +37,6 @@ jobs:
           python -m playwright install --with-deps chromium
       - name: Build the overlay list (same as Cloudflare)
         run: node scripts/build-catalog.mjs
-      - name: Check intro editor, offline HTML and video export
-        run: python scripts/check-intros.py
       - name: Check every overlay, scene and the editor
         run: python scripts/check-site.py
       - name: Check Transitions gallery and audio preview
