@@ -50,6 +50,18 @@ The `Games` category is built from `scripts/game_themes.py` by `python3 scripts/
 
 The Halloween link beside Browse opens `index.html?collection=halloween`. Its original themes are defined in `scripts/seasonal_themes.py` and built into `site/Halloween/`. Build individual themes with `python3 scripts/build-game-overlays.py "Pumpkin Hour" "Midnight Coven" "Widow Silk"`, then run `python3 scripts/add-transitions.py`, `node scripts/build-scenes-headless.mjs "Pumpkin Hour" "Midnight Coven" "Widow Silk"` and `node scripts/build-catalog.mjs`. The headless scene builder runs the editor’s same pure export engine in Node, so it needs no browser installation.
 
+## Intro maker
+
+The **Intros** top-menu tab opens `site/intros.html`. The Classic community template starts with Obskyra / hub / community, the original Liberation Sans Bold font, black / white / orange colours, a 2.96-second timeline and the drum sting. Nothing changes until you edit it; **Reset original** restores the complete template.
+
+Change the channel name, box lettering, subtitle and recording label; choose a font or upload one; edit every colour, sizes, spacing, positions, box corners, icon stages, timing, rotation and sound. Background images, transparent HTML/PNG, sound volume and custom audio are supported. Files are processed locally. Settings save in browser storage; **Save project** also keeps uploaded fonts, images and audio in a JSON file for **Open project**.
+
+- **Download HTML:** one offline file with the renderer, settings, fonts, font license, audio and any background image embedded. It autoplays on opening. Browsers that block audible autoplay show **Play with sound**; space restarts playback. For OBS, add the downloaded file as a local Browser Source at 1920 × 1080, enable **Refresh browser when scene becomes active** and **Control audio via OBS**.
+- **Export video:** real-time capture with audio at 1080p / 720p and 50 / 30 fps. The browser chooses MP4 when supported, otherwise WebM. Keep the tab visible while recording. Transparent video is flattened onto the selected background colour; HTML and PNG retain transparency.
+- **Save frame:** the currently displayed frame as PNG, including timeline scrubbing.
+
+`intro-renderer.js` owns the deterministic canvas timeline and validated defaults; `intro-export.js` handles assets, audio and exports; `intros.js` connects the editor controls. Assets in `site/_intros/` are excluded from the overlay catalog. No server, dependency install or external font service is needed. Run `python3 scripts/check-intros.py` for browser checks; GitHub runs them before the existing overlay checks.
+
 ## Scene transitions
 
 The top-menu **Transitions** gallery is at `site/transitions.html`. Its categories are **Movies** and **And the rest**. Click a card to open `site/preview.html`; **Play wipe** previews it with audio, and **Copy link to OBS** copies the clean autoplay URL. The first entry is Bat spin (2.1 seconds), using the supplied original audio embedded in its HTML.

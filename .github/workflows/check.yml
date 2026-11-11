@@ -23,6 +23,8 @@ jobs:
           python -m playwright install --with-deps chromium
       - name: Build the overlay list (same as Cloudflare)
         run: node scripts/build-catalog.mjs
+      - name: Check intro editor, offline HTML and video export
+        run: python scripts/check-intros.py
       - name: Check every overlay, scene and the editor
         run: python scripts/check-site.py
       - name: Check Transitions gallery and audio preview
